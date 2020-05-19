@@ -29,3 +29,33 @@ services:
       - MYSQL_PASSWORD=mysecret
     ports:
       - 6667:3306
+
+
+  ##
+  # catalog service
+  ##
+  microservice_catalog_fpm:
+    build: ./microservices/catalog/php-fpm/
+    volumes:
+      - ../source/catalog:/var/www/html
+    expose:
+      - 9000
+
+  microservice_catalog_nginx:
+    build: ./microservices/catalog/nginx/
+    volumes:
+      - ../source/catalog:/var/www/html
+    ports:
+      - 8083:80
+      - 9093:9090
+
+  microservice_catalog_database:
+    build: ./microservices/catalog/database/
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysecret
+      - MYSQL_DATABASE=databaseCat
+      - MYSQL_USER=secret
+      - MYSQL_PASSWORD=mysecret
+    ports:
+      - 6668:3306
