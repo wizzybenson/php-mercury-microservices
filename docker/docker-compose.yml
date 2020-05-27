@@ -29,3 +29,32 @@ services:
       - MYSQL_PASSWORD=mysecret
     ports:
       - 6667:3306
+
+  ##
+  # cart service
+  ##
+  microservice_cart_fpm:
+    build: ./microservices/cart/php-fpm/
+    volumes:
+      - ../source/cart:/var/www/html
+    expose:
+      - 9000
+
+  microservice_cart_nginx:
+    build: ./microservices/cart/nginx/
+    volumes:
+      - ../source/cart:/var/www/html
+    ports:
+      - 8082:80
+      - 9092:9090
+
+  microservice_cart_database:
+    build: ./microservices/cart/database/
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysecret
+      - MYSQL_DATABASE=cartdb
+      - MYSQL_USER=abdo
+      - MYSQL_PASSWORD=mysecret
+    ports:
+      - 6668:3306
