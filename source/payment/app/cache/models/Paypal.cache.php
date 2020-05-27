@@ -1,0 +1,2 @@
+<?php
+return array("#tableName"=>"paypal","#primaryKeys"=>array("id"),"#manyToOne"=>array(),"#fieldNames"=>array("id"=>"id","activated_compte"=>"activated_compte"),"#memberNames"=>array("id"=>"id","activated_compte"=>"activated_compte"),"#fieldTypes"=>array("id"=>"mixed","activated_compte"=>"mixed"),"#nullable"=>array(),"#notSerializable"=>array(),"#transformers"=>array(),"#accessors"=>array("id"=>"setId","activated_compte"=>"setActivated_compte"));
