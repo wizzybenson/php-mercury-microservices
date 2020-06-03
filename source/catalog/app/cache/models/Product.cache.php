@@ -1,0 +1,2 @@
+<?php
+return array("#tableName"=>"Product","#primaryKeys"=>array("id"),"#manyToOne"=>array(),"#fieldNames"=>array("id"=>"id","lib"=>"lib","catalogProducts"=>"catalogProducts"),"#fieldTypes"=>array("id"=>"int(11)","lib"=>"varchar(200)","catalogProducts"=>"mixed"),"#nullable"=>array(),"#notSerializable"=>array("catalogProducts"),"#transformers"=>array(),"#accessors"=>array("id"=>"setId","lib"=>"setLib","catalogProducts"=>"setCatalogProducts"),"#oneToMany"=>array("catalogProducts"=>array("mappedBy"=>"product","className"=>"models\\CatalogProduct")));
