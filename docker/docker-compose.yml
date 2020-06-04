@@ -86,6 +86,7 @@ services:
       - MYSQL_PASSWORD=mysecret
     ports:
       - 6669:3306
+<<<<<<< HEAD
 
   ##
   # payment service
@@ -115,3 +116,5 @@ services:
       - MYSQL_PASSWORD=mysecret
     ports:
       - 6672:3306
+=======
+>>>>>>> upstream/master

@@ -1,0 +1,575 @@
+openapi: 3.0.0
+info:
+  title: API cart service
+  version: '0.1'
+servers:
+  - url: 'http://localhost/rest'
+    description: 'Data provided by ME :)'
+paths:
+  /carts/getAll:
+    get:
+      operationId: 'controllers\RestCartController::get'
+      responses:
+        '200':
+          description: all carts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
+        '404':
+          description: End-point doesn't exists
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: Url doesn't exists
+                type: object
+  /carts/getCartBy/:
+    get:
+      operationId: 'controllers\RestCartController::getCartBy'
+      parameters:
+        - name: field
+          in: path
+          required: true
+          schema:
+            type: string
+            example: created
+        - name: value
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '2019-09-02 00:00:00'
+      responses:
+        '200':
+          description: 'Carts by :field :value'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
+        '404':
+          description: End-point doesn't exists
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: Url doesn't exists
+                type: object
+  /carts/getItemBy/:
+    get:
+      operationId: 'controllers\RestCartController::getItemsBy'
+      parameters:
+        - name: id_cart
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - name: field
+          in: path
+          required: true
+          schema:
+            type: string
+            example: label
+        - name: value
+          in: path
+          required: true
+          schema:
+            type: string
+            example: iPhone
+      responses:
+        '200':
+          description: 'Items by :cart :field :value'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+        '404':
+          description: End-point doesn't exists
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: Url doesn't exists
+                type: object
+  /carts/getItemsByCart/:
+    get:
+      operationId: 'controllers\RestCartController::getItemsByCart'
+      parameters:
+        - name: id_cart
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+        '404':
+          description: End-point doesn't exists
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: Url doesn't exists
+                type: object
+  /carts/getTotalById/:
+    get:
+      operationId: 'controllers\RestCartController::getTotal'
+      parameters:
+        - name: id_cart
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Total
+          content:
+            application/json:
+              schema:
+                properties:
+                  subTotal:
+                    type: integer
+                    example: 15000
+                  total:
+                    type: integer
+                    example: 15700
+                  VAT:
+                    type: integer
+                    example: 700
+        '404':
+          description: End-point doesn't exists
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: Url doesn't exists
+                type: object
+  /carts/getCartByDate/:
+    get:
+      operationId: 'controllers\RestCartController::getCartByDate'
+      parameters:
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '2019-09-09 00:00:00'
+      responses:
+        '200':
+          description: carts by date
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
+        '404':
+          description: Ressource doesn't exists
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: There is no cart with such a date
+                type: object
+  /favorites/getFavoriteItemsByCustomer/:
+    get:
+      operationId: 'controllers\RestCartController::getFavoriteItemsByCustomer'
+      parameters:
+        - name: customer (id OR name)
+          in: path
+          required: true
+          description: get items by id customer or by username
+          schema:
+            type: string
+            example: alaoui mohamed
+      responses:
+        '200':
+          description: 'Favorites by :customer'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+        '404':
+          description: End-point doesn't exists
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: Url doesn't exists
+                type: object
+  /carts/addOne:
+    post:
+      operationId: 'controllers\RestCartController::save'
+      parameters:
+        - name: cart
+          in: query
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Cart'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
+        '404':
+          description: Ressource doesn't exists
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: Route invalid
+                type: object
+  /carts/addItemToCart:
+    post:
+      operationId: 'controllers\RestCartController::addItemToCart'
+      parameters:
+        - name: id_cart
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - name: id_item
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
+        '404':
+          description: Ressource doesn't exists
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: Route invalid
+                type: object
+  /favorites/addItemToFavorites/:
+    post:
+      operationId: 'controllers\RestCartController::addItemToFavorites'
+      parameters:
+        - name: customer (id OR name)
+          in: path
+          required: true
+          description: id customer or username
+          schema:
+            type: integer
+            example: 1
+        - name: item (id OR label)
+          in: path
+          required: true
+          description: id item or label
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+        '404':
+          description: Ressource doesn't exists
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: Route invalid
+                type: object
+  /carts/remove/:
+    delete:
+      operationId: 'controllers\RestCartController::remove'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
+        '404':
+          description: Ressource doesn't exists
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: Route invalid
+                type: object
+  /favorites/removeItemFromFavorites/:
+    delete:
+      operationId: 'controllers\RestCartController::removeItemFromFavorites'
+      parameters:
+        - name: customer (id OR name)
+          in: path
+          required: true
+          description: id customer or username
+          schema:
+            type: integer
+            example: 1
+        - name: item (id OR label)
+          in: path
+          required: true
+          description: id item or label
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
+        '404':
+          description: Ressource doesn't exists
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: Route invalid
+                type: object
+  '/addQuantity/{qte}/toItem/{idItem}/inCart/{idCart}':
+    put:
+      operationId: 'controllers\RestCartController::updateQteItem'
+      parameters:
+        - name: qte
+          in: path
+          required: true
+          schema:
+            type: number
+            example: '2'
+        - name: idItem
+          in: path
+          required: true
+          schema:
+            type: number
+            example: '1'
+        - name: idCart
+          in: path
+          required: true
+          schema:
+            type: number
+            example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
+        '404':
+          description: Ressource doesn't exists
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: Route invalid
+                type: object
+  /carts/updateOne/:
+    put:
+      operationId: 'controllers\RestCartController::updateOne'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: alaoui mohamed
+        - name: cart
+          in: query
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Cart'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
+        '404':
+          description: Ressource doesn't exists
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: Route invalid
+                type: object
+  /carts/removeItemFromCart/:
+    put:
+      operationId: 'controllers\RestCartController::removeItemFromCart'
+      parameters:
+        - name: id_item
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
+        '404':
+          description: Ressource doesn't exists
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: Route invalid
+                type: object
+  /carts/clearCartById/:
+    put:
+      operationId: 'controllers\RestCartController::clearCart'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Cart cleared
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
+        '404':
+          description: Ressource doesn't exists
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: Route invalid
+                type: object
+components:
+  schemas:
+    Cart:
+      properties:
+        id:
+          type: integer
+        created:
+          type: string
+          format: date-time
+          nullable: true
+        customer:
+          type: object
+      type: object
+    Customer:
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+          nullable: true
+      type: object
+    Item:
+      properties:
+        id:
+          type: integer
+        label:
+          type: string
+          nullable: false
+        quantity:
+          type: integer
+          nullable: false
+        unitPrice:
+          type: number
+          nullable: false
+        vat:
+          type: integer
+          nullable: false
+      type: object
