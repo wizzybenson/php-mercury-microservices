@@ -1,7 +1,4 @@
 <?php
-/*
- * Payment Service
- */
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', __DIR__.DS.'app'.DS);
 $config=include_once ROOT.'config/config.php';
