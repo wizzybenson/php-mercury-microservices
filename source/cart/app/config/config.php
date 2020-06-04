@@ -1,13 +1,13 @@
 <?php
 return array(
-		"siteUrl"=>"http://127.0.0.1/cartProject/",
+		"siteUrl"=>"http://localhost/cartProject/",
 		"database"=>[
 				"type"=>"mysql",
 				"dbName"=>"cartdb",
-				"serverName"=>"127.0.0.1",
-				"port"=>"3306",
-				"user"=>"root",
-				"password"=>"",
+				"serverName"=>"localhost",
+				"port"=>"6668",
+				"user"=>"abdo",
+				"password"=>"mysecret",
 				"options"=>[],
 				"cache"=>false
 		],
