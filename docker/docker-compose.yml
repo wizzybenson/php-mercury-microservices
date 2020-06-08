@@ -115,3 +115,33 @@ services:
       - MYSQL_PASSWORD=mysecret
     ports:
       - 6670:3306
+      
+      
+  ##
+  # products service
+  ##
+  microservice_products_fpm:
+    build: ./microservices/products/php-fpm/
+    volumes:
+      - ../source/products:/var/www/html
+    expose:
+      - 9000
+
+  microservice_products_nginx:
+    build: ./microservices/products/nginx/
+    volumes:
+      - ../source/products:/var/www/html
+    ports:
+      - 8085:80
+      - 9095:9090
+
+  microservice_products_database:
+    build: ./microservices/products/database/
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysecret
+      - MYSQL_DATABASE=ecommerce
+      - MYSQL_USER=secret
+      - MYSQL_PASSWORD=mysecret
+    ports:
+      - 6671:3306
