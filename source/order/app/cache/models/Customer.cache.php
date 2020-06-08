@@ -1,0 +1,2 @@
+<?php
+return array("#tableName"=>"customer","#primaryKeys"=>array("id"),"#manyToOne"=>array(),"#fieldNames"=>array("id"=>"id","first_name"=>"first_name","last_name"=>"last_name","email"=>"email","passwrod"=>"passwrod"),"#fieldTypes"=>array("id"=>"int(11)","first_name"=>"varchar(255)","last_name"=>"varchar(255)","email"=>"varchar(255)","passwrod"=>"varchar(255)"),"#nullable"=>array(),"#notSerializable"=>array(),"#transformers"=>array(),"#accessors"=>array("id"=>"setId","first_name"=>"setFirst_name","last_name"=>"setLast_name","email"=>"setEmail","passwrod"=>"setPasswrod"));
