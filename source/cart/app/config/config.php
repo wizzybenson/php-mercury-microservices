@@ -1,10 +1,10 @@
 <?php
 return array(
-		"siteUrl"=>"http://localhost/cartProject/",
+		"siteUrl"=>"http://127.0.0.1/cartProject/",
 		"database"=>[
 				"type"=>"mysql",
 				"dbName"=>"cartdb",
-				"serverName"=>"localhost",
+				"serverName"=>"172.19.0.10",
 				"port"=>"6668",
 				"user"=>"abdo",
 				"password"=>"mysecret",
