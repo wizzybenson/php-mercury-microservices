@@ -1,23 +1,23 @@
 <?php
 return array(
-		"siteUrl"=>"http://127.0.0.1/cartProject/",
+		"siteUrl"=>"http://127.0.0.1/orders/",
 		"database"=>[
 				"type"=>"mysql",
-				"dbName"=>"cartdb",
-				"serverName"=>"172.19.0.10",
-				"port"=>"6668",
-				"user"=>"abdo",
-				"password"=>"mysecret",
+				"dbName"=>"orders",
+				"serverName"=>"127.0.0.1",
+				"port"=>"3306",
+				"user"=>"root",
+				"password"=>"password",
 				"options"=>[],
 				"cache"=>false
 		],
-		"sessionName"=>"cartProject",
+		"sessionName"=>"orders",
 		"namespaces"=>[],
 		"templateEngine"=>'Ubiquity\\views\\engine\\Twig',
 		"templateEngineOptions"=>array("cache"=>false),
 		"test"=>false,
 		"debug"=>false,
-		"logger"=>function(){return new \Ubiquity\log\libraries\UMonolog("cartProject",\Monolog\Logger::INFO);},
+		"logger"=>function(){return new \Ubiquity\log\libraries\UMonolog("orders",\Monolog\Logger::INFO);},
 		"di"=>["@exec"=>["jquery"=>function($controller){
 						return \Ubiquity\core\Framework::diSemantic($controller);
 					}]],

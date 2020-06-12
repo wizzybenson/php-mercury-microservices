@@ -1,0 +1,2 @@
+<?php
+return array("#tableName"=>"refund","#primaryKeys"=>array("id"),"#manyToOne"=>array(),"#fieldNames"=>array("id"=>"id","refund_id"=>"refund_id","reason"=>"reason","status"=>"status","discussion"=>"discussion"),"#fieldTypes"=>array("id"=>"int(11)","refund_id"=>"int(11)","reason"=>"text","status"=>"varchar(255)","discussion"=>"varchar(255)"),"#nullable"=>array(),"#notSerializable"=>array(),"#transformers"=>array(),"#accessors"=>array("id"=>"setId","refund_id"=>"setRefund_id","reason"=>"setReason","status"=>"setStatus","discussion"=>"setDiscussion"));
