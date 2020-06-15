@@ -4,9 +4,9 @@ return array(
 		"database"=>[
 				"type"=>"mysql",
 				"dbName"=>"databaseCat",
-				"serverName"=>"127.0.0.1",
-				"port"=>"6669:3306",
-				"user"=>"secret",
+				"serverName"=>"microservice_catalog_database",
+				"port"=>"3306",
+				"user"=>"root",
 				"password"=>"mysecret",
 				"options"=>[],
 				"cache"=>false
