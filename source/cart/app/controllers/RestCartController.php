@@ -38,7 +38,6 @@ class RestCartController extends \Ubiquity\controllers\rest\RestController {
 
 
     /**
-     * @authorization
      * @route("/getAll","methods"=>["get"])
      */
     public function get(){

@@ -32,9 +32,9 @@ class ItemMigration extends AbstractMigration
     public function change()
     {
         $item = $this->table('item');
-        $item->addColumn('label', 'string')
+        $item->addColumn('description', 'string')
             ->addColumn('quantity','integer')
-            ->addColumn('unitPrice','float')
+            ->addColumn('id_product', 'integer', ['null'=>true])
             ->addColumn('id_cart', 'integer', ['null'=>true])
             ->addForeignKey('id_cart', 'cart', 'id')
             ->create();

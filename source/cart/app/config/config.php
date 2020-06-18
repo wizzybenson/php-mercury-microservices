@@ -4,9 +4,9 @@ return array(
 		"database"=>[
 				"type"=>"mysql",
 				"dbName"=>"cartdb",
-				"serverName"=>"172.19.0.10",
-				"port"=>"6668",
-				"user"=>"abdo",
+				"serverName"=>"microservice_cart_database",
+				"port"=>"3306",
+				"user"=>"root",
 				"password"=>"mysecret",
 				"options"=>[],
 				"cache"=>false

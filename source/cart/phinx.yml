@@ -16,10 +16,10 @@ environments:
 
     development:
         adapter: mysql
-        host: localhost
+        host: microservice_cart_database
         name: cartdb
         user: root
-        pass: ''
+        pass: 'mysecret'
         port: 3306
         charset: utf8
 

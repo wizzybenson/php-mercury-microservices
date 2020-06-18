@@ -16,10 +16,10 @@ environments:
 
     development:
         adapter: mysql
-        host: localhost
-        name: orders
+        host: microservice_order_database
+        name: orderdb
         user: root
-        pass: 'password'
+        pass: 'mysecret'
         port: 3306
         charset: utf8
 

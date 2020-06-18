@@ -1,27 +1,27 @@
 <?php
 namespace models;
+use Ubiquity\orm\DAO;
+
 /**
- * @table('orders')
+ * @table('order')
 */
-class Orders{
+class Order{
 	/**
 	 * @id
-	 * @column("name"=>"id","nullable"=>false,"dbType"=>"int(11)")
+	 * @column("name"=>"id","nullable"=>false,"dbType"=>"int")
 	 * @validator("id","constraints"=>array("autoinc"=>true))
 	**/
 	private $id;
 
 	/**
-	 * @column("name"=>"cart_id","nullable"=>false,"dbType"=>"int(11)")
-	 * @validator("notNull")
+	 * @column("name"=>"cart_id","nullable"=>true,"dbType"=>"int")
 	**/
 	private $cart_id;
 
 	/**
-	 * @column("name"=>"payment_method_id","nullable"=>false,"dbType"=>"int(11)")
-	 * @validator("notNull")
+	 * @column("name"=>"payment_id","nullable"=>true,"dbType"=>"int")
 	**/
-	private $payment_method_id;
+	private $payment_id;
 
 	/**
 	 * @column("name"=>"billing_address","nullable"=>false,"dbType"=>"varchar(255)")
@@ -114,12 +114,6 @@ class Orders{
 	private $date_shipped;
 
 	/**
-	 * @column("name"=>"order_total","nullable"=>false,"dbType"=>"float")
-	 * @validator("notNull")
-	**/
-	private $order_total;
-
-	/**
 	 * @column("name"=>"order_note","nullable"=>false,"dbType"=>"varchar(255)")
 	 * @validator("length","constraints"=>array("max"=>255,"notNull"=>true))
 	**/
@@ -130,6 +124,38 @@ class Orders{
 	 * @validator("length","constraints"=>array("max"=>255,"notNull"=>true))
 	**/
 	private $order_status;
+
+	/**
+	 * @oneToMany("mappedBy"=>"order","className"=>"models\\Refund")
+	**/
+	private $refunds;
+
+	public function save($validToken){
+        $response = Cart::sendRequest($validToken, 'GET','http://microservice_cart_nginx/rest/carts/getOne/', $this->getCart_id());
+        if($response->getBody() != null){
+            try {
+                return DAO::insert($this);
+            } catch (\Exception $e) {
+                echo 'Order not added -> error message : ' . $e->getMessage();
+            }
+        }
+    }
+
+    public function delete(){
+	    try{
+            return DAO::delete(Order::class, $this->getId());
+        }catch(Exception $e){
+	        echo 'Order not deleted -> error message : ' . $e->getMessage();
+        }
+
+    }
+
+	public function getCart($validToken){
+        $response = Cart::sendRequest($validToken,'GET', 'http://microservice_cart_nginx/rest/carts/getOne/', $this->getCart_id());
+        if($response->getStatusCode() === 200)
+            return $response->getBody();
+        return null;
+    }
 
 	 public function getId(){
 		return $this->id;
@@ -147,12 +173,12 @@ class Orders{
 		$this->cart_id=$cart_id;
 	}
 
-	 public function getPayment_method_id(){
-		return $this->payment_method_id;
+	 public function getPayment_id(){
+		return $this->payment_id;
 	}
 
-	 public function setPayment_method_id($payment_method_id){
-		$this->payment_method_id=$payment_method_id;
+	 public function setPayment_id($payment_id){
+		$this->payment_id=$payment_id;
 	}
 
 	 public function getBilling_address(){
@@ -275,14 +301,6 @@ class Orders{
 		$this->date_shipped=$date_shipped;
 	}
 
-	 public function getOrder_total(){
-		return $this->order_total;
-	}
-
-	 public function setOrder_total($order_total){
-		$this->order_total=$order_total;
-	}
-
 	 public function getOrder_note(){
 		return $this->order_note;
 	}
@@ -297,6 +315,14 @@ class Orders{
 
 	 public function setOrder_status($order_status){
 		$this->order_status=$order_status;
+	}
+
+	 public function getRefunds(){
+		return $this->refunds;
+	}
+
+	 public function setRefunds($refunds){
+		$this->refunds=$refunds;
 	}
 
 	 public function __toString(){

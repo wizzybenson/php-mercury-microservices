@@ -3,11 +3,11 @@ return array(
 		"siteUrl"=>"http://127.0.0.1/orders/",
 		"database"=>[
 				"type"=>"mysql",
-				"dbName"=>"orders",
-				"serverName"=>"127.0.0.1",
+				"dbName"=>"orderdb",
+				"serverName"=>"microservice_order_database",
 				"port"=>"3306",
 				"user"=>"root",
-				"password"=>"password",
+				"password"=>"mysecret",
 				"options"=>[],
 				"cache"=>false
 		],

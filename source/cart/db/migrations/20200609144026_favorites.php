@@ -2,7 +2,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class Payment extends AbstractMigration
+class Favorites extends AbstractMigration
 {
     /**
      * Change Method.
@@ -31,8 +31,9 @@ class Payment extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('payment');
-        $table->addColumn('payment_id', 'integer')
+        $favorites = $this->table('favorites');
+        $favorites->addColumn('id_customer', 'integer', ['null'=>true])
+            ->addColumn('id_product', 'integer', ['null'=>true])
             ->create();
     }
 }

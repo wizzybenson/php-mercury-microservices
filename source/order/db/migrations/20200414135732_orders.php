@@ -31,9 +31,9 @@ class Orders extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('orders');
-        $table->addColumn('cart_id', 'integer')
-            ->addColumn('payment_method_id', 'integer')
+        $table = $this->table('order');
+        $table->addColumn('cart_id', 'integer', ['null'=>true])
+            ->addColumn('payment_id', 'integer', ['null'=>true])
             ->addColumn('billing_address', 'string')
             ->addColumn('billing_address_app', 'string')
             ->addColumn('billing_city', 'string')
@@ -49,7 +49,6 @@ class Orders extends AbstractMigration
             ->addColumn('date_order_placed', 'datetime')
             ->addColumn('date_order_paid', 'datetime')
             ->addColumn('date_shipped', 'datetime')
-            ->addColumn('order_total', 'float')
             ->addColumn('order_note', 'string')
             ->addColumn('order_status', 'string')
             ->create();

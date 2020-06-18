@@ -32,10 +32,11 @@ class Refund extends AbstractMigration
     public function change()
     {
         $table = $this->table('refund');
-        $table->addColumn('refund_id', 'integer')
-            ->addColumn('reason', 'text')
+        $table->addColumn('reason', 'text')
             ->addColumn('status', 'string')
             ->addColumn('discussion', 'string')
+            ->addColumn('id_order', 'integer', ['null'=>true])
+            ->addForeignKey('id_order', 'order', 'id', ['delete'=>'SET_NULL', 'update'=>'NO_ACTION'])
             ->create();
     }
 }
