@@ -1,0 +1,2 @@
+<?php
+return array("#tableName"=>"payments","#primaryKeys"=>array("id"),"#manyToOne"=>array(),"#fieldNames"=>array("id"=>"id","orderss"=>"orderss"),"#fieldTypes"=>array("id"=>"int","orderss"=>"mixed"),"#nullable"=>array(),"#notSerializable"=>array("orderss"),"#transformers"=>array(),"#accessors"=>array("id"=>"setId","orderss"=>"setOrderss"),"#oneToMany"=>array("orderss"=>array("mappedBy"=>"payments","className"=>"models\\Orders")));

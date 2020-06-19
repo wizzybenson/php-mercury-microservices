@@ -6,7 +6,8 @@
         "phpmv/ubiquity-mailer": "^0.0",
         "phpmv/php-mv-ui": "^2.3",
         "robmorgan/phinx": "^0.11.4",
-        "fzaninotto/faker": "^1.9"
+        "fzaninotto/faker": "^1.9",
+        "guzzlehttp/guzzle": "~6.0"
     },
     "require-dev": {
         "monolog/monolog": "^2.0",

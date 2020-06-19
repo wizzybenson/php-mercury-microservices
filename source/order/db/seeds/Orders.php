@@ -17,10 +17,10 @@ class Orders extends AbstractSeed
     {
         $faker = Faker\Factory::create();
         $data = [];
-        for ($i = 0; $i < 250; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $data[] = [
-                'cart_id'      => $faker->numberBetween($min = 1, $max = 250),
-                'payment_method_id'      => $faker->numberBetween($min = 1, $max = 4),
+                'cart_id'      => $i+1,
+                'payment_id'      => null,
                 'order_status' => $faker->randomElement($array = array ('placed','paid','shipped','canceled','refunded')),
                 'date_order_placed'         => $faker->dateTime->format('Y-m-d H:i:s'),
                 'billing_address'    => $faker->address(),
@@ -37,11 +37,10 @@ class Orders extends AbstractSeed
                 'shipping_country'     =>  $faker->country(),
                 'date_order_paid'     => $faker->dateTime->format('Y-m-d H:i:s'),
                 'date_shipped'     => $faker->dateTime->format('Y-m-d H:i:s'),
-                'order_total'       => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 100),
                 'order_note'       => $faker->sentence($nbWords = 6, $variableNbWords = true),
             ];
         }
 
-        $this->table('orders')->insert($data)->saveData();
+        $this->table('order')->insert($data)->saveData();
     }
 }

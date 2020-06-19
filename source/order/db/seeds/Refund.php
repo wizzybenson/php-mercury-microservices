@@ -19,7 +19,6 @@ class Refund extends AbstractSeed
         $data = [];
         for ($i = 0; $i < 250; $i++) {
             $data[] = [
-                'refund_id'      => $faker->numberBetween($min = 1, $max = 250),
                 'reason'      => $faker->numberBetween($min = 1, $max = 4),
                 'status' => $faker->randomElement($array = array ('in progress...','canceled','completed')),
                 'discussion'  =>  $faker->randomElement($array = array ('Refused','Accepted','refunded')),

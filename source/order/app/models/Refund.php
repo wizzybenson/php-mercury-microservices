@@ -6,16 +6,10 @@ namespace models;
 class Refund{
 	/**
 	 * @id
-	 * @column("name"=>"id","nullable"=>false,"dbType"=>"int(11)")
+	 * @column("name"=>"id","nullable"=>false,"dbType"=>"int")
 	 * @validator("id","constraints"=>array("autoinc"=>true))
 	**/
 	private $id;
-
-	/**
-	 * @column("name"=>"refund_id","nullable"=>false,"dbType"=>"int(11)")
-	 * @validator("notNull")
-	**/
-	private $refund_id;
 
 	/**
 	 * @column("name"=>"reason","nullable"=>false,"dbType"=>"text")
@@ -35,20 +29,18 @@ class Refund{
 	**/
 	private $discussion;
 
+	/**
+	 * @manyToOne
+	 * @joinColumn("className"=>"models\\Order","name"=>"id_order","nullable"=>false)
+	**/
+	private $order;
+
 	 public function getId(){
 		return $this->id;
 	}
 
 	 public function setId($id){
 		$this->id=$id;
-	}
-
-	 public function getRefund_id(){
-		return $this->refund_id;
-	}
-
-	 public function setRefund_id($refund_id){
-		$this->refund_id=$refund_id;
 	}
 
 	 public function getReason(){
@@ -73,6 +65,14 @@ class Refund{
 
 	 public function setDiscussion($discussion){
 		$this->discussion=$discussion;
+	}
+
+	 public function getOrder(){
+		return $this->order;
+	}
+
+	 public function setOrder($order){
+		$this->order=$order;
 	}
 
 	 public function __toString(){

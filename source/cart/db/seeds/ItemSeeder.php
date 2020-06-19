@@ -19,9 +19,8 @@ class ItemSeeder extends AbstractSeed
         $data=[];
         for($i = 0; $i<25; $i++){
             $data[] = [
-                'label' => $faker->company,
-                'quantity' => $faker->randomDigit,
-                'unitPrice' => $faker->randomFloat(5,1000000)
+                'description' => $faker->company,
+                'quantity' => $faker->randomDigit
             ];
         }
 

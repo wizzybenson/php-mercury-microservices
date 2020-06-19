@@ -31,8 +31,9 @@ COPY config/custom-php-ini.ini "$PHP_INI_DIR/conf.d/"
 RUN curl -sS https://getcomposer.org/installer \
 | php -- --install-dir=/usr/bin/ --filename=composer
 
-RUN curl -sSL https://phar.phpunit.de/phpunit.phar -o \
-/usr/bin/phpunit && chmod +x /usr/bin/phpunit
+RUN composer global require phpmv/ubiquity-devtools
+RUN echo export PATH="$HOME/.composer/vendor/bin:$PATH" >> ~/.bashrc
+
 
 CMD [ "php-fpm", \
         "--nodaemonize"]
