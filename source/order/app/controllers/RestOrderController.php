@@ -51,11 +51,11 @@ class RestOrderController extends \Ubiquity\controllers\rest\RestController {
     /**
      * @param string $field
      * @param string|integer $value
-     * @route("/getOrderBy/{field}/{value}", "methods"=>["get"])
+     * @route("/getOrdersBy/{field}/{value}", "methods"=>["get"])
      */
-    public function getOrderBy($field, $value){
-        if(Order::getOrderBy($field, $value) === null)
-            echo ' - order not found - ';
+    public function getOrdersBy($field, $value){
+        if(Order::getOrdersBy($field, $value) === null)
+            echo ' - no order was found - ';
         else
             echo json_encode(Order::getOrderBy($field, $value));
     }

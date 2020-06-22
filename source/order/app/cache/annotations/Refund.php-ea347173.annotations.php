@@ -3,6 +3,8 @@
 return array(
   '#namespace' => 'models',
   '#uses' => array (
+  'DAOException' => 'Ubiquity\\exceptions\\DAOException',
+  'DAO' => 'Ubiquity\\orm\\DAO',
 ),
   '#traitMethodOverrides' => array (
   'models\\Refund' => 

@@ -27,10 +27,10 @@ return array(
     array('#name' => 'param', '#type' => 'mindplay\\annotations\\standard\\ParamAnnotation', 'type' => 'array', 'name' => 'keyValues'),
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/deleteOrder/{keyValues}", "methods"=>["delete"])
   ),
-  'controllers\\RestOrderController::getOrderBy' => array(
+  'controllers\\RestOrderController::getOrdersBy' => array(
     array('#name' => 'param', '#type' => 'mindplay\\annotations\\standard\\ParamAnnotation', 'type' => 'string', 'name' => 'field'),
     array('#name' => 'param', '#type' => 'mindplay\\annotations\\standard\\ParamAnnotation', 'type' => 'string|integer', 'name' => 'value'),
-    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/getOrderBy/{field}/{value}", "methods"=>["get"])
+    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/getOrdersBy/{field}/{value}", "methods"=>["get"])
   ),
 );
 

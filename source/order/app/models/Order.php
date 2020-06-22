@@ -158,9 +158,9 @@ class Order{
         return null;
     }
 
-    public static function getOrderBy($field, $value){
+    public static function getOrdersBy($field, $value){
         try {
-            return DAO::getOne(Order::class, [$field => $value]);
+            return DAO::getAll(Order::class, $field." = '".$value."'");
         } catch (DAOException $e) {
             echo 'DAO error : ' . $e->getMessage();
         }
