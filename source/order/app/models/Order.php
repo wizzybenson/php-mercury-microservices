@@ -1,5 +1,6 @@
 <?php
 namespace models;
+use Ubiquity\exceptions\DAOException;
 use Ubiquity\orm\DAO;
 
 /**
@@ -155,6 +156,14 @@ class Order{
         if($response->getStatusCode() === 200)
             return $response->getBody();
         return null;
+    }
+
+    public static function getOrderBy($field, $value){
+        try {
+            return DAO::getOne(Order::class, [$field => $value]);
+        } catch (DAOException $e) {
+            echo 'DAO error : ' . $e->getMessage();
+        }
     }
 
 	 public function getId(){

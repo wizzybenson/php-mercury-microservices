@@ -3,7 +3,7 @@
 return array(
   '#namespace' => 'models',
   '#uses' => array (
-  'Client' => 'GuzzleHttp\\Client',
+  'DAOException' => 'Ubiquity\\exceptions\\DAOException',
   'DAO' => 'Ubiquity\\orm\\DAO',
 ),
   '#traitMethodOverrides' => array (

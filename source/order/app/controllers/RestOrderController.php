@@ -48,4 +48,15 @@ class RestOrderController extends \Ubiquity\controllers\rest\RestController {
         else
             echo '-order not deleted-';
     }
+    /**
+     * @param string $field
+     * @param string|integer $value
+     * @route("/getOrderBy/{field}/{value}", "methods"=>["get"])
+     */
+    public function getOrderBy($field, $value){
+        if(Order::getOrderBy($field, $value) === null)
+            echo ' - order not found - ';
+        else
+            echo json_encode(Order::getOrderBy($field, $value));
+    }
 }
