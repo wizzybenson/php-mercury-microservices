@@ -59,4 +59,13 @@ class RestOrderController extends \Ubiquity\controllers\rest\RestController {
         else
             echo json_encode(Order::getOrderBy($field, $value));
     }
+
+    /**
+     * @param integer $idOrder
+     * @route("/makePayment/{idOrder}", "methods"=>["put"])
+     */
+    public function makePayment($idOrder){
+        $order = DAO::getById(Order::class, $idOrder);
+        $order->makePayment();
+    }
 }

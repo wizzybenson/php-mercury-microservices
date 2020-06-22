@@ -166,6 +166,29 @@ class Order{
         }
     }
 
+    public function makePayment($validToken){
+	    //get total from cart microservice
+        $id_cart = $this->getCart_id();
+        $total = json_encode(Cart::sendRequest($validToken,'GET', 'http://microservice_cart_nginx/rest/carts/getTotalById/'.$id_cart)->getBody());
+
+        //send request to payment service
+        //NB: payment service need to receive total
+        //NB2: the body of the response of addPayment request should contain the new payment object
+        $body = array(
+            "url"=>"",
+            "title"=>"",
+            "description"=>"",
+            "image"=>"",
+            "status"=>""
+        );
+        $response = Payment::sendRequest('','POST','http://microservice_payment_nginx/payment/payment/addPayment','',json_encode($body));
+        if($response->getStatusCode() == '200'){
+            //update order object to fill the payment id
+            $this->setPayment_id(json_decode($response->getBody())->getId());
+            DAO::update($this);
+        }
+    }
+
 	 public function getId(){
 		return $this->id;
 	}

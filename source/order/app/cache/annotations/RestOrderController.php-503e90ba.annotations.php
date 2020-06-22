@@ -32,5 +32,9 @@ return array(
     array('#name' => 'param', '#type' => 'mindplay\\annotations\\standard\\ParamAnnotation', 'type' => 'string|integer', 'name' => 'value'),
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/getOrdersBy/{field}/{value}", "methods"=>["get"])
   ),
+  'controllers\\RestOrderController::makePayment' => array(
+    array('#name' => 'param', '#type' => 'mindplay\\annotations\\standard\\ParamAnnotation', 'type' => 'integer', 'name' => 'idOrder'),
+    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/makePayment/{idOrder}", "methods"=>["put"])
+  ),
 );
 
