@@ -48,4 +48,24 @@ class RestOrderController extends \Ubiquity\controllers\rest\RestController {
         else
             echo '-order not deleted-';
     }
+    /**
+     * @param string $field
+     * @param string|integer $value
+     * @route("/getOrdersBy/{field}/{value}", "methods"=>["get"])
+     */
+    public function getOrdersBy($field, $value){
+        if(Order::getOrdersBy($field, $value) === null)
+            echo ' - no order was found - ';
+        else
+            echo json_encode(Order::getOrderBy($field, $value));
+    }
+
+    /**
+     * @param integer $idOrder
+     * @route("/makePayment/{idOrder}", "methods"=>["put"])
+     */
+    public function makePayment($idOrder){
+        $order = DAO::getById(Order::class, $idOrder);
+        $order->makePayment();
+    }
 }
