@@ -41,6 +41,21 @@ class RestRefundController extends \Ubiquity\controllers\rest\RestController {
     }
 
     /**
+     * @param integer $id
+     * @route("changeStatus/{id}", "methods"=>["put"])
+     */
+    public function changeStatus($id){
+        $status = URequest::getDatas()["status"];
+        $refund = DAO::getOne(Refund::class, $id);
+        if($refund->changeStatus($status) == null)
+            echo ' - invalid status - ';
+        else if(!$refund->changeStatus($status))
+            echo ' - status does not changed - ';
+        else
+            echo ' - status changed successfully - ';
+    }
+
+    /**
      * @param integer|string $value
      * @param string $field
      * @route("/getRefundsBy/{field}/{value}", "methods"=>["get"])

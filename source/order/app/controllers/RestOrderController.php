@@ -68,4 +68,19 @@ class RestOrderController extends \Ubiquity\controllers\rest\RestController {
         $order = DAO::getById(Order::class, $idOrder);
         $order->makePayment();
     }
+
+    /**
+     * @param integer $id
+     * @route("/change-status/{id}", "methods"=>["put"])
+     */
+    public function change_status($id){
+        $status = URequest::getDatas()["status"];
+        $order = DAO::getOne(Order::class, $id);
+        if($order->change_status($status))
+            echo '- status changed successfully -';
+        else if($order->change_status($status) == null)
+            echo '- invalid status -';
+        else
+            echo '- status does not changed -';
+    }
 }
