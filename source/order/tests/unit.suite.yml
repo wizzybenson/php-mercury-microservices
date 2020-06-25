@@ -9,6 +9,6 @@ modules:
         - Db:
             dsn: 'mysql:host=localhost;dbname=orderdb'
             user: 'root'
-            password: ''
+            password: 'mysecret'
         - \Helper\Unit
     step_decorators: ~        
