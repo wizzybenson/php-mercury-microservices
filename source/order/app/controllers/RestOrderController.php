@@ -83,4 +83,13 @@ class RestOrderController extends \Ubiquity\controllers\rest\RestController {
         else
             echo '- status does not changed -';
     }
+
+    /**
+     * @param string $id
+     * @route("/getAmount/{id}", "methods"=>["get"])
+     */
+    public function getAmount($id){
+        $order = DAO::getOne(Order::class, $id);
+        return json_encode($order->getAmount());
+    }
 }

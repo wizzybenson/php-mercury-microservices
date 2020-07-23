@@ -131,6 +131,11 @@ class Order{
 	**/
 	private $refunds;
 
+    /**
+     * @oneToMany("mappedBy"=>"order","className"=>"models\\Coupon")
+     **/
+    private $coupons;
+
 	public function save($validToken){
         $response = Cart::sendRequest($validToken, 'GET','http://microservice_cart_nginx/rest/carts/getOne/', $this->getCart_id());
         $this->setOrder_status("New");
@@ -202,7 +207,24 @@ class Order{
         }
     }
 
+    public function getAmount(){
+	    $amount = 0;
+	    if($this->coupon != null){
+            $response = Cart::sendRequest('','GET', 'http://microservice_cart_nginx/rest/carts/getTotalById/', $this->getCart_id());
+            if($response->total > $this->getCoupon()->getValue()){
+                $amount = $response->total - $this->getCoupon()->getValue();
+            }
+            return $amount;
+        }
+	    return null;
+    }
 
+    public function getCoupon(){
+            return $this->coupon;
+    }
+    public function setCoupon($coupon){
+	    $this->coupon = $coupon;
+    }
 
 	 public function getId(){
 		return $this->id;
