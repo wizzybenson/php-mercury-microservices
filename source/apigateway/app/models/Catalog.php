@@ -1,8 +1,5 @@
 <?php
 namespace models;
-use GuzzleHttp\Client;
-use Ubiquity\orm\DAO;
-use Ubiquity\utils\http\URequest;
 
 class Catalog{
 	/**
@@ -91,65 +88,10 @@ class Catalog{
 
 
 
-    public static function fromString(Catalog $libelle): self
-    {
-        return ($libelle);
-    }
-    /* public function __toString(){
-         return ('{"data": [{"id":"'.$this->getId().'","libelle":"'.$this->getLibelle().'","details":"'.$this->getDetails().'","image":"'.$this->getDetails().'","datec":"'.$this->getDatec().'"}]}'??'no value').'';
-     }*/
+
   public function validate($libelle){
       return ($libelle);
         }
-    public function getAllCat(){
 
-        $cs=DAO::getAll(Catalog::class);
-
-        return $cs;
-    }
-    public function getByID($id){
-
-        $cs=DAO::getById(Catalog::class,$id);
-        return json_encode($cs);
-    }
-    public function addCatalog(){
-        $cat= new Catalog;
-        /* $cat->setLibelle("KHALKI Add");
-         $cat->setDetails("KHALKI Details Add");
-         $cat->setImage("KHALKI im");
-         $cat->setDatec("2020-03-04 00:00:00");*/
-        URequest::setPostValuesToObject($cat);
-        if(DAO::insert($cat)) {
-            echo true;
-        }else
-        {
-            echo false;
-        }
-    }
-    public function addCatalog2(Catalog $cat){
-        DAO::save($cat);
-    }
-
-    public function deleteCatalog($id){
-        $cat= new Catalog;
-        $cat=DAO::getOne(Catalog::class,$id,false);
-        if(DAO::remove($cat)) {
-            echo true;
-        }else
-        {
-            echo false;
-        }
-    }
-
-    public static function sendRequest($token,$method='GET', $endpoint, $filterBy='', $body=''){
-        $client = new Client();
-        $headers = [
-            'Authorization' => 'Bearer' . $token,
-            'Accept' => 'application/json'
-        ];
-        $ep = $endpoint . '' . $filterBy;
-        $response = $client->request($method, $ep, ['Headers'=>$headers]);
-        return $response;
-    }
 
 }

@@ -1,7 +1,9 @@
 <?php
 namespace models;
+use GuzzleHttp\Client;
 use Ubiquity\orm\DAO;
 use Ubiquity\utils\http\URequest;
+
 class Catalog{
 	/**
 	 * @id
@@ -108,7 +110,7 @@ class Catalog{
     public function getByID($id){
 
         $cs=DAO::getById(Catalog::class,$id);
-        echo $cs;
+        return json_encode($cs);
     }
     public function addCatalog(){
         $cat= new Catalog;
@@ -139,6 +141,32 @@ class Catalog{
         }
     }
 
+    public static function sendRequest($token,$method='GET', $endpoint, $filterBy='', $body=''){
+        $client = new Client();
+        $headers = [
+            'Authorization' => 'Bearer' . $token,
+            'Accept' => 'application/json'
+        ];
+        $ep = $endpoint . '' . $filterBy;
+        $response = $client->request($method, $ep, ['Headers'=>$headers]);
+        return $response;
+    }
+    public function updateCatalog(){
+        $cat= new Catalog;
+        $cat->setId( URequest::get("id"));
+        $cat->setLibelle( URequest::get("libelle"));
+        $cat->setDetails( URequest::get("details"));
+        $cat->setImage(URequest::get("image") );
+        $cat->setDatec(URequest::get("datec"));
+        URequest::setPostValuesToObject($cat);
+
+        if(DAO::update($cat)) {
+            echo true;
+        }else
+        {
+            echo false;
+        }
+    }
 
 
 }
