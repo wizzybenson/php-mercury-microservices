@@ -3,6 +3,7 @@
 return array(
   '#namespace' => 'models',
   '#uses' => array (
+  'DAO' => 'Ubiquity\\orm\\DAO',
 ),
   '#traitMethodOverrides' => array (
   'models\\Coupon' => 
@@ -24,9 +25,35 @@ return array(
   'models\\Coupon::$value' => array(
     array('#name' => 'column', '#type' => 'Ubiquity\\annotations\\ColumnAnnotation', "name"=>"value","nullable"=>false,"dbType"=>"float")
   ),
+  'models\\Coupon::$creation_date' => array(
+    array('#name' => 'column', '#type' => 'Ubiquity\\annotations\\ColumnAnnotation', "name"=>"creation_date", "nullable"=>false, "dbType"=>"datetime"),
+    array('#name' => 'validator', '#type' => 'Ubiquity\\annotations\\ValidatorAnnotation', "type","dateTime","constraints"=>array("notNull"=>true))
+  ),
+  'models\\Coupon::$expiration_date' => array(
+    array('#name' => 'column', '#type' => 'Ubiquity\\annotations\\ColumnAnnotation', "name"=>"expiration_date", "nullable"=>false, "dbType"=>"datetime"),
+    array('#name' => 'validator', '#type' => 'Ubiquity\\annotations\\ValidatorAnnotation', "type","dateTime","constraints"=>array("notNull"=>true))
+  ),
   'models\\Coupon::$order' => array(
     array('#name' => 'manyToOne', '#type' => 'Ubiquity\\annotations\\ManyToOneAnnotation'),
     array('#name' => 'joinColumn', '#type' => 'Ubiquity\\annotations\\JoinColumnAnnotation', "className"=>"models\\Order","name"=>"id_order","nullable"=>false)
+  ),
+  'models\\Coupon::getCreationDate' => array(
+    array('#name' => 'return', '#type' => 'mindplay\\annotations\\standard\\ReturnAnnotation', 'type' => 'mixed')
+  ),
+  'models\\Coupon::setCreationDate' => array(
+    array('#name' => 'param', '#type' => 'mindplay\\annotations\\standard\\ParamAnnotation', 'type' => 'mixed', 'name' => 'creation_date')
+  ),
+  'models\\Coupon::getExpirationDate' => array(
+    array('#name' => 'return', '#type' => 'mindplay\\annotations\\standard\\ReturnAnnotation', 'type' => 'mixed')
+  ),
+  'models\\Coupon::setExpirationDate' => array(
+    array('#name' => 'param', '#type' => 'mindplay\\annotations\\standard\\ParamAnnotation', 'type' => 'mixed', 'name' => 'expiration_date')
+  ),
+  'models\\Coupon::getOrder' => array(
+    array('#name' => 'return', '#type' => 'mindplay\\annotations\\standard\\ReturnAnnotation', 'type' => 'mixed')
+  ),
+  'models\\Coupon::setOrder' => array(
+    array('#name' => 'param', '#type' => 'mindplay\\annotations\\standard\\ParamAnnotation', 'type' => 'mixed', 'name' => 'order')
   ),
   'models\\Coupon::getId' => array(
     array('#name' => 'return', '#type' => 'mindplay\\annotations\\standard\\ReturnAnnotation', 'type' => 'mixed')

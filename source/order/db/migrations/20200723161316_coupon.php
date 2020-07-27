@@ -35,6 +35,8 @@ class Coupon extends AbstractMigration
         $table->addColumn('code', 'string')
             ->addColumn('value', 'float')
             ->addColumn('id_order', 'integer', ['null'=>true])
+            ->addColumn('creation_date', 'datetime')
+            ->addColumn('expiration_date', 'datetime')
             ->addForeignKey('id_order', 'order', 'id', ['delete'=>'SET_NULL', 'update'=>'NO_ACTION'])
             ->create();
     }

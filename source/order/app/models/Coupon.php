@@ -3,6 +3,8 @@
 
 namespace models;
 
+use Ubiquity\orm\DAO;
+
 /**
  * Class Coupon
  * @table('coupon')
@@ -28,10 +30,82 @@ class Coupon
     private $value;
 
     /**
+     * @column("name"=>"creation_date", "nullable"=>false, "dbType"=>"datetime")
+     * @validator("type","dateTime","constraints"=>array("notNull"=>true))
+     */
+    private $creation_date;
+
+    /**
+     * @column("name"=>"expiration_date", "nullable"=>false, "dbType"=>"datetime")
+     * @validator("type","dateTime","constraints"=>array("notNull"=>true))
+     */
+    private $expiration_date;
+
+    /**
      * @manyToOne
      * @joinColumn("className"=>"models\\Order","name"=>"id_order","nullable"=>false)
      **/
     private $order;
+
+    public function attributeToOrder($idOrder){
+        if($this->getCreationDate() < $this->getExpirationDate()){
+            $order = DAO::getOne(Order::class, $idOrder);
+            $this->setOrder($order);
+            try {
+                DAO::insert($this);
+            }catch (\Exception $e){
+                echo $e->getMessage();
+            }
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreationDate()
+    {
+        return $this->creation_date;
+    }
+
+    /**
+     * @param mixed $creation_date
+     */
+    public function setCreationDate($creation_date)
+    {
+        $this->creation_date = $creation_date;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExpirationDate()
+    {
+        return $this->expiration_date;
+    }
+
+    /**
+     * @param mixed $expiration_date
+     */
+    public function setExpirationDate($expiration_date)
+    {
+        $this->expiration_date = $expiration_date;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param mixed $order
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
+    }
 
     /**
      * @return mixed

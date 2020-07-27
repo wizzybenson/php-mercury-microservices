@@ -211,10 +211,12 @@ class Order{
 	    $amount = 0;
 	    if($this->coupon != null){
             $response = Cart::sendRequest('','GET', 'http://microservice_cart_nginx/rest/carts/getTotalById/', $this->getCart_id());
-            if($response->total > $this->getCoupon()->getValue()){
-                $amount = $response->total - $this->getCoupon()->getValue();
+            if($this->getCoupon()->getExpirationDate() > new \DateTime("now")) {
+                if ($response->total > $this->getCoupon()->getValue()) {
+                    $amount = $response->total - $this->getCoupon()->getValue();
+                    return $amount;
+                }
             }
-            return $amount;
         }
 	    return null;
     }
