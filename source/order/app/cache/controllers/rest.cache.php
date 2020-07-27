@@ -1,2 +1,2 @@
 <?php
-return array("controllers\\RestOrderController"=>array("resource"=>"models\\Order","authorizations"=>array("update","add","delete"),"route"=>"/rest/orders"),"controllers\\RestRefundController"=>array("resource"=>"models\\Refund","authorizations"=>array("update","add","delete"),"route"=>"/rest/refunds"));
+return array("controllers\\RestCouponsController"=>array("resource"=>"models\\Coupon","authorizations"=>array("update","add","delete"),"route"=>"/rest/coupons"),"controllers\\RestOrderController"=>array("resource"=>"models\\Order","authorizations"=>array("update","add","delete"),"route"=>"/rest/orders"),"controllers\\RestRefundController"=>array("resource"=>"models\\Refund","authorizations"=>array("update","add","delete"),"route"=>"/rest/refunds"));

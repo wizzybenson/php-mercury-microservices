@@ -96,5 +96,8 @@ return array(
   'models\\Order::$refunds' => array(
     array('#name' => 'oneToMany', '#type' => 'Ubiquity\\annotations\\OneToManyAnnotation', "mappedBy"=>"order","className"=>"models\\Refund")
   ),
+  'models\\Order::$coupons' => array(
+    array('#name' => 'oneToMany', '#type' => 'Ubiquity\\annotations\\OneToManyAnnotation', "mappedBy"=>"order","className"=>"models\\Coupon")
+  ),
 );
 
