@@ -69,7 +69,21 @@ class CatalogController extends \Ubiquity\controllers\rest\RestController {
 
         //echo $cs;
     }
-
-
+    /**
+     * @route("/updateCatalog","methods"=>["patch"])
+     */
+    public function updateCatalog()
+    {
+        $cat= new Catalog;
+        $cs=$cat->updateCatalog();
+        return $cs;
+    }
+    /**
+     * @route("/getbyguzzle3","methods"=>["get"])
+     */
+    public function getbyguzzle()
+    {
+        echo "getbyguzzle";
+    }
 
 }
