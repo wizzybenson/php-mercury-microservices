@@ -131,8 +131,14 @@ class Order{
 	**/
 	private $refunds;
 
+    /**
+     * @oneToMany("mappedBy"=>"order","className"=>"models\\Coupon")
+     **/
+    private $coupons;
+
 	public function save($validToken){
         $response = Cart::sendRequest($validToken, 'GET','http://microservice_cart_nginx/rest/carts/getOne/', $this->getCart_id());
+        $this->setOrder_status("New");
         if($response->getBody() != null){
             try {
                 return DAO::insert($this);
@@ -140,6 +146,18 @@ class Order{
                 echo 'Order not added -> error message : ' . $e->getMessage();
             }
         }
+    }
+
+    public function change_status($status){
+	    if($status == "hold" || $status == "shipped" || $status == "delivered" || $status == "closed"){
+	        $this->setOrder_status($status);
+            try {
+                return DAO::update($this);
+            }catch(\Exception $e){
+                echo $e->getMessage();
+            }
+        }
+	    return null;
     }
 
     public function delete(){
@@ -183,10 +201,31 @@ class Order{
         );
         $response = Payment::sendRequest('','POST','http://microservice_payment_nginx/payment/payment/addPayment','',json_encode($body));
         if($response->getStatusCode() == '200'){
-            //update order object to fill the payment id
+            //update order object to fill the payment id AND set order status to shipped
             $this->setPayment_id(json_decode($response->getBody())->getId());
             DAO::update($this);
         }
+    }
+
+    public function getAmount(){
+	    $amount = 0;
+	    if($this->coupon != null){
+            $response = Cart::sendRequest('','GET', 'http://microservice_cart_nginx/rest/carts/getTotalById/', $this->getCart_id());
+            if($this->getCoupon()->getExpirationDate() > new \DateTime("now")) {
+                if ($response->total > $this->getCoupon()->getValue()) {
+                    $amount = $response->total - $this->getCoupon()->getValue();
+                    return $amount;
+                }
+            }
+        }
+	    return null;
+    }
+
+    public function getCoupon(){
+            return $this->coupon;
+    }
+    public function setCoupon($coupon){
+	    $this->coupon = $coupon;
     }
 
 	 public function getId(){

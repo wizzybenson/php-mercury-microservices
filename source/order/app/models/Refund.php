@@ -66,6 +66,19 @@ class Refund{
         }
     }
 
+    public function changeStatus($status){
+	    if($status != 'completed' && $status != 'in progress' && $status != 'canceled')
+	        return null;
+	    else {
+	        $this->setStatus($status);
+            try {
+                return DAO::update($this);
+            }catch (DAOException $e) {
+                echo $e->getMessage();
+            }
+        }
+    }
+
 	 public function getId(){
 		return $this->id;
 	}
