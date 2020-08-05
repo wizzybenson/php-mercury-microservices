@@ -2,35 +2,6 @@ version:  '3'
 services:
 
   ##
-  # user service
-  ##
-  microservice_user_fpm:
-    build: ./microservices/user/php-fpm/
-    volumes:
-      - ../source/user:/var/www/html
-    expose:
-      - 9000
-
-  microservice_user_nginx:
-    build: ./microservices/user/nginx/
-    volumes:
-      - ../source/user:/var/www/html
-    ports:
-      - 8081:80
-      - 9091:9090
-
-  microservice_user_database:
-    build: ./microservices/user/database/
-    command: --default-authentication-plugin=mysql_native_password
-    environment:
-      - MYSQL_ROOT_PASSWORD=mysecret
-      - MYSQL_DATABASE=users
-      - MYSQL_USER=secret
-      - MYSQL_PASSWORD=mysecret
-    ports:
-      - 6667:3306
-
-  ##
   # cart service
   ##
   microservice_cart_fpm:
@@ -115,8 +86,38 @@ services:
       - MYSQL_PASSWORD=mysecret
     ports:
       - 6670:3306
+
+
+  ##
+  # order service
+  ##
+  microservice_order_fpm:
+    build: ./microservices/order/php-fpm/
+    volumes:
+      - ../source/order:/var/www/html
+    expose:
+      - 9000
+
+  microservice_order_nginx:
+    build: ./microservices/order/nginx/
+    volumes:
+      - ../source/order:/var/www/html
+    ports:
+      - 8085:80
+      - 9095:9090
       
-      
+  microservice_order_database:
+    build: ./microservices/order/database/
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysecret
+      - MYSQL_DATABASE=orderdb
+      - MYSQL_USER=secret
+      - MYSQL_PASSWORD=mysecret
+    ports:
+      - 6671:3306
+
+
   ##
   # products service
   ##
@@ -132,9 +133,9 @@ services:
     volumes:
       - ../source/products:/var/www/html
     ports:
-      - 8085:80
-      - 9095:9090
-
+      - 8081:80
+      - 9091:9090
+      
   microservice_products_database:
     build: ./microservices/products/database/
     command: --default-authentication-plugin=mysql_native_password
@@ -144,4 +145,64 @@ services:
       - MYSQL_USER=secret
       - MYSQL_PASSWORD=mysecret
     ports:
-      - 6671:3306
+      - 6666:3306
+ 
+
+  ##
+  # users service
+  ##
+  microservice_users_fpm:
+    build: ./microservices/users/php-fpm/
+    volumes:
+      - ../source/users:/var/www/html
+    expose:
+      - 9000
+
+  microservice_users_nginx:
+    build: ./microservices/users/nginx/
+    volumes:
+      - ../source/users:/var/www/html
+    ports:
+      - 8086:80
+      - 9096:9090
+
+  microservice_users_database:
+    build: ./microservices/users/database/
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysecret
+      - MYSQL_DATABASE=userdb
+      - MYSQL_USER=secret
+      - MYSQL_PASSWORD=mysecret
+    ports:
+      - 6672:3306
+
+
+  ##
+  # apigateway service
+  ##
+  microservice_apigateway_fpm:
+    build: ./microservices/apigateway/php-fpm/
+    volumes:
+      - ../source/apigateway:/var/www/html
+    expose:
+      - 9000
+
+  microservice_apigateway_nginx:
+    build: ./microservices/apigateway/nginx/
+    volumes:
+      - ../source/apigateway:/var/www/html
+    ports:
+      - 8087:80
+      - 9097:9090
+
+  microservice_apigateway_database:
+    build: ./microservices/apigateway/database/
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysecret
+      - MYSQL_DATABASE=databaseCat
+      - MYSQL_USER=secret
+      - MYSQL_PASSWORD=mysecret
+    ports:
+      - 6673:3306

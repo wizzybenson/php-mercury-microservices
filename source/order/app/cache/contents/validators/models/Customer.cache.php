@@ -1,0 +1,2 @@
+<?php
+return array("id"=>array(array("type"=>"id","constraints"=>array("autoinc"=>true))),"first_name"=>array(array("type"=>"length","constraints"=>array("max"=>255,"notNull"=>true))),"last_name"=>array(array("type"=>"length","constraints"=>array("max"=>255,"notNull"=>true))),"email"=>array(array("type"=>"email","constraints"=>array("notNull"=>true)),array("type"=>"length","constraints"=>array("max"=>255))),"passwrod"=>array(array("type"=>"length","constraints"=>array("max"=>255,"notNull"=>true))));

@@ -4,10 +4,10 @@ return array(
 		"database"=>[
 				"type"=>"mysql",
 				"dbName"=>"cartdb",
-				"serverName"=>"127.0.0.1",
+				"serverName"=>"microservice_cart_database",
 				"port"=>"3306",
 				"user"=>"root",
-				"password"=>"",
+				"password"=>"mysecret",
 				"options"=>[],
 				"cache"=>false
 		],

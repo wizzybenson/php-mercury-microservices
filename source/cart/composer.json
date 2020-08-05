@@ -6,7 +6,8 @@
         "phpmv/php-mv-ui": "^2.3",
         "robmorgan/phinx": "^0.11.4",
         "zircote/swagger-php": "^3.0",
-        "fzaninotto/faker": "^1.9"
+        "fzaninotto/faker": "^1.9",
+        "guzzlehttp/guzzle": "^6.5"
     },
     "require-dev": {
         "monolog/monolog": "^1.24",
