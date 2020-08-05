@@ -114,6 +114,38 @@ services:
       - MYSQL_PASSWORD=mysecret
     ports:
       - 6671:3306
+      
+  
+  ##
+  # users service
+  ##
+  microservice_users_fpm:
+    build: ./microservices/users/php-fpm/
+    volumes:
+      - ../source/users:/var/www/html
+    expose:
+      - 9000
+
+  microservice_users_nginx:
+    build: ./microservices/users/nginx/
+    volumes:
+      - ../source/users:/var/www/html
+    ports:
+      - 8086:80
+      - 9096:9090
+
+  microservice_users_database:
+    build: ./microservices/users/database/
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysecret
+      - MYSQL_DATABASE=userdb
+      - MYSQL_USER=secret
+      - MYSQL_PASSWORD=mysecret
+    ports:
+      - 6672:3306
+
+
   ##
   # apigateway service
   ##
