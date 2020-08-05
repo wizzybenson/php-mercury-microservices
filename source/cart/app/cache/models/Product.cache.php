@@ -1,0 +1,2 @@
+<?php
+return array("#tableName"=>"product","#primaryKeys"=>array("id"),"#manyToOne"=>array(),"#fieldNames"=>array("id"=>"id","name"=>"name","type"=>"type","qteStock"=>"qteStock","unitPrice"=>"unitPrice","vat"=>"vat"),"#fieldTypes"=>array("id"=>"int(11)","name"=>"varchar(255)","type"=>"varchar(255)","qteStock"=>"int(11)","unitPrice"=>"float","vat"=>"float"),"#nullable"=>array(),"#notSerializable"=>array(),"#transformers"=>array(),"#accessors"=>array("id"=>"setId","name"=>"setName","type"=>"setType","qteStock"=>"setQteStock","unitPrice"=>"setUnitPrice","vat"=>"setVat"));
