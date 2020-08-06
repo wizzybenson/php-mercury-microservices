@@ -4,7 +4,8 @@
         "twig\/twig": "^2.0",
         "phpmv\/ubiquity": "^2.3",
         "phpmv\/php-mv-ui": "^2.3",
-        "zircote/swagger-php": "^3.0"
+        "zircote/swagger-php": "^3.0",
+        "robmorgan/phinx": "^0.12.3"
     },
     "require-dev": {
         "monolog\/monolog": "^1.24",

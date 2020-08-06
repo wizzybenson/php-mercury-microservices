@@ -1,13 +1,13 @@
 <?php
 return array(
-		"siteUrl"=>"http://127.0.0.1:8080/",
+		"siteUrl"=>"http://127.0.0.1/leprojet/",
 		"database"=>[
 				"type"=>"mysql",
-				"dbName"=>"payment",
-				"serverName"=>"127.0.0.1:6672",
+				"dbName"=>"paymentdb",
+				"serverName"=>"microservice_payment_database",
 				"port"=>"3306",
 				"user"=>"root",
-				"password"=>"123456789",
+				"password"=>"mysecret",
 				"options"=>[],
 				"cache"=>false
 		],
