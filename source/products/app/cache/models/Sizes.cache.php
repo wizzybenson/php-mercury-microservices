@@ -1,0 +1,2 @@
+<?php
+return array("#tableName"=>"sizes","#primaryKeys"=>array("idsize"=>"idsize"),"#manyToOne"=>array(),"#fieldNames"=>array("idsize"=>"idsize","sizename"=>"sizename","product_id"=>"product_id"),"#memberNames"=>array("idsize"=>"idsize","sizename"=>"sizename","product_id"=>"product_id"),"#fieldTypes"=>array("idsize"=>"int(11)","sizename"=>"varchar(200)","product_id"=>"int(11)"),"#nullable"=>array(),"#notSerializable"=>array(),"#transformers"=>array(),"#accessors"=>array("idsize"=>"setIdsize","sizename"=>"setSizename","product_id"=>"setProduct_id"));

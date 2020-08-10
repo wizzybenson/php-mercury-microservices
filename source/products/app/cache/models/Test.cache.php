@@ -1,0 +1,2 @@
+<?php
+return array("#tableName"=>"test","#primaryKeys"=>array("idtest"=>"idtest"),"#manyToOne"=>array(),"#fieldNames"=>array("idtest"=>"idtest","idprod"=>"idprod"),"#memberNames"=>array("idtest"=>"idtest","idprod"=>"idprod"),"#fieldTypes"=>array("idtest"=>"int(11)","idprod"=>"int(11)"),"#nullable"=>array(),"#notSerializable"=>array(),"#transformers"=>array(),"#accessors"=>array("idtest"=>"setIdtest","idprod"=>"setIdprod"));
