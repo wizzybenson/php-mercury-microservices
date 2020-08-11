@@ -1,6 +1,6 @@
 <?php
 return array(
-		"siteUrl"=>"http://127.0.0.1/leprojet/",
+		"siteUrl"=>"http://127.0.0.1/backend/",
 		"database"=>[
 				"type"=>"mysql",
 				"dbName"=>"paymentdb",
@@ -11,13 +11,13 @@ return array(
 				"options"=>[],
 				"cache"=>false
 		],
-		"sessionName"=>"leprojet",
+		"sessionName"=>"backend",
 		"namespaces"=>[],
 		"templateEngine"=>'Ubiquity\\views\\engine\\Twig',
 		"templateEngineOptions"=>array("cache"=>false),
 		"test"=>false,
 		"debug"=>false,
-		"logger"=>function(){return new \Ubiquity\log\libraries\UMonolog("leprojet",\Monolog\Logger::INFO);},
+		"logger"=>function(){return new \Ubiquity\log\libraries\UMonolog("backend",\Monolog\Logger::INFO);},
 		"di"=>["@exec"=>["jquery"=>function($controller){
 						return \Ubiquity\core\Framework::diSemantic($controller);
 					}]],
