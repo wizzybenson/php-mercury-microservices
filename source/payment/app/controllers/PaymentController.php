@@ -1,66 +1,39 @@
 <?php
 namespace controllers;
 
-use models\Payment;
-use Ubiquity\orm\DAO;
-use Ubiquity\utils\http\URequest;
-
 /**
  * Rest Controller PaymentController
- * @route("/payment/payment","inherited"=>true,"automated"=>true)
+ * @route("/payments/payments","inherited"=>false,"automated"=>true)
  * @rest("resource"=>"models\Payment")
  */
 class PaymentController extends \Ubiquity\controllers\rest\RestController {
+	/**
+	 * @options("/{url}")
+	 */
+    public function options($url) {}
     /**
-     * @route("methods"=>["get"])
+     * @route("/getAll", "methods"=>["get"])
      */
     public function getAll(){
         parent::get();
     }
     /**
-     * @route("methods"=>["post"])
+     * @route("/getPayment/{id}", "methods"=>["get"])
      */
-    public function addPayment(){
-        $payment = new Payment();
-        URequest::setPostValuesToObject($payment);
-        if(DAO::insert($payment)){
-            echo $this->_getResponseFormatter()->getOne($payment);
-        }else{
-            echo "Error : payment not inserted!";
-        }
+    public function getPayment($id){
+        parent::getOne($id);
     }
     /**
-     * @route("methods"=>["put"])
+     * @route("/getActivatedPayments", "methods"=>["get"])
      */
-    public function updatePayment(){
-        $values = URequest::getInput();
-        $paymentClass = DAO::getOne($this->model, $values['paymentid']);
-        if($paymentClass != null){
-            URequest::setValuesToObject($paymentClass, $values);
-            if(DAO::update($paymentClass)){
-                echo $this->_getResponseFormatter()->getOne($paymentClass);
-            }else{
-                echo "Error : data not modified!";
-            }
-        }else{
-            echo "Error : payment not Found!";
-        }
+    public function getActivatedPayments(){
+        parent::get("status=1");
     }
     /**
-     * @route("methods"=>["patch"])
-     */
-    public function updateStatus(){
-        $values = URequest::getInput();
-        $paymentClass = DAO::getOne($this->model, $values['paymentid']);
-        if($paymentClass != null){
-            URequest::setValuesToObject($paymentClass, $values);
-            if(DAO::update($paymentClass)){
-                echo $this->_getResponseFormatter()->getOne($paymentClass);
-            }else{
-                echo "Error : data not modified!";
-            }
-        }else{
-            echo "Error : payment not Found!";
-        }
+     * @route("/updatePayment/{keyValues}", "methods"=>["patch"])
+     * @param array $keyValues
+    */
+    public function updatePayment(...$keyValues){
+        $this->_update(...$keyValues);
     }
 }

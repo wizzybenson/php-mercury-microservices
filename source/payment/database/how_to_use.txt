@@ -1,0 +1,1 @@
+go to http://localhost:8084/payments/database/change and wait to add database/tables/lines

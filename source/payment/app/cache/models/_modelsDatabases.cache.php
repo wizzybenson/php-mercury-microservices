@@ -1,2 +1,2 @@
 <?php
-return array("models\\GiftCardAdmin"=>"default","models\\Payment"=>"default","models\\Paypal"=>"default","models\\PaypalAdmin"=>"default");
+return array("models\\ActivatedPaypal"=>"default","models\\CostumorPayment"=>"default","models\\DataBase"=>"default","models\\GiftCardAdmin"=>"default","models\\GiftCardTransaction"=>"default","models\\Payment"=>"default","models\\PaypalAdmin"=>"default","models\\PaypalTransaction"=>"default");
