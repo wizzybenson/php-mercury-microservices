@@ -5,6 +5,7 @@ return array(
   '#uses' => array (
   'DAOException' => 'Ubiquity\\exceptions\\DAOException',
   'DAO' => 'Ubiquity\\orm\\DAO',
+  'Client' => 'GuzzleHttp\\Client',
 ),
   '#traitMethodOverrides' => array (
   'models\\Order' => 
