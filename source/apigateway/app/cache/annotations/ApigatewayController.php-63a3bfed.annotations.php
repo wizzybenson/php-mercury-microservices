@@ -5,20 +5,22 @@ return array(
   '#uses' => array (
   'Client' => 'GuzzleHttp\\Client',
   'Request' => 'http\\Client\\Request',
+  'Body' => 'http\\Message\\Body',
   'Catalog' => 'models\\Catalog',
   'CatalogProduct' => 'models\\CatalogProduct',
   'URequest' => 'Ubiquity\\utils\\http\\URequest',
+  'SenderClass' => 'res\\SenderClass',
 ),
   '#traitMethodOverrides' => array (
-  'controllers\\ApigatewayController' =>
+  'controllers\\ApigatewayController' => 
   array (
   ),
 ),
   'controllers\\ApigatewayController' => array(
-    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/rest/catalogs","inherited"=>true,"automated"=>true)
+    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/apigateway","inherited"=>true,"automated"=>true)
   ),
-  'controllers\\ApigatewayController::Test' => array(
-    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/Test","methods"=>["get"])
+  'controllers\\ApigatewayController::send' => array(
+    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/{uri}")
   ),
   'controllers\\ApigatewayController::connect' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/connectCat","methods"=>["get"])
