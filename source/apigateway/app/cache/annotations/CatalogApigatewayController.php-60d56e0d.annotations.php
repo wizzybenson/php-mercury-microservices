@@ -4,42 +4,44 @@ return array(
   '#namespace' => 'controllers',
   '#uses' => array (
   'Client' => 'GuzzleHttp\\Client',
+  'Request' => 'http\\Client\\Request',
   'Catalog' => 'models\\Catalog',
+  'CatalogProduct' => 'models\\CatalogProduct',
   'URequest' => 'Ubiquity\\utils\\http\\URequest',
 ),
   '#traitMethodOverrides' => array (
-  'controllers\\CatalogApigatewayController' => 
+  'controllers\\ApigatewayController' =>
   array (
   ),
 ),
-  'controllers\\CatalogApigatewayController' => array(
+  'controllers\\ApigatewayController' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/rest/catalogs","inherited"=>true,"automated"=>true)
   ),
-  'controllers\\CatalogApigatewayController::Test' => array(
+  'controllers\\ApigatewayController::Test' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/Test","methods"=>["get"])
   ),
-  'controllers\\CatalogApigatewayController::connect' => array(
+  'controllers\\ApigatewayController::connect' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/connectCat","methods"=>["get"])
   ),
-  'controllers\\CatalogApigatewayController::connectCotalogProduct' => array(
+  'controllers\\ApigatewayController::connectCotalogProduct' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/connectCatProd","methods"=>["get"])
   ),
-  'controllers\\CatalogApigatewayController::getAllCat' => array(
+  'controllers\\ApigatewayController::getAllCat' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/getAllCat","methods"=>["get"])
   ),
-  'controllers\\CatalogApigatewayController::getById' => array(
+  'controllers\\ApigatewayController::getById' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/getById/{id}","methods"=>["get"])
   ),
-  'controllers\\CatalogApigatewayController::deleteCatalog' => array(
+  'controllers\\ApigatewayController::deleteCatalog' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/deleteCatalog/{id}","methods"=>["delete"])
   ),
-  'controllers\\CatalogApigatewayController::addCatalog' => array(
+  'controllers\\ApigatewayController::addCatalog' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/addCatalog","methods"=>["post"])
   ),
-  'controllers\\CatalogApigatewayController::updateCatalog' => array(
+  'controllers\\ApigatewayController::updateCatalog' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/updateCatalog","methods"=>["patch"])
   ),
-  'controllers\\CatalogApigatewayController::AddProductToCatalog' => array(
+  'controllers\\ApigatewayController::AddProductToCatalog' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/ajouterProdToCatalog","methods"=>["post"])
   ),
 );

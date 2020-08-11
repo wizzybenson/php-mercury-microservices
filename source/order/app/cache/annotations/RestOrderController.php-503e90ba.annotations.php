@@ -44,5 +44,9 @@ return array(
     array('#name' => 'param', '#type' => 'mindplay\\annotations\\standard\\ParamAnnotation', 'type' => 'string', 'name' => 'id'),
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/getAmount/{id}", "methods"=>["get"])
   ),
+  'controllers\\RestOrderController::getTotalDiscountByOrder' => array(
+    array('#name' => 'param', '#type' => 'mindplay\\annotations\\standard\\ParamAnnotation', 'type' => 'integer', 'name' => 'idOrder'),
+    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/getTotalDiscountByOrder/{idOrder}", "methods"=>["get"])
+  ),
 );
 

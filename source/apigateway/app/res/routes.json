@@ -1,0 +1,19 @@
+{
+  "routes" : [
+    {
+      "id" : "r1",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/carts/getAll"
+    },
+    {
+      "id" : "r2",
+      "method" : "GET",
+      "path" : "http://microservice_order_nginx/rest/orders/get"
+    },
+    {
+      "id" : "r3",
+      "method" : "POST",
+      "path" : "http://microservice_cart_nginx/rest/carts/addOne"
+    }
+  ]
+}

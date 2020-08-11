@@ -1,0 +1,49 @@
+<?php
+namespace controllers;
+
+/**
+ * Rest Controller DataBaseController
+ * @route("/payments/database","inherited"=>true,"automated"=>true)
+ * @rest("resource"=>"models\DataBase")
+ */
+class DataBaseController extends \Ubiquity\controllers\rest\RestController {
+    private $database = null;
+    /**
+     * @route("/change", "methods"=>["get"])
+     */
+    public function change(){
+        $direname = dirname(dirname(dirname(__FILE__)));
+        ob_start();
+        include($direname . '/database/base.sql');
+        $content = ob_get_contents();
+        ob_end_clean();
+        // ------------------------ Creation of database --------------------------
+        try{
+            $server = new \PDO('mysql:host=microservice_payment_database','root','mysecret', [\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'']);
+        
+        $server->query("DROP DATABASE paymentdb");
+        $server->query("CREATE DATABASE paymentdb");
+        try{
+            $this->database = new \PDO('mysql:host=microservice_payment_database; dbname=paymentdb','root','mysecret', [\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'']);
+        
+        // ------------ Creation of tables & insertion of lines -------------
+        preg_replace_callback('#(CREATE|create)(.*?)\;#si', 'self::createTables', $content);
+        preg_replace_callback('#(INSERT|insert)(.*?)\;#si', 'self::insertLines', $content);
+        preg_replace_callback('#(ALTER|alter)(.*?);#si', 'self::alterTables', $content);
+        echo $this->_getResponseFormatter()->format(["database" => "database created","tables" => "tables created", "lines" => "lines inserted", "alter tables" => "tables altred"]);
+	}catch(\PDOexception $e){}
+	}catch(\PDOexception $e){}
+    }
+    private function createTables($querie){
+        $theQuery = str_replace("\n", " ", $querie[0]);
+        $this->database->query($theQuery);
+    }
+    private function insertLines($querie){
+        $theQuery = str_replace("\n", " ", $querie[0]);
+        $this->database->query($theQuery);
+    }
+    private function alterTables($querie){
+        $theQuery = str_replace("\n", " ", $querie[0]);
+        $this->database->query($theQuery);
+    }
+}

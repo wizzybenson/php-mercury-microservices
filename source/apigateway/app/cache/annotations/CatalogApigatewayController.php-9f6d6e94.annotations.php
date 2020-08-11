@@ -5,17 +5,17 @@ return array(
   '#uses' => array (
 ),
   '#traitMethodOverrides' => array (
-  'controllers\\CatalogApigatewayController' => 
+  'controllers\\ApigatewayController' =>
   array (
   ),
 ),
-  'controllers\\CatalogApigatewayController' => array(
+  'controllers\\ApigatewayController' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/rest/catalogs","inherited"=>true,"automated"=>true)
   ),
-  'controllers\\CatalogApigatewayController::Test' => array(
+  'controllers\\ApigatewayController::Test' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/Test","methods"=>["get"])
   ),
-  'controllers\\CatalogApigatewayController::Test2' => array(
+  'controllers\\ApigatewayController::Test2' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/Test2","methods"=>["get"])
   ),
 );
