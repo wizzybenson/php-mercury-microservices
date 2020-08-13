@@ -1,0 +1,17 @@
+{{ q["header"] | raw }}
+<div id="messages" style="padding: 20px 0;">{{ q["init-message"] | raw }}</div>
+<div class="ui labeled button">
+  <div id="settings-btn" class="ui button">
+    <i class="settings icon"></i> Repository settings
+  </div>
+  <a class="ui basic left pointing label">
+    {{repo}}
+  </a>
+</div>&nbsp;{{ initializeBt | raw }}&nbsp;{{ btRefresh | raw }}&nbsp;{{ gitIgnoreBt | raw }}&nbsp;{{ execCmdBt | raw }}&nbsp;{{ pushPullBts | raw }}
+<br><br>
+<div id="frm"></div>
+
+<div id="git-main">
+{% include "@admin/git/gitTabs.html" %}
+</div>
+{{ script_foot | raw }}
