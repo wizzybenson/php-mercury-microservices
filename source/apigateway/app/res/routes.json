@@ -12,8 +12,356 @@
     },
     {
       "id" : "r3",
+      "method" : "GET",
+      "path" : "http://microservice_order_nginx/rest/orders/getCartByOrderId/{keyValues}"
+    },
+    {
+      "id" : "r4",
+      "method" : "GET",
+      "path" : "http://microservice_order_nginx/rest/orders/getOrdersBy/{field}/{value}"
+    },
+    {
+      "id" : "r5",
+      "method" : "GET",
+      "path" : "http://microservice_order_nginx/rest/orders/getAmount/{id}"
+    },
+    {
+      "id" : "r6",
+      "method" : "GET",
+      "path" : "http://microservice_order_nginx/rest/orders/getTotalDiscountByOrder/"
+    },
+    {
+      "id" : "r8",
+      "method" : "POST",
+      "path" : "http://microservice_order_nginx/rest/orders/newOrder/"
+    },
+    {
+      "id" : "r9",
+      "method" : "DELETE",
+      "path" : "http://microservice_order_nginx/rest/orders/deleteOrder/{keyValues}"
+    },
+    {
+      "id" : "r10",
+      "method" : "PUT",
+      "path" : "http://microservice_order_nginx/rest/orders/makePayment/{idOrder}"
+    },
+    {
+      "id" : "r11",
+      "method" : "PUT",
+      "path" : "http://microservice_order_nginx/rest/orders/change-status/{id}"
+    },
+    {
+      "id" : "r12",
+      "method" : "POST",
+      "path" : "http://microservice_order_nginx/rest/refunds/newRefund"
+    },
+    {
+      "id" : "r13",
+      "method" : "PUT",
+      "path" : "http://microservice_order_nginx/rest/refunds/cancel/{id}"
+    },
+    {
+      "id" : "r14",
+      "method" : "POST",
+      "path" : "http://microservice_order_nginx/rest/refunds/changeStatus/{id}"
+    },
+    {
+      "id" : "r15",
+      "method" : "GET",
+      "path" : "http://microservice_order_nginx/rest/refunds/getRefundsBy/{field}/{value}"
+    },
+    {
+      "id" : "r16",
+      "method" : "POST",
+      "path" : "http://microservice_order_nginx/rest/coupons/newCoupon"
+    },
+
+    {
+      "id" : "r17",
       "method" : "POST",
       "path" : "http://microservice_cart_nginx/rest/carts/addOne"
+    },
+    {
+      "id" : "r18",
+      "method" : "POST",
+      "path" : "http://microservice_cart_nginx/rest/carts/addOne"
+    },
+    {
+      "id" : "r19",
+      "method" : "POST",
+      "path" : "http://microservice_cart_nginx/rest/carts/addItemToCart/{idCart}"
+    },
+    {
+      "id" : "r20",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/carts/getAll"
+    },
+    {
+      "id" : "r21",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/carts/getCartByDate/{keyValues}"
+    },
+    {
+      "id" : "r22",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/carts/getItemsByCart/{keyValues}"
+    },
+    {
+      "id" : "r23",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/carts/getTotalById/{keyValues}"
+    },
+    {
+      "id" : "r24",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/carts/getCartBy/{field}/{var}"
+    },
+    {
+      "id" : "r25",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/carts/getItemBy/{idCart}/{var}"
+    },
+    {
+      "id" : "r26",
+      "method" : "DELETE",
+      "path" : "http://microservice_cart_nginx/rest/carts/remove/{keyValues}"
+    },{
+      "id" : "r27",
+      "method" : "DELETE",
+      "path" : "http://microservice_cart_nginx/rest/carts/removeItem/{idItem}FromCart/{idCart}"
+    },
+    {
+      "id" : "r28",
+      "method" : "PUT",
+      "path" : "http://microservice_cart_nginx/rest/carts/updateOne/{keyValues}"
+    },
+    {
+      "id" : "r29",
+      "method" : "PUT",
+      "path" : "http://microservice_cart_nginx/rest/carts/clearCartById/{keyValues}"
+    },
+    {
+      "id" : "r30",
+      "method" : "PUT",
+      "path" : "http://microservice_cart_nginx/rest/carts/addQuantity/{qte}/toItem/{idItem}/inCart/{idCart}"
+    },
+    {
+      "id" : "r31",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/customers/tester"
+    },
+    {
+      "id" : "r32",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/favorites/getFavoriteProductsByCustomer/{customer}"
+    },{
+      "id" : "r33",
+      "method" : "POST",
+      "path" : "http://microservice_cart_nginx/rest/favorites/addProduct/{idProduct}/toFavorites/{idCustomer}"
+    },{
+      "id" : "r34",
+      "method" : "DELETE",
+      "path" : "http://microservice_cart_nginx/rest/favorites/removeProduct/{idProduct}/fromFavorites/{idCustomer}"
+    },
+    {
+      "id" : "r35",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/catalogs/getAllCat"
+    },
+    {
+      "id" : "r36",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/catalogs/getById/{id}"
+    },
+    {
+      "id" : "r37",
+      "method" : "POST",
+      "path" : "http://microservice_cart_nginx/rest/catalogs/addCatalog"
+    },
+    {
+      "id" : "r38",
+      "method" : "POST",
+      "path" : "http://microservice_cart_nginx/rest/catalogs/ajouterProdToCatalog/"
+    },
+    {
+      "id" : "r39",
+      "method" : "DELETE",
+      "path" : "http://microservice_cart_nginx/rest/catalogs/deleteCatalog/{id}"
+    },
+    {
+      "id" : "r40",
+      "method" : "PATCH",
+      "path" : "http://microservice_cart_nginx/rest/catalogs/updateCatalog"
+    },
+    {
+      "id" : "r41",
+      "method" : "POST",
+      "path" : "http://microservice_cart_nginx/rest/catalogproducts/ajouterProdToCatalog/"
+    },
+    {
+      "id" : "r42",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/activated_paypal/getActivated"
+    },
+    {
+      "id" : "r43",
+      "method" : "PATCH",
+      "path" : "http://microservice_cart_nginx/rest/activated_paypal/updateAcivePaypal/{keyValues}"
+    },
+    {
+      "id" : "r44",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/costumorpayments/getPaypalPayment/{token}"
+    },
+    {
+      "id" : "r45",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/costumorpayments/getAll"
+    },
+    {
+      "id" : "r46",
+      "method" : "POST",
+      "path" : "http://microservice_cart_nginx/rest/costumorpayments/addPayment"
+    },
+    {
+      "id" : "r47",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/database/change"
+    },
+    {
+      "id" : "r48",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/giftcards/getAll"
+    },
+    {
+      "id" : "r49",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/giftcards/getOne/{keyValues}"
+    },
+    {
+      "id" : "r50",
+      "method" : "POST",
+      "path" : "http://microservice_cart_nginx/rest/giftcards/addGiftCard"
+    },
+    {
+      "id" : "r60",
+      "method" : "PATCH",
+      "path" : "http://microservice_cart_nginx/rest/giftcards/updateGiftCard/{keyValues}"
+    },
+    {
+      "id" : "r61",
+      "method" : "DELETE",
+      "path" : "http://microservice_cart_nginx/rest/giftcards/deleteGiftCard/{keyValues}"
+    },
+    {
+      "id" : "r62",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/payments/getAll"
+    },
+    {
+      "id" : "r63",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/payments/getPayment/{id}"
+    },
+    {
+      "id" : "r64",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/payments/getActivatedPayments"
+    },
+    {
+      "id" : "r65",
+      "method" : "PATCH",
+      "path" : "http://microservice_cart_nginx/rest/payments/updatePayment/{keyValues}"
+    },
+    {
+      "id" : "r66",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/paypalAdmin/getAll"
+    },
+    {
+      "id" : "r67",
+      "method" : "POST",
+      "path" : "http://microservice_cart_nginx/rest/paypalAdmin/addPaypal"
+    },
+    {
+      "id" : "r68",
+      "method" : "PATCH",
+      "path" : "http://microservice_cart_nginx/rest/paypalAdmin/updatePaypal/{keyValues}"
+    },
+    {
+      "id" : "r69",
+      "method" : "DELETE",
+      "path" : "http://microservice_cart_nginx/rest/paypalAdmin/deletePaypal/{keyValues}"
+    },
+    {
+      "id" : "r70",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/carts"
+    },
+    {
+      "id" : "r71",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/orders"
+    },
+    {
+      "id" : "r72",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/refunds"
+    },
+    {
+      "id" : "r73",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/coupons"
+    },
+    {
+      "id" : "r74",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/customers"
+    },
+    {
+      "id" : "r75",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/favorites"
+    },
+    {
+      "id" : "r76",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/catalogs"
+    },
+    {
+      "id" : "r77",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/catalogproducts"
+    },
+    {
+      "id" : "r78",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/activated_paypal"
+    },
+    {
+      "id" : "r79",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/costumorpayments"
+    },
+    {
+      "id" : "r80",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/database"
+    },
+    {
+      "id" : "r81",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/giftcards"
+    },
+    {
+      "id" : "r82",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/payments"
+    },
+    {
+      "id" : "r83",
+      "method" : "GET",
+      "path" : "http://microservice_cart_nginx/rest/paypalAdmin"
     }
   ]
 }
