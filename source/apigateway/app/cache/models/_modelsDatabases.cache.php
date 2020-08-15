@@ -1,2 +1,2 @@
 <?php
-return array("models\\Catalog"=>"default");
+return array();
