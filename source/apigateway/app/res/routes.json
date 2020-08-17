@@ -166,132 +166,132 @@
     {
       "id" : "r35",
       "method" : "GET",
-      "path" : "http://microservice_cart_nginx/rest/catalogs/getAllCat"
+      "path" : "http://microservice_catalog_nginx/rest/catalogs/getAllCat"
     },
     {
       "id" : "r36",
       "method" : "GET",
-      "path" : "http://microservice_cart_nginx/rest/catalogs/getById/{id}"
+      "path" : "http://microservice_catalog_nginx/rest/catalogs/getById/{id}"
     },
     {
       "id" : "r37",
       "method" : "POST",
-      "path" : "http://microservice_cart_nginx/rest/catalogs/addCatalog"
+      "path" : "http://microservice_catalog_nginx/rest/catalogs/addCatalog"
     },
     {
       "id" : "r38",
       "method" : "POST",
-      "path" : "http://microservice_cart_nginx/rest/catalogs/ajouterProdToCatalog/"
+      "path" : "http://microservice_catalog_nginx/rest/catalogs/ajouterProdToCatalog/"
     },
     {
       "id" : "r39",
       "method" : "DELETE",
-      "path" : "http://microservice_cart_nginx/rest/catalogs/deleteCatalog/{id}"
+      "path" : "http://microservice_catalog_nginx/rest/catalogs/deleteCatalog/{id}"
     },
     {
       "id" : "r40",
       "method" : "PATCH",
-      "path" : "http://microservice_cart_nginx/rest/catalogs/updateCatalog"
+      "path" : "http://microservice_catalog_nginx/rest/catalogs/updateCatalog"
     },
     {
       "id" : "r41",
       "method" : "POST",
-      "path" : "http://microservice_cart_nginx/rest/catalogproducts/ajouterProdToCatalog/"
+      "path" : "http://microservice_catalog_nginx/rest/catalogproducts/ajouterProdToCatalog/"
     },
     {
       "id" : "r42",
       "method" : "GET",
-      "path" : "http://microservice_cart_nginx/rest/activated_paypal/getActivated"
+      "path" : "http://microservice_payment_nginx/rest/payments/activated_paypal/getActivated"
     },
     {
       "id" : "r43",
       "method" : "PATCH",
-      "path" : "http://microservice_cart_nginx/rest/activated_paypal/updateAcivePaypal/{keyValues}"
+      "path" : "http://microservice_payment_nginx/rest/payments/activated_paypal/updateAcivePaypal/{keyValues}"
     },
     {
       "id" : "r44",
       "method" : "GET",
-      "path" : "http://microservice_cart_nginx/rest/costumorpayments/getPaypalPayment/{token}"
+      "path" : "http://microservice_payment_nginx/rest/payments/costumorpayments/getPaypalPayment/{token}"
     },
     {
       "id" : "r45",
       "method" : "GET",
-      "path" : "http://microservice_cart_nginx/rest/costumorpayments/getAll"
+      "path" : "http://microservice_payment_nginx/rest/payments/costumorpayments/getAll"
     },
     {
       "id" : "r46",
       "method" : "POST",
-      "path" : "http://microservice_cart_nginx/rest/costumorpayments/addPayment"
+      "path" : "http://microservice_payment_nginx/rest/payments/costumorpayments/addPayment"
     },
     {
       "id" : "r47",
       "method" : "GET",
-      "path" : "http://microservice_cart_nginx/rest/database/change"
+      "path" : "http://microservice_payment_nginx/rest/payments/database/change"
     },
     {
       "id" : "r48",
       "method" : "GET",
-      "path" : "http://microservice_cart_nginx/rest/giftcards/getAll"
+      "path" : "http://microservice_payment_nginx/rest/payments/giftcards/getAll"
     },
     {
       "id" : "r49",
       "method" : "GET",
-      "path" : "http://microservice_cart_nginx/rest/giftcards/getOne/{keyValues}"
+      "path" : "http://microservice_payment_nginx/rest/payments/giftcards/getOne/{keyValues}"
     },
     {
       "id" : "r50",
       "method" : "POST",
-      "path" : "http://microservice_cart_nginx/rest/giftcards/addGiftCard"
+      "path" : "http://microservice_payment_nginx/rest/payments/giftcards/addGiftCard"
     },
     {
       "id" : "r60",
       "method" : "PATCH",
-      "path" : "http://microservice_cart_nginx/rest/giftcards/updateGiftCard/{keyValues}"
+      "path" : "http://microservice_payment_nginx/rest/payments/giftcards/updateGiftCard/{keyValues}"
     },
     {
       "id" : "r61",
       "method" : "DELETE",
-      "path" : "http://microservice_cart_nginx/rest/giftcards/deleteGiftCard/{keyValues}"
+      "path" : "http://microservice_payment_nginx/rest/payments/giftcards/deleteGiftCard/{keyValues}"
     },
     {
       "id" : "r62",
       "method" : "GET",
-      "path" : "http://microservice_cart_nginx/rest/payments/getAll"
+      "path" : "http://microservice_payment_nginx/rest/payments/payments/getAll"
     },
     {
       "id" : "r63",
       "method" : "GET",
-      "path" : "http://microservice_cart_nginx/rest/payments/getPayment/{id}"
+      "path" : "http://microservice_payment_nginx/rest/payments/payments/getPayment/{id}"
     },
     {
       "id" : "r64",
       "method" : "GET",
-      "path" : "http://microservice_cart_nginx/rest/payments/getActivatedPayments"
+      "path" : "http://microservice_payment_nginx/rest/payments/payments/getActivatedPayments"
     },
     {
       "id" : "r65",
       "method" : "PATCH",
-      "path" : "http://microservice_cart_nginx/rest/payments/updatePayment/{keyValues}"
+      "path" : "http://microservice_payment_nginx/rest/payments/payments/updatePayment/{keyValues}"
     },
     {
       "id" : "r66",
       "method" : "GET",
-      "path" : "http://microservice_cart_nginx/rest/paypalAdmin/getAll"
+      "path" : "http://microservice_payment_nginx/rest/payments/paypalAdmin/getAll"
     },
     {
       "id" : "r67",
       "method" : "POST",
-      "path" : "http://microservice_cart_nginx/rest/paypalAdmin/addPaypal"
+      "path" : "http://microservice_payment_nginx/rest/payments/paypalAdmin/addPaypal"
     },
     {
       "id" : "r68",
       "method" : "PATCH",
-      "path" : "http://microservice_cart_nginx/rest/paypalAdmin/updatePaypal/{keyValues}"
+      "path" : "http://microservice_payment_nginx/rest/payments/paypalAdmin/updatePaypal/{keyValues}"
     },
     {
       "id" : "r69",
       "method" : "DELETE",
-      "path" : "http://microservice_cart_nginx/rest/paypalAdmin/deletePaypal/{keyValues}"
+      "path" : "http://microservice_cart_nginx/rest/payments/paypalAdmin/deletePaypal/{keyValues}"
     },
     {
       "id" : "r70",
@@ -301,17 +301,17 @@
     {
       "id" : "r71",
       "method" : "GET",
-      "path" : "http://microservice_cart_nginx/rest/orders"
+      "path" : "http://microservice_order_nginx/rest/orders"
     },
     {
       "id" : "r72",
       "method" : "GET",
-      "path" : "http://microservice_cart_nginx/rest/refunds"
+      "path" : "http://microservice_order_nginx/rest/refunds"
     },
     {
       "id" : "r73",
       "method" : "GET",
-      "path" : "http://microservice_cart_nginx/rest/coupons"
+      "path" : "http://microservice_order_nginx/rest/coupons"
     },
     {
       "id" : "r74",
@@ -326,42 +326,12 @@
     {
       "id" : "r76",
       "method" : "GET",
-      "path" : "http://microservice_cart_nginx/rest/catalogs"
+      "path" : "http://microservice_catalog_nginx/rest/catalogs"
     },
     {
       "id" : "r77",
       "method" : "GET",
-      "path" : "http://microservice_cart_nginx/rest/catalogproducts"
-    },
-    {
-      "id" : "r78",
-      "method" : "GET",
-      "path" : "http://microservice_cart_nginx/rest/activated_paypal"
-    },
-    {
-      "id" : "r79",
-      "method" : "GET",
-      "path" : "http://microservice_cart_nginx/rest/costumorpayments"
-    },
-    {
-      "id" : "r80",
-      "method" : "GET",
-      "path" : "http://microservice_cart_nginx/rest/database"
-    },
-    {
-      "id" : "r81",
-      "method" : "GET",
-      "path" : "http://microservice_cart_nginx/rest/giftcards"
-    },
-    {
-      "id" : "r82",
-      "method" : "GET",
-      "path" : "http://microservice_cart_nginx/rest/payments"
-    },
-    {
-      "id" : "r83",
-      "method" : "GET",
-      "path" : "http://microservice_cart_nginx/rest/paypalAdmin"
+      "path" : "http://microservice_catalog_nginx/rest/catalogproducts"
     }
   ]
 }
