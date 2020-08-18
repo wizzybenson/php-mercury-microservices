@@ -201,97 +201,97 @@
     {
       "id" : "r42",
       "method" : "GET",
-      "path" : "http://microservice_payment_nginx/rest/payments/activated_paypal/getActivated"
+      "path" : "http://microservice_payment_nginx/payments/activated_paypal/getActivated"
     },
     {
       "id" : "r43",
       "method" : "PATCH",
-      "path" : "http://microservice_payment_nginx/rest/payments/activated_paypal/updateAcivePaypal/{keyValues}"
+      "path" : "http://microservice_payment_nginx/payments/activated_paypal/updateAcivePaypal/{keyValues}"
     },
     {
       "id" : "r44",
       "method" : "GET",
-      "path" : "http://microservice_payment_nginx/rest/payments/costumorpayments/getPaypalPayment/{token}"
+      "path" : "http://microservice_payment_nginx/payments/costumorpayments/getPaypalPayment/{token}"
     },
     {
       "id" : "r45",
       "method" : "GET",
-      "path" : "http://microservice_payment_nginx/rest/payments/costumorpayments/getAll"
+      "path" : "http://microservice_payment_nginx/payments/costumorpayments/getAll"
     },
     {
       "id" : "r46",
       "method" : "POST",
-      "path" : "http://microservice_payment_nginx/rest/payments/costumorpayments/addPayment"
+      "path" : "http://microservice_payment_nginx/payments/costumorpayments/addPayment"
     },
     {
       "id" : "r47",
       "method" : "GET",
-      "path" : "http://microservice_payment_nginx/rest/payments/database/change"
+      "path" : "http://microservice_payment_nginx/payments/database/change"
     },
     {
       "id" : "r48",
       "method" : "GET",
-      "path" : "http://microservice_payment_nginx/rest/payments/giftcards/getAll"
+      "path" : "http://microservice_payment_nginx/payments/giftcards/getAll"
     },
     {
       "id" : "r49",
       "method" : "GET",
-      "path" : "http://microservice_payment_nginx/rest/payments/giftcards/getOne/{keyValues}"
+      "path" : "http://microservice_payment_nginx/payments/giftcards/getOne/{keyValues}"
     },
     {
       "id" : "r50",
       "method" : "POST",
-      "path" : "http://microservice_payment_nginx/rest/payments/giftcards/addGiftCard"
+      "path" : "http://microservice_payment_nginx/payments/giftcards/addGiftCard"
     },
     {
       "id" : "r60",
       "method" : "PATCH",
-      "path" : "http://microservice_payment_nginx/rest/payments/giftcards/updateGiftCard/{keyValues}"
+      "path" : "http://microservice_payment_nginx/payments/giftcards/updateGiftCard/{keyValues}"
     },
     {
       "id" : "r61",
       "method" : "DELETE",
-      "path" : "http://microservice_payment_nginx/rest/payments/giftcards/deleteGiftCard/{keyValues}"
+      "path" : "http://microservice_payment_nginx/payments/giftcards/deleteGiftCard/{keyValues}"
     },
     {
       "id" : "r62",
       "method" : "GET",
-      "path" : "http://microservice_payment_nginx/rest/payments/payments/getAll"
+      "path" : "http://microservice_payment_nginx/payments/payments/getAll"
     },
     {
       "id" : "r63",
       "method" : "GET",
-      "path" : "http://microservice_payment_nginx/rest/payments/payments/getPayment/{id}"
+      "path" : "http://microservice_payment_nginx/payments/payments/getPayment/{id}"
     },
     {
       "id" : "r64",
       "method" : "GET",
-      "path" : "http://microservice_payment_nginx/rest/payments/payments/getActivatedPayments"
+      "path" : "http://microservice_payment_nginx/payments/payments/getActivatedPayments"
     },
     {
       "id" : "r65",
       "method" : "PATCH",
-      "path" : "http://microservice_payment_nginx/rest/payments/payments/updatePayment/{keyValues}"
+      "path" : "http://microservice_payment_nginx/payments/payments/updatePayment/{keyValues}"
     },
     {
       "id" : "r66",
       "method" : "GET",
-      "path" : "http://microservice_payment_nginx/rest/payments/paypalAdmin/getAll"
+      "path" : "http://microservice_payment_nginx/payments/paypalAdmin/getAll"
     },
     {
       "id" : "r67",
       "method" : "POST",
-      "path" : "http://microservice_payment_nginx/rest/payments/paypalAdmin/addPaypal"
+      "path" : "http://microservice_payment_nginx/payments/paypalAdmin/addPaypal"
     },
     {
       "id" : "r68",
       "method" : "PATCH",
-      "path" : "http://microservice_payment_nginx/rest/payments/paypalAdmin/updatePaypal/{keyValues}"
+      "path" : "http://microservice_payment_nginx/payments/paypalAdmin/updatePaypal/{keyValues}"
     },
     {
       "id" : "r69",
       "method" : "DELETE",
-      "path" : "http://microservice_cart_nginx/rest/payments/paypalAdmin/deletePaypal/{keyValues}"
+      "path" : "http://microservice_cart_nginx/payments/paypalAdmin/deletePaypal/{keyValues}"
     },
     {
       "id" : "r70",
