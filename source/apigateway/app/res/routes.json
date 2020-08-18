@@ -291,7 +291,7 @@
     {
       "id" : "r69",
       "method" : "DELETE",
-      "path" : "http://microservice_cart_nginx/payments/paypalAdmin/deletePaypal/{keyValues}"
+      "path" : "http://microservice_payment_nginx/payments/paypalAdmin/deletePaypal/{keyValues}"
     },
     {
       "id" : "r70",
