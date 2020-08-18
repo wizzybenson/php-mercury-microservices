@@ -28,7 +28,7 @@
     {
       "id" : "r6",
       "method" : "GET",
-      "path" : "http://microservice_order_nginx/rest/orders/getTotalDiscountByOrder"
+      "path" : "http://microservice_order_nginx/rest/orders/getTotalDiscountByOrder/{idOrder}"
     },
     {
       "id" : "r8",
