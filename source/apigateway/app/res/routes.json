@@ -28,12 +28,12 @@
     {
       "id" : "r6",
       "method" : "GET",
-      "path" : "http://microservice_order_nginx/rest/orders/getTotalDiscountByOrder/"
+      "path" : "http://microservice_order_nginx/rest/orders/getTotalDiscountByOrder"
     },
     {
       "id" : "r8",
       "method" : "POST",
-      "path" : "http://microservice_order_nginx/rest/orders/newOrder/"
+      "path" : "http://microservice_order_nginx/rest/orders/newOrder"
     },
     {
       "id" : "r9",
