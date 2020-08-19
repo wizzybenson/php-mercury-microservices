@@ -1,9 +1,8 @@
 <?php
 namespace controllers;
-
 /**
  * Rest Controller ActivatedPaypalController
- * @route("/payments/activated_paypal","inherited"=>true,"automated"=>true)
+ * @route("/payments/activated_paypal","inherited"=>false,"automated"=>true)
  * @rest("resource"=>"models\ActivatedPaypal")
  */
 class ActivatedPaypalController extends \Ubiquity\controllers\rest\RestController {

@@ -10,7 +10,7 @@ return array(
   ),
 ),
   'controllers\\ActivatedPaypalController' => array(
-    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/payments/activated_paypal","inherited"=>true,"automated"=>true),
+    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/payments/activated_paypal","inherited"=>false,"automated"=>true),
     array('#name' => 'rest', '#type' => 'Ubiquity\\annotations\\rest\\RestAnnotation', "resource"=>"models\ActivatedPaypal")
   ),
   'controllers\\ActivatedPaypalController::getActivated' => array(

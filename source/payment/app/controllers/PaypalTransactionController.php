@@ -7,5 +7,10 @@ namespace controllers;
  * @rest("resource"=>"models\PaypalTransaction")
  */
 class PaypalTransactionController extends \Ubiquity\controllers\rest\RestController {
-
+    /**
+     * @route("/getOne/{id}", "methods"=>["get"])
+     */
+    public function getPaypalTransaction($id){
+        $this->_getOne($id, true);
+    }
 }
