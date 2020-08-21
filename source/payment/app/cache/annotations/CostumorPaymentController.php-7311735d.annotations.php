@@ -29,6 +29,9 @@ return array(
   'controllers\\CostumorPaymentController::getAll' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/getAll", "methods"=>["get"])
   ),
+  'controllers\\CostumorPaymentController::getRefunds' => array(
+    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/get_refunds/{costumorPaymentId}", "methods"=>["get"])
+  ),
   'controllers\\CostumorPaymentController::addPayment' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/addPayment", "methods"=>["post"])
   ),

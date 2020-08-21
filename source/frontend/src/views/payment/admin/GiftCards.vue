@@ -46,7 +46,7 @@
                                 <tr v-for="(giftCard, index) in datas.datas" :key="index + '-' + giftCard.paymentid">
                                     <td>{{ giftCard.giftcardid }}</td>
                                     <td>{{ giftCard.title }}</td>
-                                    <td><code class="badge badge-info p-2">{{ giftCard.code }}</code></td>
+                                    <td><span class="badge badge-info p-1" style="font-size: 15px">{{ giftCard.code }}</span></td>
                                     <td class="text-muted">{{ giftCard.ladate }}</td>
                                     <td class="text-muted">{{ giftCard.expiration_date }}</td>
                                     <td>{{ giftCard.used }}/{{ giftCard.max_use == '-1' ? '∞' : giftCard.max_use }}</td>

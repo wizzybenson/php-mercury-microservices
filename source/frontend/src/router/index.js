@@ -11,6 +11,7 @@ import AddPaypal from "../views/payment/admin/AddPaypal.vue";
 import updateGiftCard from "../views/payment/admin/updateGiftCard.vue";
 import updatePaypal from "../views/payment/admin/updatePaypal.vue";
 import Transactions from "../views/payment/admin/Transactions.vue";
+import Refunds from "../views/payment/admin/Refunds.vue";
 import makePayment from "../views/payment/website/makePayment.vue";
 import paymentPaypal from "../views/payment/website/paymentPaypal.vue";
 
@@ -76,6 +77,11 @@ const routes = [
     path: "/admin/payments/transactions",
     name: "Transactions",
     component: Transactions
+  },
+  {
+    path: "/admin/payments/refunds",
+    name: "Refunds",
+    component: Refunds
   }
 ];
 

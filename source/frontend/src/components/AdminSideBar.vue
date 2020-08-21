@@ -11,6 +11,9 @@
                                 <li>
                                     <router-link to="/admin/payments/transactions">Transactions</router-link>
                                 </li>
+                                <li>
+                                    <router-link to="/admin/payments/refunds">Refunds</router-link>
+                                </li>
                             </ul>
                         </li>
                         <li class="service">

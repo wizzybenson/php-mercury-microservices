@@ -11,17 +11,17 @@ class GiftCardTransaction{
      **/
     private $giftcardtransactionid;
     /**
-     * column("name" => "giftcardid", "nullable" => false, "dbType" => "int(11)")
-     * @validator("notEmpty")
+     * @manyToOne
+     * @joinColumn("className"=>"models\\GiftCardAdmin","name"=>"giftcardid","nullable"=>false)
      **/
-    private $giftcardid;
+    private $giftcard;
 
     public function __construct(){}
 
     public function getGiftcardtransactionid(){ return $this->giftcardtransactionid; }
     public function setGiftcardtransactionid($giftcardtransactionid){ $this->giftcardtransactionid = $giftcardtransactionid; }
     
-    public function getGiftcardid(){ return $this->giftcardid; }
-    public function setGiftcardid($giftcardid){ $this->giftcardid = $giftcardid; }
+    public function getGiftcard(){ return $this->giftcard; }
+    public function setGiftcard($giftcard){ $this->giftcard = $giftcard; }
 }
 ?>

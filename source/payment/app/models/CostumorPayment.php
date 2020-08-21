@@ -1,5 +1,6 @@
 <?php
 namespace models;
+
 /**
  * @table("name"=>"costumors_payments")
  **/
@@ -12,17 +13,22 @@ class CostumorPayment{
     private $transactionid;
     /**
      * column("name" => "costumorid", "nullable" => false, "dbType" => "int(11)")
-     * @validator("notEmpty")
      **/
     private $costumorid;
     /**
-     * column("name" => "amount", "nullable" => false, "dbType" => "int(11)")
-     * @validator("notEmpty")
+     * column("name" => "amount", "nullable" => false, "dbType" => "decimal(10,2)")
      **/
     private $amount;
     /**
+     * column("name" => "tax_total", "nullable" => false, "dbType" => "decimal(10,2)")
+     **/
+    private $tax_total;
+    /**
+     * column("name" => "currencycode", "nullable" => false, "dbType" => "varchar(10)")
+     **/
+    private $currencycode;
+    /**
      * column("name" => "transactioncode", "nullable" => false, "dbType" => "int(11)")
-     * @validator("notEmpty")
      **/
     private $transactioncode;
     /**
@@ -42,6 +48,17 @@ class CostumorPayment{
      **/
     private $paymenttransaction;
 
+    /**
+     * @manyToOne
+     * @joinColumn("className"=>"models\\Shipping","name"=>"shippingid","nullable"=>false)
+     **/
+    private $shipping;
+
+    /**
+    * @oneToMany("mappedBy"=>"payment_transaction","className"=>"models\\Refund")
+    **/
+    private $refunds;
+
     public function __construct(){}
 
     public function getTransactionid(){ return $this->transactionid; }
@@ -52,6 +69,12 @@ class CostumorPayment{
 
     public function getAmount(){ return $this->amount; }
     public function setAmount($amount){ $this->amount = $amount; }
+
+    public function getTax_total(){ return $this->tax_total; }
+    public function setTax_total($tax_total){ $this->tax_total = $tax_total; }
+
+    public function getCurrencycode(){ return $this->currencycode; }
+    public function setCurrencycode($currencycode){ $this->currencycode = $currencycode; }
 
     public function getTransactioncode(){ return $this->transactioncode; }
     public function setTransactioncode($transactioncode){ $this->transactioncode = $transactioncode; }
@@ -64,5 +87,11 @@ class CostumorPayment{
 
     public function getPaymenttransaction(){ return $this->paymenttransaction; }
     public function setPaymenttransaction($paymenttransaction){ $this->paymenttransaction = $paymenttransaction; }
+
+    public function getShipping(){ return $this->shipping; }
+    public function setShipping($shipping){ $this->shipping = $shipping; }
+
+    public function getRefunds(){ return $this->refunds; }
+    public function setRefunds($refunds){ $this->refunds = $refunds; }
 }
 ?>
