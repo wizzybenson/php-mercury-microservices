@@ -5,7 +5,8 @@
         "phpmv\/ubiquity": "^2.3",
         "phpmv\/ubiquity-mailer": "^0.0",
         "phpmv\/php-mv-ui": "^2.3",
-        "paypal/paypalhttp": "1.0.0"
+        "paypal/paypalhttp": "1.0.0",
+        "zircote/swagger-php": "^3.0"
     },
     "require-dev": {
         "monolog\/monolog": "^2.0",

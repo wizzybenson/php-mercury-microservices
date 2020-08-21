@@ -13,5 +13,8 @@ return array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/payments/paypal_transactions","inherited"=>false,"automated"=>true),
     array('#name' => 'rest', '#type' => 'Ubiquity\\annotations\\rest\\RestAnnotation', "resource"=>"models\PaypalTransaction")
   ),
+  'controllers\\PaypalTransactionController::getPaypalTransaction' => array(
+    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/getOne/{id}", "methods"=>["get"])
+  ),
 );
 

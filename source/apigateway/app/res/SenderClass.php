@@ -39,14 +39,16 @@ class SenderClass
                 $flag = false;
                 $microserviceName = substr($firstPart,0, strpos($firstPart, '/'));//get the microservice server name
                 try {//send the request to the microservice
-                    $response = $this->client->request($row["method"], 'http://'.$microserviceName.'/'.$uri, ['body'=>(string)$datas]);
+                    $response = $this->client->request($row["method"], 'http://'.$microserviceName.'/'.$uri, ['body'=>$datas]);
                     $status = json_decode($response->getBody(), true)["status"];
-                    if($status != 200){
+                    if($status != 200 && $status != null){
                         echo json_encode(["status"=>$status, "title"=>json_decode($response->getBody(), true)["title"]]);
-                    }else {
+                    }else if(json_decode($response->getBody(), true)["datas"] != null) {
                         echo $response->getBody();
+                    }else {
+                        echo "Error";
                     }
-                } catch (GuzzleException $e) {//catching the error message including the error status
+                } catch (GuzzleException $e) {
                     echo $e->getMessage();
                 }
                 break;

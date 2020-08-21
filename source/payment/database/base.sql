@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : mar. 11 août 2020 à 10:17
+-- Généré le : mer. 19 août 2020 à 09:37
 -- Version du serveur :  5.7.24
 -- Version de PHP : 7.4.8
 
@@ -48,32 +48,27 @@ INSERT INTO `activated_paypal` (`id`, `active`) VALUES
 CREATE TABLE `costumors_payments` (
   `transactionid` int(11) NOT NULL,
   `costumorid` int(11) NOT NULL,
-  `amount` int(11) NOT NULL,
+  `amount` decimal(10,2) DEFAULT '0.00',
+  `tax_total` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `currencycode` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `transactioncode` int(11) NOT NULL,
   `transactiondate` datetime DEFAULT CURRENT_TIMESTAMP,
   `paymentmethod` int(11) NOT NULL,
-  `paymenttransaction` int(11) NOT NULL
+  `paymenttransaction` int(11) NOT NULL,
+  `shippingid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Déchargement des données de la table `costumors_payments`
 --
 
-INSERT INTO `costumors_payments` (`transactionid`, `costumorid`, `amount`, `transactioncode`, `transactiondate`, `paymentmethod`, `paymenttransaction`) VALUES
-(18, 247, 2742, 7739047, '2020-08-06 12:07:26', 2, 3),
-(19, 247, 2742, 3258757, '2020-08-06 12:07:27', 2, 3),
-(20, 1247, 1717, 4150839, '2020-08-06 12:13:40', 2, 4),
-(21, 287, 4174, 2330015, '2020-08-06 12:21:54', 2, 4),
-(22, 5612, 32211, 9666266, '2020-08-06 20:01:00', 2, 4),
-(23, 1234, 4321, 642093868, '2020-08-07 22:43:59', 2, 7),
-(24, 252, 114, 16679334, '2020-08-08 10:16:57', 2, 8),
-(25, 25, 777, 833635161, '2020-08-08 10:23:49', 2, 9),
-(26, 24, 2424, 966472962, '2020-08-08 20:15:15', 2, 10),
-(27, 1111, 2222, 121159885, '2020-08-09 10:54:13', 2, 14),
-(28, 12, 22, 336742682, '2020-08-11 02:56:35', 2, 15),
-(29, 14, 41, 797915475, '2020-08-11 05:44:59', 2, 16),
-(30, 6, 220, 648618777, '2020-08-11 09:58:04', 1, 1),
-(31, 6, 220, 104306821, '2020-08-11 10:00:40', 1, 2);
+INSERT INTO `costumors_payments` (`transactionid`, `costumorid`, `amount`, `tax_total`, `currencycode`, `transactioncode`, `transactiondate`, `paymentmethod`, `paymenttransaction`, `shippingid`) VALUES
+(1, 3, '57.21', '11.44', 'USD', 17671405, '2020-08-19 09:32:24', 1, 1, 1),
+(2, 4, '11.00', '2.20', 'USD', 148211274, '2020-08-19 09:33:17', 2, 1, 2),
+(3, 4, '101.25', '20.25', 'USD', 719509322, '2020-08-19 09:33:57', 1, 2, 3),
+(4, 8, '33.14', '6.63', 'USD', 223979215, '2020-08-19 09:34:33', 1, 3, 4),
+(5, 6, '5.35', '1.07', 'USD', 276047721, '2020-08-19 09:34:50', 2, 2, 5),
+(6, 7, '42.25', '8.45', 'USD', 18826924, '2020-08-19 09:35:23', 1, 4, 6);
 
 -- --------------------------------------------------------
 
@@ -98,11 +93,8 @@ CREATE TABLE `gift_card_admin` (
 --
 
 INSERT INTO `gift_card_admin` (`giftcardid`, `title`, `code`, `description`, `ladate`, `expiration_date`, `max_use`, `used`, `status`) VALUES
-(1, 'my title', 'df65g15gb', 'jtyjytj', '2020-07-30 14:02:10', '2020-08-13 12:11:00', 22, 3, 1),
-(2, 'First2', 'jrthry2475fg', 'c\'est l\'etude des fonctions arithmitique', '2020-07-30 14:28:42', '2020-07-31 00:00:00', 10, 0, 1),
-(13, 'A gift Card', 'h65rt01h5', 'this is gift card', '2020-08-07 20:53:39', '2020-08-22 00:00:00', -1, 3, 1),
-(14, 'new', '86t4r1hgrt22ht', 'jtrjtjjrtjrty', '2020-08-08 10:23:40', '2020-11-29 00:00:00', 17, 6, 1),
-(15, 'hrerth', 'he41rt541he', 'hrtrthrt', '2020-08-09 11:47:42', '2020-08-21 12:47:00', -1, 0, 1);
+(16, 'A gift Card', '6541h5rt4hdrt0h', 'c\'est une simple gift card', '2020-08-19 09:30:28', '2021-02-20 10:29:00', 12, 2, 1),
+(17, 'Gift Card 2', 'tr4hr5ty4jukiu6', NULL, '2020-08-19 09:31:00', '2020-08-28 12:42:00', -1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -120,22 +112,8 @@ CREATE TABLE `gift_card_transactions` (
 --
 
 INSERT INTO `gift_card_transactions` (`giftcardtransactionid`, `giftcardid`) VALUES
-(1, 13),
-(2, 13),
-(3, 13),
-(4, 13),
-(5, 13),
-(6, 13),
-(7, 13),
-(8, 1),
-(9, 14),
-(10, 14),
-(11, 14),
-(12, 14),
-(13, 14),
-(14, 14),
-(15, 1),
-(16, 1);
+(1, 16),
+(2, 16);
 
 -- --------------------------------------------------------
 
@@ -185,30 +163,130 @@ INSERT INTO `paypal_admin` (`paypalid`, `email`, `clientid`, `clientsecret`, `sa
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `paypal_payers`
+--
+
+CREATE TABLE `paypal_payers` (
+  `payerid` int(11) NOT NULL,
+  `given_name` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `surname` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `email_address` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
+  `payer_id` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
+  `country_code` varchar(6) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Déchargement des données de la table `paypal_payers`
+--
+
+INSERT INTO `paypal_payers` (`payerid`, `given_name`, `surname`, `email_address`, `payer_id`, `country_code`) VALUES
+(1, 'YASSINE', 'LAGRIDA', 'custumor@custumor.com', 'PVLKRERUJC5TA', 'MA'),
+(2, 'YASSINE', 'LAGRIDA', 'custumor@custumor.com', 'PVLKRERUJC5TA', 'MA'),
+(3, 'YASSINE', 'LAGRIDA', 'custumor@custumor.com', 'PVLKRERUJC5TA', 'MA'),
+(4, 'YASSINE', 'LAGRIDA', 'custumor@custumor.com', 'PVLKRERUJC5TA', 'MA');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `paypal_refunds`
+--
+
+CREATE TABLE `paypal_refunds` (
+  `paypalrefundid` int(11) NOT NULL,
+  `capturedpaypalrefundid` varchar(40) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Déchargement des données de la table `paypal_refunds`
+--
+
+INSERT INTO `paypal_refunds` (`paypalrefundid`, `capturedpaypalrefundid`) VALUES
+(1, '4KY13746PF121193B'),
+(2, '9L342596KU580890Y'),
+(3, '5HD78097B39003710');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `paypal_transactions`
 --
 
 CREATE TABLE `paypal_transactions` (
   `paypaltransactionid` int(11) NOT NULL,
   `captureid` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `shippingname` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `shippingadress` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `paymentcaptureid` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `currencycode` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `amountvalue` decimal(10,2) NOT NULL,
   `paypalfee` decimal(10,2) NOT NULL,
   `createtime` datetime DEFAULT CURRENT_TIMESTAMP,
-  `payerid` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `payeremail` varchar(50) COLLATE utf8_unicode_ci NOT NULL
+  `payerid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Déchargement des données de la table `paypal_transactions`
 --
 
-INSERT INTO `paypal_transactions` (`paypaltransactionid`, `captureid`, `shippingname`, `shippingadress`, `paymentcaptureid`, `currencycode`, `amountvalue`, `paypalfee`, `createtime`, `payerid`, `payeremail`) VALUES
-(1, '1HG98666WL477513U', 'John Doe', '123 Townsend St, Floor 6, San Francisco, CA 94107, US', '8B130050E0172831S', 'USD', '220.00', '11.08', '2020-08-11 09:58:04', 'PVLKRERUJC5TA', 'custumor@custumor.com'),
-(2, '3KP73180CA5416647', 'John Doe', '123 Townsend St, Floor 6, San Francisco, CA 94107, US', '34W7242835261460M', 'USD', '220.00', '11.08', '2020-08-11 10:00:40', 'PVLKRERUJC5TA', 'custumor@custumor.com');
+INSERT INTO `paypal_transactions` (`paypaltransactionid`, `captureid`, `paymentcaptureid`, `currencycode`, `amountvalue`, `paypalfee`, `createtime`, `payerid`) VALUES
+(1, '9EX19892XL3711222', '49P11354ML525061J', 'USD', '78.65', '4.15', '2020-08-19 09:32:27', 1),
+(2, '2F820784GY137744R', '02M055881W5148106', 'USD', '131.50', '6.74', '2020-08-19 09:34:00', 2),
+(3, '2EH17164C9892050X', '4WY265852E1774913', 'USD', '49.77', '2.74', '2020-08-19 09:34:37', 3),
+(4, '4UT14684X68352621', '5TA30107VR078660N', 'USD', '60.70', '3.27', '2020-08-19 09:35:26', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `refunds`
+--
+
+CREATE TABLE `refunds` (
+  `refundid` int(11) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `currencycode` varchar(6) COLLATE utf8_unicode_ci NOT NULL,
+  `type` int(2) NOT NULL,
+  `createtime` datetime DEFAULT CURRENT_TIMESTAMP,
+  `refund_transaction` int(11) NOT NULL,
+  `payment_transaction_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Déchargement des données de la table `refunds`
+--
+
+INSERT INTO `refunds` (`refundid`, `amount`, `currencycode`, `type`, `createtime`, `refund_transaction`, `payment_transaction_id`) VALUES
+(1, '3.25', 'USD', 1, '2020-08-19 09:35:56', 1, 1),
+(2, '6.85', 'USD', 1, '2020-08-19 09:36:11', 2, 1),
+(3, '60.70', 'USD', 0, '2020-08-19 09:36:23', 3, 6);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `shipping`
+--
+
+CREATE TABLE `shipping` (
+  `shippingid` int(11) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `method` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
+  `full_name` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
+  `address_line_1` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `address_line_2` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
+  `admin_area_2` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
+  `admin_area_1` varchar(12) COLLATE utf8_unicode_ci NOT NULL,
+  `postal_code` int(7) NOT NULL,
+  `country_code` varchar(4) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Déchargement des données de la table `shipping`
+--
+
+INSERT INTO `shipping` (`shippingid`, `amount`, `method`, `full_name`, `address_line_1`, `address_line_2`, `admin_area_2`, `admin_area_1`, `postal_code`, `country_code`) VALUES
+(1, '10.00', 'United States Postal Service', 'LAGRIDA Yassine', '123 Townsend St', 'Floor 6', 'San Francisco', 'CA', 94107, 'US'),
+(2, '10.00', 'United States Postal Service', 'LAGRIDA Yassine', '123 Townsend St', 'Floor 6', 'San Francisco', 'CA', 94107, 'US'),
+(3, '10.00', 'United States Postal Service', 'LAGRIDA Yassine', '123 Townsend St', 'Floor 6', 'San Francisco', 'CA', 94107, 'US'),
+(4, '10.00', 'United States Postal Service', 'LAGRIDA Yassine', '123 Townsend St', 'Floor 6', 'San Francisco', 'CA', 94107, 'US'),
+(5, '10.00', 'United States Postal Service', 'LAGRIDA Yassine', '123 Townsend St', 'Floor 6', 'San Francisco', 'CA', 94107, 'US'),
+(6, '10.00', 'United States Postal Service', 'LAGRIDA Yassine', '123 Townsend St', 'Floor 6', 'San Francisco', 'CA', 94107, 'US');
 
 --
 -- Index pour les tables déchargées
@@ -251,10 +329,34 @@ ALTER TABLE `paypal_admin`
   ADD PRIMARY KEY (`paypalid`);
 
 --
+-- Index pour la table `paypal_payers`
+--
+ALTER TABLE `paypal_payers`
+  ADD PRIMARY KEY (`payerid`);
+
+--
+-- Index pour la table `paypal_refunds`
+--
+ALTER TABLE `paypal_refunds`
+  ADD PRIMARY KEY (`paypalrefundid`);
+
+--
 -- Index pour la table `paypal_transactions`
 --
 ALTER TABLE `paypal_transactions`
   ADD PRIMARY KEY (`paypaltransactionid`);
+
+--
+-- Index pour la table `refunds`
+--
+ALTER TABLE `refunds`
+  ADD PRIMARY KEY (`refundid`);
+
+--
+-- Index pour la table `shipping`
+--
+ALTER TABLE `shipping`
+  ADD PRIMARY KEY (`shippingid`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
@@ -270,19 +372,19 @@ ALTER TABLE `activated_paypal`
 -- AUTO_INCREMENT pour la table `costumors_payments`
 --
 ALTER TABLE `costumors_payments`
-  MODIFY `transactionid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `transactionid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `gift_card_admin`
 --
 ALTER TABLE `gift_card_admin`
-  MODIFY `giftcardid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `giftcardid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT pour la table `gift_card_transactions`
 --
 ALTER TABLE `gift_card_transactions`
-  MODIFY `giftcardtransactionid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `giftcardtransactionid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `payments`
@@ -294,13 +396,37 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT pour la table `paypal_admin`
 --
 ALTER TABLE `paypal_admin`
-  MODIFY `paypalid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `paypalid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT pour la table `paypal_payers`
+--
+ALTER TABLE `paypal_payers`
+  MODIFY `payerid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT pour la table `paypal_refunds`
+--
+ALTER TABLE `paypal_refunds`
+  MODIFY `paypalrefundid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `paypal_transactions`
 --
 ALTER TABLE `paypal_transactions`
-  MODIFY `paypaltransactionid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `paypaltransactionid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT pour la table `refunds`
+--
+ALTER TABLE `refunds`
+  MODIFY `refundid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT pour la table `shipping`
+--
+ALTER TABLE `shipping`
+  MODIFY `shippingid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

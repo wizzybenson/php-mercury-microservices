@@ -1,0 +1,2 @@
+<?php
+return array("controllers\\RestPriviledgesController"=>array("resource"=>"models\\Priviledges","authorizations"=>array("update","add","delete"),"route"=>"/rest/priviledges"),"controllers\\RestUserGroupController"=>array("resource"=>"models\\Usergroupe","authorizations"=>array("update","add","delete"),"route"=>"/rest/usergroup"),"controllers\\RestUsersController"=>array("resource"=>"models\\User","authorizations"=>array("update","add","delete"),"route"=>"/rest/users"));

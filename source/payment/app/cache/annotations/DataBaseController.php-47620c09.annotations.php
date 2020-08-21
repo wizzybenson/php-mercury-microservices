@@ -10,7 +10,7 @@ return array(
   ),
 ),
   'controllers\\DataBaseController' => array(
-    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/payments/database","inherited"=>true,"automated"=>true),
+    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/payments/database","inherited"=>false,"automated"=>true),
     array('#name' => 'rest', '#type' => 'Ubiquity\\annotations\\rest\\RestAnnotation', "resource"=>"models\DataBase")
   ),
   'controllers\\DataBaseController::change' => array(

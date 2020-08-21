@@ -2,6 +2,24 @@ version:  '3'
 services:
 
   ##
+  # autodiscovery service
+  ##
+  autodiscovery:
+    build:  ./autodiscovery/
+    expose:
+      - 53
+      - 8300
+      - 8301
+      - 8302
+      - 8400
+      - 8500
+    ports:
+      - 8500:8500
+    dns:
+      - 127.0.0.1
+
+
+  ##
   # cart service
   ##
   microservice_cart_fpm:
@@ -10,6 +28,9 @@ services:
       - ../source/cart:/var/www/html
     expose:
       - 9000
+    environment:
+      - BACKEND=microservice_cart_nginx
+      - CONSUL=autodiscovery
 
   microservice_cart_nginx:
     build: ./microservices/cart/nginx/
@@ -18,6 +39,10 @@ services:
     ports:
       - 8082:80
       - 9092:9090
+    environment:
+      - BACKEND=microservice_cart_fpm
+      - CONSUL=autodiscovery
+
 
   microservice_cart_database:
     build: ./microservices/cart/database/
@@ -38,6 +63,10 @@ services:
       - ../source/catalog:/var/www/html
     expose:
       - 9000
+    environment:
+      - BACKEND=microservice_catalog_nginx
+      - CONSUL=autodiscovery
+
 
   microservice_catalog_nginx:
     build: ./microservices/catalog/nginx/
@@ -46,6 +75,10 @@ services:
     ports:
       - 8083:80
       - 9093:9090
+    environment:
+      - BACKEND=microservice_catalog_fpm
+      - CONSUL=autodiscovery
+
 
   microservice_catalog_database:
     build: ./microservices/catalog/database/
@@ -67,6 +100,10 @@ services:
       - ../source/payment:/var/www/html
     expose:
       - 9000
+    environment:
+      - BACKEND=microservice_payment_nginx
+      - CONSUL=autodiscovery
+
 
   microservice_payment_nginx:
     build: ./microservices/payment/nginx/
@@ -75,6 +112,10 @@ services:
     ports:
       - 8084:80
       - 9094:9090
+    environment:
+      - BACKEND=microservice_payment_fpm
+      - CONSUL=autodiscovery
+
 
   microservice_payment_database:
     build: ./microservices/payment/database/
@@ -97,6 +138,10 @@ services:
       - ../source/order:/var/www/html
     expose:
       - 9000
+    environment:
+      - BACKEND=microservice_order_nginx
+      - CONSUL=autodiscovery
+
 
   microservice_order_nginx:
     build: ./microservices/order/nginx/
@@ -105,6 +150,10 @@ services:
     ports:
       - 8085:80
       - 9095:9090
+    environment:
+      - BACKEND=microservice_order_fpm
+      - CONSUL=autodiscovery
+
       
   microservice_order_database:
     build: ./microservices/order/database/
@@ -127,6 +176,10 @@ services:
       - ../source/products:/var/www/html
     expose:
       - 9000
+    environment:
+      - BACKEND=microservice_products_nginx
+      - CONSUL=autodiscovery
+
 
   microservice_products_nginx:
     build: ./microservices/products/nginx/
@@ -135,6 +188,10 @@ services:
     ports:
       - 8081:80
       - 9091:9090
+    environment:
+      - BACKEND=microservice_products_fpm
+      - CONSUL=autodiscovery
+
       
   microservice_products_database:
     build: ./microservices/products/database/
@@ -157,6 +214,10 @@ services:
       - ../source/users:/var/www/html
     expose:
       - 9000
+    environment:
+      - BACKEND=microservice_users_nginx
+      - CONSUL=autodiscovery
+
 
   microservice_users_nginx:
     build: ./microservices/users/nginx/
@@ -165,6 +226,10 @@ services:
     ports:
       - 8086:80
       - 9096:9090
+    environment:
+      - BACKEND=microservice_users_fpm
+      - CONSUL=autodiscovery
+
 
   microservice_users_database:
     build: ./microservices/users/database/
@@ -187,6 +252,10 @@ services:
       - ../source/apigateway:/var/www/html
     expose:
       - 9000
+    environment:
+      - BACKEND=microservice_apigateway_nginx
+      - CONSUL=autodiscovery
+
 
   microservice_apigateway_nginx:
     build: ./microservices/apigateway/nginx/
@@ -195,6 +264,10 @@ services:
     ports:
       - 8087:80
       - 9097:9090
+    environment:
+      - BACKEND=microservice_apigateway_fpm
+      - CONSUL=autodiscovery
+
 
   microservice_apigateway_database:
     build: ./microservices/apigateway/database/
