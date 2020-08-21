@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 I WANT TO CREATE CUSTOMER VIA API
 
 I send post '/rest/customers/connect' 
@@ -10,3 +11,17 @@ I see response code is "\Codeception\Util\HttpCode::OK"
 I see response is json "" 
 I see response contains '{"result":"ok"}'
 
+=======
+I WANT TO CREATE CUSTOMER VIA API
+
+I send post '/rest/customers/connect' 
+I see response is json "" 
+I grab data from response by json path 'access_token' 
+I am bearer authenticated "$token" 
+I am bearer authenticated 'b91121936ed8d2a2a26a' 
+I have http header 'Content-Type'," 'application/x-www-form-urlencoded' 
+I see response code is "\Codeception\Util\HttpCode::OK" 
+I see response is json "" 
+I see response contains '{"result":"ok"}'
+
+>>>>>>> upstream/master

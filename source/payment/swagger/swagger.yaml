@@ -1,4 +1,5 @@
 openapi: 3.0.0
+<<<<<<< HEAD
 info:
   title: 'Service Payment'
   version: '0.1'
@@ -222,3 +223,15 @@ components:
           type: integer
           nullable: false
       type: object
+=======
+paths:
+  /getActivated:
+    get:
+      operationId: 'controllers\ActivatedPaypalController::getActivated'
+      responses:
+        '200':
+          description: 'get the activated paypal business account'
+          content:
+            application/json:
+              schema: {  }
+>>>>>>> upstream/master

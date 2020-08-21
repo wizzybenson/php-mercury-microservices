@@ -92,4 +92,16 @@ class RestOrderController extends \Ubiquity\controllers\rest\RestController {
         $order = DAO::getOne(Order::class, $id);
         return json_encode($order->getAmount());
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * @param integer $idOrder
+     * @route("/getTotalDiscountByOrder/{idOrder}", "methods"=>["get"])
+     */
+    public function getTotalDiscountByOrder($idOrder){
+        $order = DAO::getById(Order::class, $idOrder);
+        echo $order->getTotalDiscount();
+    }
+>>>>>>> upstream/master
 }

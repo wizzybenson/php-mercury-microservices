@@ -2,6 +2,10 @@
 namespace models;
 use Ubiquity\exceptions\DAOException;
 use Ubiquity\orm\DAO;
+<<<<<<< HEAD
+=======
+use GuzzleHttp\Client;
+>>>>>>> upstream/master
 
 /**
  * @table('order')
@@ -221,6 +225,25 @@ class Order{
 	    return null;
     }
 
+<<<<<<< HEAD
+=======
+    public function getTotalDiscount(){
+	    $total = 0;
+        $response = Cart::sendRequest('a110556995e1dd3c365e','GET', 'http://microservice_cart_nginx/rest/carts/getItemsByCart/'.$this->getCart_id());
+
+        $response_body = $response->getBody();
+        $items = json_decode($response_body,true)["data"];
+
+        foreach ($items as $item){
+            $response = Cart::sendRequest('9a7de736e52b71a06bfd','GET', 'http://microservice_product_nginx/rest/products/getOne/'.$item["id"]);
+            $product = json_decode($response->getBody(), true)["data"];
+            $total += $item["quantity"] * $product["discount"];
+        }
+
+	    return $total;
+    }
+
+>>>>>>> upstream/master
     public function getCoupon(){
             return $this->coupon;
     }

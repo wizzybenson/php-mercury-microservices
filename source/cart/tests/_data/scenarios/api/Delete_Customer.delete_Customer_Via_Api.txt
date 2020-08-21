@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 I WANT TO DELETE CUSTOMER VIA API
 
 I am bearer authenticated '52447b15e73b644f8a38' 
@@ -5,3 +6,12 @@ I see response code is "\Codeception\Util\HttpCode::OK"
 I see response is json "" 
 I see response contains '{"result":"ok"}'
 
+=======
+I WANT TO DELETE CUSTOMER VIA API
+
+I am bearer authenticated '52447b15e73b644f8a38' 
+I see response code is "\Codeception\Util\HttpCode::OK" 
+I see response is json "" 
+I see response contains '{"result":"ok"}'
+
+>>>>>>> upstream/master

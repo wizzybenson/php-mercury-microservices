@@ -1,6 +1,15 @@
+<<<<<<< HEAD
 I WANT TO GET CUSTOMERS VIA API
 
 I send post '/rest/customers/get' 
 I see response is json "" 
 I grab data from response by json path 'datas'
 
+=======
+I WANT TO GET CUSTOMERS VIA API
+
+I send post '/rest/customers/get' 
+I see response is json "" 
+I grab data from response by json path 'datas'
+
+>>>>>>> upstream/master
