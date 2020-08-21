@@ -1,0 +1,2 @@
+<?php
+return array("id"=>array(array("type"=>"id","constraints"=>array("autoinc"=>true))),"libelle"=>array(array("type"=>"length","constraints"=>array("max"=>200,"notNull"=>true))),"details"=>array(array("type"=>"length","constraints"=>array("max"=>150,"notNull"=>true))),"image"=>array(array("type"=>"length","constraints"=>array("max"=>20,"notNull"=>true))),"datec"=>array(array("type"=>"type","constraints"=>array("ref"=>"dateTime","notNull"=>true))));
