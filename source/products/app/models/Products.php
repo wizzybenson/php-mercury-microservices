@@ -17,7 +17,6 @@ class Products{
 	**/
 	private $lib;
 
-<<<<<<< HEAD
 	/**
 	 * @column("name"=>"price","nullable"=>false,"dbType"=>"int(11)")
 	 * @validator("notNull")
@@ -42,8 +41,6 @@ class Products{
 	**/
 	private $producttype;
 
-=======
->>>>>>> upstream/master
 	 public function getId(){
 		return $this->id;
 	}
@@ -60,7 +57,6 @@ class Products{
 		$this->lib=$lib;
 	}
 
-<<<<<<< HEAD
 	 public function getPrice(){
 		return $this->price;
 	}
@@ -101,10 +97,4 @@ class Products{
         return DAO::delete(Products::class,$id);
     }
 
-=======
-	 public function __toString(){
-		return ($this->lib??'no value').'';
-	}
-
->>>>>>> upstream/master
 }

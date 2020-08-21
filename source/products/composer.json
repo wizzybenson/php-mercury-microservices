@@ -1,39 +1,19 @@
 {
     "require": {
         "php": "^7.4",
-<<<<<<< HEAD
         "twig\/twig": "^2.0",
         "phpmv\/ubiquity": "^2.3",
         "phpmv\/ubiquity-mailer": "^0.0",
         "phpmv\/php-mv-ui": "^2.3"
-=======
-        "twig\/twig": "^3.0",
-        "phpmv\/ubiquity": "^2.3",
-        "phpmv\/ubiquity-mailer": "^0.0",
-        "phpmv\/php-mv-ui": "^2.3",
-        "robmorgan/phinx": "^0.12.1",
-        "symfony/yaml": "^5.0",
-        "fzaninotto/faker": "^1.9"
->>>>>>> upstream/master
     },
     "require-dev": {
         "monolog\/monolog": "^2.0",
         "mindplay\/annotations": "^1.3",
-<<<<<<< HEAD
         "phpmv\/ubiquity-dev": "^0.0"
-=======
-        "phpmv\/ubiquity-dev": "^0.0",
-        "phpmv\/ubiquity-webtools": "^2.3",
-        "czproject\/git-php": "^3.13"
->>>>>>> upstream/master
     },
     "autoload": {
         "psr-4": {
             "": "app\/"
         }
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> upstream/master
