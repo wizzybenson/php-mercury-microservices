@@ -27,12 +27,34 @@ RUN pecl install redis-5.1.1 \
 RUN echo 'date.timezone="Europe/Madrid"' >>  /usr/local/etc/php/conf.d/date.ini
 RUN echo 'session.save_path = "/tmp"' >>  /usr/local/etc/php/conf.d/session.ini
 
+ENV CONSUL_TEMPLATE_VERSION 0.16.0
+ENV CONSUL_TEMPLATE_CHECKSUM 064b0b492bb7ca3663811d297436a4bbf3226de706d2b76adade7021cd22e156
+
+RUN curl --retry 7 --fail -Lks "https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip" -o /tmp/consul-template.zip \
+    && echo "${CONSUL_TEMPLATE_CHECKSUM}  /tmp/consul-template.zip" | sha256sum -c \
+    && unzip /tmp/consul-template.zip -d /usr/local/bin \
+    && rm /tmp/consul-template.zip
+
+ENV CONTAINERPILOT_VERSION 2.4.3
+ENV CONTAINERPILOT_CHECKSUM 2c469a0e79a7ac801f1c032c2515dd0278134790
+ENV CONTAINERPILOT file:///etc/containerpilot.json
+
+RUN curl --retry 7 --fail -Lks "https://github.com/joyent/containerpilot/releases/download/${CONTAINERPILOT_VERSION}/containerpilot-${CONTAINERPILOT_VERSION}.tar.gz" -o /tmp/containerpilot.tar.gz \
+    && echo "${CONTAINERPILOT_CHECKSUM}  /tmp/containerpilot.tar.gz" | sha1sum -c \
+    && tar zxf /tmp/containerpilot.tar.gz -C /usr/local/bin \
+    && rm /tmp/containerpilot.tar.gz
+
+COPY config/ /etc
+COPY scripts/ /usr/local/bin
+
+RUN chmod +x /usr/local/bin/reload.sh
+
 COPY config/custom-php-ini.ini "$PHP_INI_DIR/conf.d/"
 RUN curl -sS https://getcomposer.org/installer \
 | php -- --install-dir=/usr/bin/ --filename=composer
 
-RUN curl -sSL https://phar.phpunit.de/phpunit.phar -o \
-/usr/bin/phpunit && chmod +x /usr/bin/phpunit
+RUN composer global require phpmv/ubiquity-devtools
+RUN echo export PATH="$HOME/.composer/vendor/bin:$PATH" >> ~/.bashrc
 
-CMD [ "php-fpm", \
-        "--nodaemonize"]
+
+CMD [ "/usr/local/bin/containerpilot", "php-fpm", "--nodaemonize"]
