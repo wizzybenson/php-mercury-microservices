@@ -9,6 +9,7 @@ class Colors{
 	 * @column("name"=>"idcolor","nullable"=>false,"dbType"=>"int(11)")
 	 * @validator("id","constraints"=>array("autoinc"=>true))
 	**/
+	// here idcolor attibute
 	private $idcolor;
 
 	/**
