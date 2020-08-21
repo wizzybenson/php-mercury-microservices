@@ -2,7 +2,11 @@ AddDefaultCharset UTF-8
 
 <IfModule mod_rewrite.c>
 	RewriteEngine On
+<<<<<<< HEAD
+	RewriteBase /user/
+=======
 	RewriteBase /backend/
+>>>>>>> upstream/master
 	
 	RewriteCond %{REQUEST_FILENAME} !-f  
 	RewriteCond %{HTTP_ACCEPT} !(.*images.*)

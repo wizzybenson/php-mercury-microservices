@@ -1,2 +1,2 @@
 <?php
-return array("models\\Phinxlog"=>"default","models\\Products"=>"default");
+return array("models\\Colors"=>"default","models\\Products"=>"default","models\\Sizes"=>"default","models\\Test"=>"default","models\\Weights"=>"default");

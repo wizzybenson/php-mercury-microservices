@@ -1,4 +1,229 @@
 openapi: 3.0.0
+<<<<<<< HEAD
+info:
+  title: 'Service Payment'
+  version: '0.1'
+servers:
+  -
+    url: 'https://stage.lagrida.com'
+    description: 'Service Payment'
+paths:
+  /payment/giftCardAdmin/getAll:
+    get:
+      operationId: 'controllers\GiftCardAdminController::getAll'
+      responses:
+        '200':
+          description: 'get All gift cards'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GiftCardAdmin'
+  /payment/giftCardAdmin/addGiftCard:
+    post:
+      operationId: 'controllers\GiftCardAdminController::addGiftCard'
+      responses:
+        '200':
+          description: 'add a gift card'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GiftCardAdmin'
+        '500':
+          description: 'Error : gift card not inserted!'
+  /payment/giftCardAdmin/updateGiftCard:
+    put:
+      operationId: 'controllers\GiftCardAdminController::updateGiftCard'
+      responses:
+        '200':
+          description: 'update a gift card'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GiftCardAdmin'
+        '500':
+          description: 'Error : data not modified!'
+        '404':
+          description: 'Error : giftCard not Found!'
+  /payment/payment/getAll:
+    get:
+      operationId: 'controllers\PaymentController::getAll'
+      responses:
+        '200':
+          description: 'get All payments methods'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Payment'
+  /payment/payment/addPayment:
+    post:
+      operationId: 'controllers\PaymentController::addPayment'
+      responses:
+        '200':
+          description: 'add a payment method'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+        '500':
+          description: 'Error while adding'
+  /payment/payment/updatePayment:
+    put:
+      operationId: 'controllers\PaymentController::updatePayment'
+      responses:
+        '200':
+          description: 'payment method is updated'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+        '500':
+          description: 'Error : data not modified!'
+        '404':
+          description: 'Error : payment not Found!'
+  /payment/payment/updateStatus:
+    patch:
+      operationId: 'controllers\PaymentController::updateStatus'
+      responses:
+        '200':
+          description: 'Change the status of a payment method, status active mean that the method can be used for payment by custumrs'
+        '500':
+          description: 'Error : data not modified!'
+        '404':
+          description: 'Error : payment not Found!'
+  /payment/paypalAdmin/getAll:
+    get:
+      operationId: 'controllers\PaypalAdminController::getAll'
+      responses:
+        '200':
+          description: 'get All paypal admin accounts'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Payment'
+  /payment/paypalAdmin/addPaypalAccount:
+    post:
+      operationId: 'controllers\PaypalAdminController::addPaypalAccount'
+      responses:
+        '200':
+          description: 'add a paypal account, one of those accounts will be used for receving amounts'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaypalAdmin'
+        '500':
+          description: 'Error : paypal not inserted!'
+  /payment/paypalAdmin/updatePaypalAccount:
+    put:
+      operationId: 'controllers\PaypalAdminController::updatePaypalAccount'
+      responses:
+        '200':
+          description: 'update a paypal admin account'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaypalAdmin'
+        '500':
+          description: 'Error : data not modified!'
+        '404':
+          description: 'Error : paypal account not Found!'
+  /payment/paypal/getActivatedAccount:
+    get:
+      operationId: 'controllers\PaypalController::getActivatedAccount'
+      responses:
+        '200':
+          description: 'get the current activated paypal account'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Paypal'
+  /payment/paypal/updateActivatedAccount:
+    patch:
+      operationId: 'controllers\PaypalController::updateActivatedAccount'
+      responses:
+        '200':
+          description: 'change the activated paypal account'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Paypal'
+components:
+  schemas:
+    GiftCardAdmin:
+      properties:
+        giftcardid:
+          type: integer
+        title:
+          type: string
+          nullable: false
+        description:
+          type: string
+          nullable: false
+        code:
+          type: string
+          nullable: false
+        expirencedate:
+          type: string
+          format: date
+          nullable: false
+        bound:
+          type: integer
+          nullable: true
+        used:
+          type: integer
+          nullable: true
+        status:
+          type: integer
+          nullable: true
+      type: object
+    Payment:
+      properties:
+        paymentid:
+          type: integer
+        url:
+          type: string
+          nullable: false
+        title:
+          type: string
+          nullable: false
+        description:
+          type: string
+          nullable: true
+        image:
+          type: string
+          nullable: true
+        status:
+          type: integer
+          nullable: false
+      type: object
+    Paypal:
+      properties:
+        id:
+          type: integer
+        activated_compte:
+          type: integer
+          nullable: false
+      type: object
+    PaypalAdmin:
+      properties:
+        paypalid:
+          type: integer
+        email:
+          type: string
+          nullable: false
+        sandboxmode:
+          type: integer
+          nullable: false
+        transactionmethod:
+          type: integer
+          nullable: false
+      type: object
+=======
 paths:
   /getActivated:
     get:
@@ -9,3 +234,4 @@ paths:
           content:
             application/json:
               schema: {  }
+>>>>>>> upstream/master

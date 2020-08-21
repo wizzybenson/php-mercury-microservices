@@ -17,6 +17,30 @@ class Products{
 	**/
 	private $lib;
 
+	/**
+	 * @column("name"=>"price","nullable"=>false,"dbType"=>"int(11)")
+	 * @validator("notNull")
+	**/
+	private $price;
+
+	/**
+	 * @column("name"=>"img","nullable"=>false,"dbType"=>"varchar(200)")
+	 * @validator("length","constraints"=>array("max"=>200,"notNull"=>true))
+	**/
+	private $img;
+
+	/**
+	 * @column("name"=>"description","nullable"=>false,"dbType"=>"varchar(200)")
+	 * @validator("length","constraints"=>array("max"=>200,"notNull"=>true))
+	**/
+	private $description;
+
+	/**
+	 * @column("name"=>"producttype","nullable"=>false,"dbType"=>"varchar(200)")
+	 * @validator("length","constraints"=>array("max"=>200,"notNull"=>true))
+	**/
+	private $producttype;
+
 	 public function getId(){
 		return $this->id;
 	}
@@ -33,8 +57,44 @@ class Products{
 		$this->lib=$lib;
 	}
 
-	 public function __toString(){
-		return ($this->lib??'no value').'';
+	 public function getPrice(){
+		return $this->price;
 	}
+
+	 public function setPrice($price){
+		$this->price=$price;
+	}
+
+	 public function getImg(){
+		return $this->img;
+	}
+
+	 public function setImg($img){
+		$this->img=$img;
+	}
+
+	 public function getDescription(){
+		return $this->description;
+	}
+
+	 public function setDescription($description){
+		$this->description=$description;
+	}
+
+	 public function getProducttype(){
+		return $this->producttype;
+	}
+
+	 public function setProducttype($producttype){
+		$this->producttype=$producttype;
+	}
+
+	 public function __toString(){
+		return ($this->producttype??'no value').'';
+	}
+
+    public static function delete($id){
+        return DAO::delete(Products::class,$id);
+    }
 
 }

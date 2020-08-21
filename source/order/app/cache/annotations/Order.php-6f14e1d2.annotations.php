@@ -5,7 +5,10 @@ return array(
   '#uses' => array (
   'DAOException' => 'Ubiquity\\exceptions\\DAOException',
   'DAO' => 'Ubiquity\\orm\\DAO',
+<<<<<<< HEAD
+=======
   'Client' => 'GuzzleHttp\\Client',
+>>>>>>> upstream/master
 ),
   '#traitMethodOverrides' => array (
   'models\\Order' => 

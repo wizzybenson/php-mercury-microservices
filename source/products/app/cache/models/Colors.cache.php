@@ -1,0 +1,2 @@
+<?php
+return array("#tableName"=>"colors","#primaryKeys"=>array("idcolor"=>"idcolor"),"#manyToOne"=>array(),"#fieldNames"=>array("idcolor"=>"idcolor","colorname"=>"colorname","product_id"=>"product_id"),"#memberNames"=>array("idcolor"=>"idcolor","colorname"=>"colorname","product_id"=>"product_id"),"#fieldTypes"=>array("idcolor"=>"int(11)","colorname"=>"varchar(200)","product_id"=>"int(11)"),"#nullable"=>array(),"#notSerializable"=>array(),"#transformers"=>array(),"#accessors"=>array("idcolor"=>"setIdcolor","colorname"=>"setColorname","product_id"=>"setProduct_id"));
