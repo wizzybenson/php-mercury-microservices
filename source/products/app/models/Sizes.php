@@ -9,6 +9,7 @@ class Sizes{
 	 * @column("name"=>"idsize","nullable"=>false,"dbType"=>"int(11)")
 	 * @validator("id","constraints"=>array("autoinc"=>true))
 	**/
+	// hete
 	private $idsize;
 
 	/**
