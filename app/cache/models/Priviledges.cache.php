@@ -1,2 +1,0 @@
-<?php
-return array("#tableName"=>"priviledges","#primaryKeys"=>array("idPriv"),"#manyToOne"=>array(),"#fieldNames"=>array("idPriv"=>"idPriv","nomPriv"=>"nomPriv"),"#memberNames"=>array("idPriv"=>"idPriv","nomPriv"=>"nomPriv"),"#fieldTypes"=>array("idPriv"=>"int(11)","nomPriv"=>"varchar(30)"),"#nullable"=>array(),"#notSerializable"=>array(),"#transformers"=>array(),"#accessors"=>array("idPriv"=>"setIdPriv","nomPriv"=>"setNomPriv"));
