@@ -39,8 +39,14 @@ class SenderClass
                 $flag = false;
                 $microserviceName = substr($firstPart,0, strpos($firstPart, '/'));//get the microservice server name
                 try {//send the request to the microservice
+
+                    //send data with form_params in the case of catalog microservice
+                    if($microserviceName =="microservice_catalog_nginx")
+                        $this->form_params_catalog($datas,$row["method"]);
+
                     $response = $this->client->request($row["method"], 'http://'.$microserviceName.'/'.$uri, ['body'=>$datas]);
                     $status = json_decode($response->getBody(), true)["status"];
+
                     if($status != 200 && $status != null){
                         echo json_encode(["status"=>$status, "title"=>json_decode($response->getBody(), true)["title"]]);
                     }else if(json_decode($response->getBody(), true)["datas"] != null) {
@@ -56,4 +62,17 @@ class SenderClass
         }
         if($flag) echo json_encode(["status"=>"404", "title"=>"resource not found"]);
     }
+    public function form_params_catalog($datas,$mtd)
+    {
+        $dt = json_decode($datas,true);
+
+        if($mtd==="POST")
+            $this->client = new Client(['form_params' => ['libelle' => $dt[libelle],'details' => $dt[details],'image' => $dt[image],'datec' => $dt[datec]]]);
+        else if($mtd==="PATCH")
+            $this->client = new Client(['form_params' => ['id' => $dt[id],'libelle' => $dt[libelle],'details' => $dt[details],'image' => $dt[image],'datec' => $dt[datec]]]);
+        else
+            $this->client = new Client();
+
+    }
 }
+

@@ -68,9 +68,26 @@ class CatalogProduct extends \Ubiquity\controllers\rest\RestController{
 		return ($this->datecp??'no value').'';
 	}
 
-    /*public function AddProductToCatalog(){
-        $this->model= new CatalogProduct();
-        $this->add();
+    public function add($cat){
 
-    }*/
+	     $cp = new CatalogProduct();
+        $cp->setId(100);
+        $cp->setCatalog(1);
+        $cp->setProduct(2);
+        $cp->setDatecp("2020-06-12 11:45:20");
+        echo "mehdi".$cp->getCatalog()."--";
+        if(DAO::save($cp))
+        {
+            echo true;
+        }else{
+            echo false;
+        }
+
+    }
+    public function addprotoCatalog(){
+        if(DAO::insert($this))
+            return true;
+        else
+            return false;
+    }
 }

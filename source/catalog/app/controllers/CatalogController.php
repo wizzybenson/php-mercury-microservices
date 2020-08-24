@@ -3,7 +3,10 @@ namespace controllers;
 
 use models\Catalog;
 use models\CatalogProduct;
+use models\Customer;
+use models\Product;
 use Ubiquity\controllers\rest\RestBaseController;
+use Ubiquity\orm\DAO;
 use Ubiquity\utils\http\URequest;
 
 /**
@@ -37,8 +40,11 @@ class CatalogController extends \Ubiquity\controllers\rest\RestController {
     public function addCatalog()
     {
         $cat= new Catalog;
-        $cs=$cat->addCatalog();
-        return $cs;
+        URequest::setPostValuesToObject($cat);
+        if($cat->addCatalog())
+            echo json_encode(["status"=>"OK 200","title"=>"Catalog added"]);
+        else
+            echo json_encode(["status"=>"OK 200","title"=>"Error adding !"]);
     }
 
     /**
@@ -46,9 +52,14 @@ class CatalogController extends \Ubiquity\controllers\rest\RestController {
      */
     public function deleteCatalog($id)
     {
-        $cat= new Catalog;
-        $cs=$cat->deleteCatalog($id);
-        return $cs;
+        if(DAO::getById(Catalog::class,$id))
+        {
+            if(Catalog::deleteCatalog($id))
+                echo json_encode(["status"=>"OK 200","title"=>"Catalog deleted"]);
+            else
+                echo json_encode(["status"=>"OK 200","title"=>"Error deleting !"]);
+        }else
+            echo json_encode(["status"=>"404","title"=>"Catalog $id does not exist !"]);
     }
 
 
@@ -59,10 +70,16 @@ class CatalogController extends \Ubiquity\controllers\rest\RestController {
     {
         $cat= new CatalogProduct();
 
-        $this->model= new CatalogProduct();
-        $this->add();
-        /*$js= json_decode(json_encode(URequest::getDatas()));
-        $catpro->setProduct($js->product);
+
+        $cat->setCatalog(URequest::getDatas()["catalog"]);
+        $cat->setProduct(URequest::getDatas()["product"]);
+        //echo $cat->getProduct();
+
+        if(CatalogProduct::add($cat))
+            echo json_encode(["status"=>"OK 200","title"=>"Product added in catalog"]);
+        else
+            echo json_encode(["status"=>"OK 200","title"=>"Error adding Product to catalog!"]);
+        /*$catpro->setProduct($js->product);
         $catpro->setCatalog($js->catalog);
         $catpro->setId(111);*/
        // $cat->AddProductToCatalog();
@@ -74,16 +91,40 @@ class CatalogController extends \Ubiquity\controllers\rest\RestController {
      */
     public function updateCatalog()
     {
-        $cat= new Catalog;
-        $cs=$cat->updateCatalog();
-        return $cs;
+        if(DAO::getById(Catalog::class,URequest::getDatas()["id"]))
+        {
+            if(Catalog::updateCatalog())
+                echo json_encode(["status"=>"OK 200","title"=>"Catalog updated"]);
+            else
+                echo json_encode(["status"=>"OK 200","title"=>"Error updating !"]);
+        }else
+        {
+            echo json_encode(["status"=>"404","title"=>"Catalog ".URequest::getDatas()["id"]." does not exist !"]);
+        }
     }
     /**
-     * @route("/getbyguzzle3","methods"=>["get"])
+     * @route("/getbyguzzle31","methods"=>["get"])
      */
     public function getbyguzzle()
     {
-        echo "getbyguzzle";
+        //$cats=DAO::getAll(Catalog::class,['libelle','details']);
+        $cats= DAO::getAll(Product::class,'Product.id = CatalogProduct.product and CatalogProduct.catalog=1',false);
+
+        foreach($cats as $cat){
+            echo $cat;
+        }
+    }
+
+    /**
+     * @route("/addCatalog2","methods"=>["post"])
+     */
+    public function addCatalog2()
+    {
+        $cat= new Catalog;
+        if($cat->addCatalog())
+           echo 'Catalog added';
+        else
+           echo 'Error adding !';
     }
 
 }

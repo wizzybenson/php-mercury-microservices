@@ -3,6 +3,7 @@ namespace models;
 use GuzzleHttp\Client;
 use Ubiquity\orm\DAO;
 use Ubiquity\utils\http\URequest;
+use Ubiquity\utils\http\UResponse;
 
 class Catalog{
 	/**
@@ -113,18 +114,10 @@ class Catalog{
         return json_encode($cs);
     }
     public function addCatalog(){
-        $cat= new Catalog;
-        /* $cat->setLibelle("KHALKI Add");
-         $cat->setDetails("KHALKI Details Add");
-         $cat->setImage("KHALKI im");
-         $cat->setDatec("2020-03-04 00:00:00");*/
-        URequest::setPostValuesToObject($cat);
-        if(DAO::insert($cat)) {
-            echo true;
-        }else
-        {
-            echo false;
-        }
+        if(DAO::insert($this))
+            return true;
+        else
+            return false;
     }
     public function addCatalog2(Catalog $cat){
         DAO::save($cat);
@@ -133,12 +126,10 @@ class Catalog{
     public function deleteCatalog($id){
         $cat= new Catalog;
         $cat=DAO::getOne(Catalog::class,$id,false);
-        if(DAO::remove($cat)) {
+        if(DAO::remove($cat))
             echo true;
-        }else
-        {
+        else
             echo false;
-        }
     }
 
     public static function sendRequest($token,$method='GET', $endpoint, $filterBy='', $body=''){
@@ -153,18 +144,16 @@ class Catalog{
     }
     public function updateCatalog(){
         $cat= new Catalog;
-        $cat->setId( URequest::get("id"));
-        $cat->setLibelle( URequest::get("libelle"));
-        $cat->setDetails( URequest::get("details"));
-        $cat->setImage(URequest::get("image") );
-        $cat->setDatec(URequest::get("datec"));
-        URequest::setPostValuesToObject($cat);
-
+        $cat->setId(URequest::getDatas()["id"]);
+        $cat->setLibelle(URequest::getDatas()["libelle"]);
+        $cat->setDetails(URequest::getDatas()["details"]);
+        $cat->setImage(URequest::getDatas()["image"]);
+        $cat->setDatec(URequest::getDatas()["datec"]);
         if(DAO::update($cat)) {
-            echo true;
+            return true;
         }else
         {
-            echo false;
+            return false;
         }
     }
 

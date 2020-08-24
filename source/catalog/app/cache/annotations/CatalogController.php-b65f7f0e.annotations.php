@@ -5,7 +5,10 @@ return array(
   '#uses' => array (
   'Catalog' => 'models\\Catalog',
   'CatalogProduct' => 'models\\CatalogProduct',
+  'Customer' => 'models\\Customer',
+  'Product' => 'models\\Product',
   'RestBaseController' => 'Ubiquity\\controllers\\rest\\RestBaseController',
+  'DAO' => 'Ubiquity\\orm\\DAO',
   'URequest' => 'Ubiquity\\utils\\http\\URequest',
 ),
   '#traitMethodOverrides' => array (
@@ -32,8 +35,14 @@ return array(
   'controllers\\CatalogController::AddProductToCatalog' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/ajouterProdToCatalog/","methods"=>["post"])
   ),
+  'controllers\\CatalogController::updateCatalog' => array(
+    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/updateCatalog","methods"=>["patch"])
+  ),
   'controllers\\CatalogController::getbyguzzle' => array(
-    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/getbyguzzle3","methods"=>["get"])
+    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/getbyguzzle31","methods"=>["get"])
+  ),
+  'controllers\\CatalogController::addCatalog2' => array(
+    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/addCatalog2","methods"=>["post"])
   ),
 );
 

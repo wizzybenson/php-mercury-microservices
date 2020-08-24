@@ -1,7 +1,9 @@
 <?php
 namespace controllers;
 
+use models\Catalog;
 use models\CatalogProduct;
+use Ubiquity\orm\DAO;
 use Ubiquity\utils\http\URequest;
 
 /**
@@ -15,32 +17,39 @@ class CatalogProductController extends \Ubiquity\controllers\rest\RestController
      */
     public function AddProductToCatalog()
     {
-        /*  $cat= new CatalogProduct;
-  */
         $catpro= new CatalogProduct;
-        //URequest::setPostValuesToObject($catpro);
 
-        /*  $js= json_decode(json_encode(URequest::getDatas()));
-          $catpro->setProduct($js->product);
-          $catpro->setCatalog($js->catalog);
-          $catpro->setId(111);
-          $cat->AddProductToCatalog($catpro);*/
-        $catpro->setProduct(URequest::get("catalog"));
-        $catpro->setCatalog(URequest::get("product"));
+        $catpro->setProduct("1");
+        $catpro->setCatalog("1");
+        $catpro->setDatecp("2010-05-07 00:00:0");
 
         echo $catpro->getCatalog().'-'.$catpro->getProduct();
-        if(DAO::save($catpro))
+        if(DAO::insert($catpro))
         {
             echo true;
         }else
         {
             echo false;
         }
-        /*$this->model= new CatalogProduct();
-        $this->add();*/
 
 
     }
+    /**
+     * @route("/addProdCat","methods"=>["post"])
+     */
+    public function addProdCat()
+    {
+        $cat= new CatalogProduct();
+        URequest::setPostValuesToObject($cat);
+        if($cat->addprotoCatalog())
+            echo json_encode(["status"=>"OK 200","title"=>"CatalogProduct added"]);
+        else
+            echo json_encode(["status"=>"OK 200","title"=>"CatalogProduct adding !"]);
+    }
+
+
+
+
 
 
 }
