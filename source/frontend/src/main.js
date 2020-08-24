@@ -15,7 +15,7 @@ Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
 
 // Payment Service
-Vue.prototype.paymentService = "http://localhost/backend/";
+Vue.prototype.paymentService = "http://localhost:8084/";
 
 // Other Services
 
