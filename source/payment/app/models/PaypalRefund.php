@@ -14,6 +14,11 @@ class PaypalRefund{
      * column("name" => "capturedpaypalrefundid", "nullable" => false, "dbType" => "varchar(40)")
      **/
     private $capturedpaypalrefundid;
+    /**
+     * @manyToOne
+     * @joinColumn("className"=>"models\\PaypalAdmin","name"=>"paypal_id","nullable"=>false)
+     **/
+    private $paypal_account;
 
     public function __construct(){}
 
@@ -22,5 +27,8 @@ class PaypalRefund{
 
     public function getCapturedpaypalrefundid(){ return $this->capturedpaypalrefundid; }
     public function setCapturedpaypalrefundid($capturedpaypalrefundid){ $this->capturedpaypalrefundid = $capturedpaypalrefundid; }
+    
+    public function getPaypal_account(){ return $this->paypal_account; }
+    public function setPaypal_account($paypal_account){ $this->paypal_account = $paypal_account; }
 }
 

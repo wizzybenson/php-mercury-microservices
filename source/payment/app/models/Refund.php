@@ -26,6 +26,13 @@ class Refund{
      * column("name" => "createtime", "nullable" => false, "dbType" => "datetime")
      **/
     private $createtime;
+
+    /**
+     * @manyToOne
+     * @joinColumn("className"=>"models\\Payment","name"=>"paymentmethod","nullable"=>false)
+     **/
+    private $payment;
+
     /**
      * column("name" => "refund_transaction", "nullable" => false, "dbType" => "int(11)")
      **/
@@ -52,6 +59,9 @@ class Refund{
 
     public function getCreatetime(){ return $this->createtime; }
     public function setCreatetime($createtime){ $this->createtime = $createtime; }
+
+    public function getPayment(){ return $this->payment; }
+    public function setPayment($payment){ $this->payment = $payment; }
 
     public function getRefund_transaction(){ return $this->refund_transaction; }
     public function setRefund_transaction($refund_transaction){ $this->refund_transaction = $refund_transaction; }

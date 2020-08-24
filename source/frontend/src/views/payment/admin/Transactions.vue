@@ -15,6 +15,8 @@
                             <tr>
                               <th>#</th>
                               <th>Costumor</th>
+                              <th>Method</th>
+                              <th>Status</th>
                               <th>Currency code</th>
                               <th>Amount</th>
                               <th>Tax</th>
@@ -29,14 +31,14 @@
                         </thead>
                         <tbody>
                             <tr v-if="loading">
-                                <td colspan="11">
+                                <td colspan="14">
                                     <b-spinner variant="danger" style="width: 3rem; height: 3rem;" /><br />
                                     please wait
                                 </td>
                             </tr>
                             <template v-else>
                             <tr v-if="errored">
-                                <td colspan="11">
+                                <td colspan="14">
                                     <b style="color:#CC0000">{{ error.title }}</b>
                                     <div class="text-left">
                                         {{ error.detail }}
@@ -48,6 +50,8 @@
                                   <tr :key="index + '-' + transaction.transactionid + '-transaction'" :style="(index%2 == 0 ? 'background:#EDEDED' : '')">
                                     <td>{{ transaction.transactionid }}</td>
                                     <td>{{ transaction.costumorid }}</td>
+                                    <td>{{ transaction.transactionmethod == 1 ? 'CAPTURE' : 'AUTHORIZE'}}</td>
+                                    <td>{{ transaction.payment_status }}</td>
                                     <td>{{ transaction.currencycode }}</td>
                                     <td>{{ transaction.amount }}</td>
                                     <td>{{ transaction.tax_total }}</td>
@@ -104,7 +108,7 @@
                                     <td colspan="11" class="p-0 m-0">
                                       <b-collapse :id="transaction.transactionid" accordion="my-accordion" role="tabpanel">
                                         <b-card-body v-if="refundComponentSelected == transaction.transactionid">
-                                          <component :is="refundComponents[transaction.payment.paymentid]" :transactionId="Number(transaction.transactionid)" :totalRefund="refunds.amounts[index]" :paymentTransaction="Number(transaction.paymenttransaction)"></component> 
+                                          <component :is="refundComponents[transaction.payment.paymentid]" :transactionId="Number(transaction.transactionid)" :totalRefund="Number(refunds.amounts[index])" :paymentTransaction="Number(transaction.paymenttransaction)"></component> 
                                         </b-card-body>
                                       </b-collapse>
                                     </td>

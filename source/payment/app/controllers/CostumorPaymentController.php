@@ -9,6 +9,7 @@ use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Core\ProductionEnvironment;
+use PayPalCheckoutSdk\Orders\OrdersAuthorizeRequest;
 
 /**
  * Rest Controller CostumorPaymentController
@@ -28,23 +29,47 @@ class CostumorPaymentController extends \Ubiquity\controllers\rest\RestControlle
 		$tax_percent = 0.2;
 		$shipping_amount = 10.00;
 
-		// Paypal Order Capture Request
-		$request = new OrdersCaptureRequest($token);
+		// ---------- connect to the activated paypal account ---------------
+		$activatedPaypal = DAO::getById(\models\ActivatedPaypal::class, 1);
+		$activatedPaypalAccount = $activatedPaypal->getActivePaypal();
 
-		// connect to the activated paypal account
-		$client = $this->client();
+		$clientId = $activatedPaypalAccount->getClientid();
+		$clientSecret = $activatedPaypalAccount->getClientsecret();
+		$sandboxmode = $activatedPaypalAccount->getSandboxmode();
+
+		$client = $this->client($clientId, $clientSecret, $sandboxmode);
+		// ------------------------------------------------------------------
+		// get Payment method (paypal)
+		$payment = DAO::getById(\models\Payment::class, 1);
+		$transactionmethod = $activatedPaypalAccount->getTransactionmethod();
+
+		if($transactionmethod == 1){ // CAPTURE
+			// Paypal Order Capture Request
+			$request = new OrdersCaptureRequest($token);
+		}else{ // AUTHORIZE
+			// Paypal Order authorize Request
+			$request = new OrdersAuthorizeRequest($token);
+		}
 
 		// Execute & get the response from Paypal
 		$response = $client->execute($request);
-
+		
 		$statusCode = $response->statusCode;
+		
 		// response success
 		if($statusCode == 201){
 
 			$requestShipping = $response->result->purchase_units[0]->shipping;
-			$requestCapture = $response->result->purchase_units[0]->payments->captures[0];
+			$requestPayment = $response->result->purchase_units[0]->payments;
 			$requestPayer = $response->result->payer;
 
+			if($transactionmethod == 1){ // CAPTURE
+				$requestCapture = $requestPayment->captures[0];
+				$display_status = 1; // display transaction
+			}else{ // AUTHORIZE
+				$requestCapture = $requestPayment->authorizations[0];
+				$display_status = 0; // not display transaction
+			}
 			$shippingBody = [
 				'method' => "United States Postal Service",
 				'name' => [
@@ -69,12 +94,15 @@ class CostumorPaymentController extends \Ubiquity\controllers\rest\RestControlle
 			$createtime = $requestCapture->create_time;
 			$createtime = str_ireplace("T", " ", $createtime);
 			$createtime = str_ireplace("Z", "", $createtime);
+
+			$payment_status = $requestCapture->status;
+
 			$paypalTransactionBody = [
 				'captureid' => $response->result->id,
 				'paymentcaptureid' => $requestCapture->id,
 				'currencycode' => $requestCapture->amount->currency_code,
 				'amountvalue' => $requestCapture->amount->value,
-				'paypalfee' => $requestCapture->seller_receivable_breakdown->paypal_fee->value,
+				'paypalfee' => (($transactionmethod == 1 && $payment_status != 'PENDING') ? $requestCapture->seller_receivable_breakdown->paypal_fee->value : 0.00),
 				'createtime' => $createtime
 			];
 			$total_amount = \round($requestCapture->amount->value, 2);
@@ -82,8 +110,25 @@ class CostumorPaymentController extends \Ubiquity\controllers\rest\RestControlle
 				'costumorid' => ($requestCapture->custom_id ?? 0),
 				'amount' => \round(($total_amount-$shipping_amount)/(1+$tax_percent), 2),
 				'tax_total' => \round($tax_percent*($total_amount-$shipping_amount)/(1+$tax_percent), 2),
-				'currencycode' => $requestCapture->amount->currency_code
+				'currencycode' => $requestCapture->amount->currency_code,
+				'payment_status' => $payment_status,
+				'transactionmethod' => $transactionmethod,
+				'status' => $display_status,
+				'payment' => $payment
 			];
+			if($transactionmethod == 0){ // AUTHORIZE
+
+				$expiration_time = $requestCapture->expiration_time;
+				$expiration_time = str_ireplace("T", " ", $expiration_time);
+				$expiration_time = str_ireplace("Z", "", $expiration_time);
+
+				$authorizationBody = [
+					'createtime' => $createtime,
+					'expiration_date' => $expiration_time,
+					'payment' => $payment,
+					'authorization_transaction' => 0
+				];
+			}
 			//----------------- Begin transaction ----------------
 			try{
 				DAO::beginTransaction();
@@ -92,24 +137,31 @@ class CostumorPaymentController extends \Ubiquity\controllers\rest\RestControlle
 
 				// 2 - adding paypal Transaction
 				$paypalTransactionBody['payer'] = $paypalPayer;
+				$paypalTransactionBody['paypal_account'] = $activatedPaypalAccount;
 				$paypalTransaction = $this->addPaypalTransaction($paypalTransactionBody);
 
 				// 3 - adding shipping informations
 				$shipping = $this->addShipping($shipping_amount, $shippingBody);
 
 				// 4 - adding costumor payment
-				$payment = DAO::getById(\models\Payment::class, 1);
-				$datas['payment'] = $payment;
 				$datas['paymenttransaction'] = $paypalTransaction->getPaypaltransactionid();
 				$datas['shipping'] = $shipping;
-				$this->addCostumorPayment($datas, false);
+				$costumorPayment = $this->addCostumorPayment($datas, false);
+				// 5 - adding authorization (if we have AUTHORIZE type)
+				if($transactionmethod == 0){
+					$authorizationBody['payment_transaction'] = $costumorPayment;
+					$this->addAuthorization($authorizationBody);
+				}
 				DAO::commit();
 			}catch(\Exception $e){
 				DAO::rollBack();
+				return;
 			}
 			//------------------ End transaction -----------------
 			echo $formatter->format([
 				'status' => 'inserted',
+				'transaction_method' => ($transactionmethod == 0 ? 'AUTHORIZE' : 'CAPTURE'),
+				'payment_status' => $payment_status,
 				'amountvalue' => $paypalTransactionBody['amountvalue'],
 				'currencycode' => $paypalTransactionBody['currencycode'],
 				'createtime' => $paypalTransactionBody['createtime'],
@@ -130,7 +182,7 @@ class CostumorPaymentController extends \Ubiquity\controllers\rest\RestControlle
      * @route("/getAll", "methods"=>["get"])
      */
     public function getAll(){
-		parent::get("1=1", true);
+		parent::get("status=1", true);
 	}
     /**
      * @route("/get_refunds/{costumorPaymentId}", "methods"=>["get"])
@@ -188,10 +240,18 @@ class CostumorPaymentController extends \Ubiquity\controllers\rest\RestControlle
 		];
 		// Manage Paypal Payment
 		if($paymentMethod == 1){
-			//$transactionmethod = $activatedPaypal->getActivePaypal()->getTransactionmethod();
-			//$method = (!$transactionmethod ? 'AUTHORIZE' : 'CAPTURE');
-			$method = 'CAPTURE';
-			//echo $method;
+			// ---------- connect to the activated paypal account ---------------
+			$activatedPaypal = DAO::getById(\models\ActivatedPaypal::class, 1);
+			$activatedPaypalAccount = $activatedPaypal->getActivePaypal();
+
+			$clientId = $activatedPaypalAccount->getClientid();
+			$clientSecret = $activatedPaypalAccount->getClientsecret();
+			$sandboxmode = $activatedPaypalAccount->getSandboxmode();
+
+			$client = $this->client($clientId, $clientSecret, $sandboxmode);
+			// ------------------------------------------------------------------
+			$transactionmethod = $activatedPaypalAccount->getTransactionmethod();
+			$method = ($transactionmethod == 0 ? 'AUTHORIZE' : 'CAPTURE');
 			//--------------------- Paypal Request ---------------------------
 			// Paypal amounts information
 			$amountBody = [
@@ -215,8 +275,6 @@ class CostumorPaymentController extends \Ubiquity\controllers\rest\RestControlle
 			$request = new OrdersCreateRequest();
 			$request->headers["prefer"] = "return=representation";
 			$request->body = $this->requestBody($method, $datas['origin'], $amountBody, $datas['costumorid'], $shippingBody);
-
-			$client = $this->client();
 
 			$order = $client->execute($request);
 
@@ -313,6 +371,7 @@ class CostumorPaymentController extends \Ubiquity\controllers\rest\RestControlle
 				if($displayMsg){
 					echo $formatter->format(["status" => "inserted"]);
 				}
+				return $instance;
 			}else{
 				throw new \Exception("Unable to insert the instance Costumor Payment");
 			}
@@ -363,6 +422,16 @@ class CostumorPaymentController extends \Ubiquity\controllers\rest\RestControlle
 		}
 		return $paypalPayer;
 	}
+	private function addAuthorization($authorizationBody){
+		$authorization = new \models\Authorization();
+		$this->_setValuesToObject($authorization, $authorizationBody);
+		$result = DAO::insert($authorization);
+		// very important to check sql transaction
+		if(!$result){
+			throw new \Exception("Unable to insert authorization");
+		}
+		return $authorization;
+	}
 	private function requestBody($method, $origin, $amountBody, $costumorid, $shippingBody){
 		return [
             'intent' => $method,
@@ -387,14 +456,7 @@ class CostumorPaymentController extends \Ubiquity\controllers\rest\RestControlle
         	]
         ];
 	}
-	private function client(){
-		// get the activated paypal business account
-		$activatedPaypal = DAO::getById(\models\ActivatedPaypal::class, 1);
-
-		$sandboxmode = $activatedPaypal->getActivePaypal()->getSandboxmode();
-		$clientId = $activatedPaypal->getActivePaypal()->getClientid();
-		$clientSecret = $activatedPaypal->getActivePaypal()->getClientsecret();
-
+	private function client($clientId, $clientSecret, $sandboxmode){
 		if($sandboxmode){
 			$environment = new SandboxEnvironment($clientId, $clientSecret);
 		}else{

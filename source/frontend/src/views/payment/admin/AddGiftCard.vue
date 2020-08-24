@@ -11,16 +11,17 @@
                             <h3>Add Gift card</h3>
                         </div>
                         <div class="card-body text-left">
-                            <form @submit="formSubmit">
-                                <GiftCardForm :giftCard="giftCardInfo" :violations="anerror.violations" />
-                                <div v-if="loading" class="py-2">Sending....</div>
-                            </form>
-                            <div class="alert alert-danger text-left my-2" v-if="anerror.isError">
-                                <i class="fas fa-exclamation-triangle"></i> <b>{{ anerror.title }}</b>
-                                <div class="text-muted">
-                                    {{ anerror.detail }}
+                            <b-overlay :show="loading" rounded="lg">
+                                <form @submit="formSubmit">
+                                    <GiftCardForm :giftCard="giftCardInfo" :violations="anerror.violations" />
+                                </form>
+                                <div class="alert alert-danger text-left my-2" v-if="anerror.isError">
+                                    <i class="fas fa-exclamation-triangle"></i> <b>{{ anerror.title }}</b>
+                                    <div class="text-muted">
+                                        {{ anerror.detail }}
+                                    </div>
                                 </div>
-                            </div>
+                            </b-overlay>
                         </div>
                     </div>
                 </div>

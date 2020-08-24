@@ -42,6 +42,12 @@ class PaypalTransaction{
 
     /**
      * @manyToOne
+     * @joinColumn("className"=>"models\\PaypalAdmin","name"=>"paypal_id","nullable"=>false)
+     **/
+    private $paypal_account;
+
+    /**
+     * @manyToOne
      * @joinColumn("className"=>"models\\PayerPaypal","name"=>"payerid","nullable"=>false)
      **/
     private $payer;
@@ -67,6 +73,9 @@ class PaypalTransaction{
 
     public function getCreatetime(){ return $this->createtime; }
     public function setCreatetime($createtime){ $this->createtime = $createtime; }
+
+    public function getPaypal_account(){ return $this->paypal_account; }
+    public function setPaypal_account($paypal_account){ $this->paypal_account = $paypal_account; }
 
     public function getPayer(){ return $this->payer; }
     public function setPayer($payer){ $this->payer = $payer; }

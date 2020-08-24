@@ -24,7 +24,7 @@ class RefundController extends \Ubiquity\controllers\rest\RestController {
 		parent::get("1=1", true);
 	}
     /**
-     * @route("/addRefund", "methods"=>["post"])
+     * @route("/addPaypalRefund", "methods"=>["post"])
      */
 	public function paypalRefund(){
 
@@ -33,8 +33,17 @@ class RefundController extends \Ubiquity\controllers\rest\RestController {
 		// get posts
 		$datas = $this->getDatas();
 
-		// connect to the activated paypal account
-		$client = $this->client();
+		// ---------- connect to the activated paypal account ---------------
+		$activatedPaypal = DAO::getById(\models\ActivatedPaypal::class, 1);
+		$activatedPaypalAccount = $activatedPaypal->getActivePaypal();
+
+		$clientId = $activatedPaypalAccount->getClientid();
+		$clientSecret = $activatedPaypalAccount->getClientsecret();
+		$sandboxmode = $activatedPaypalAccount->getSandboxmode();
+
+		$client = $this->client($clientId, $clientSecret, $sandboxmode);
+		// ------------------------------------------------------------------
+
 		$request = new CapturesRefundRequest($datas['paymentcaptureid']);
 		if($datas['type'] == 0){
 			$request->body = "{}";
@@ -61,8 +70,11 @@ class RefundController extends \Ubiquity\controllers\rest\RestController {
 			try{
 				DAO::beginTransaction();
 				// 1- add Paypal Refund
+				$paypalRefundBody['paypal_account'] = $activatedPaypalAccount;
 				$paypalRefund = $this->addPaypalRefund($paypalRefundBody);
+				
 				$refundBody['refund_transaction'] = $paypalRefund->getPaypalrefundid();
+				$refundBody['paymentmethod'] = 1; // paypal payment id = 1
 				// 2- add Refund
 				$refund = $this->addRefund($refundBody);
 				$refundBody['refundid'] = $refund->getRefundid();
@@ -98,14 +110,7 @@ class RefundController extends \Ubiquity\controllers\rest\RestController {
 		}
 		return $paypalRefund;
 	}
-	private function client(){
-		// get the activated paypal business account
-		$activatedPaypal = DAO::getById(\models\ActivatedPaypal::class, 1);
-
-		$sandboxmode = $activatedPaypal->getActivePaypal()->getSandboxmode();
-		$clientId = $activatedPaypal->getActivePaypal()->getClientid();
-		$clientSecret = $activatedPaypal->getActivePaypal()->getClientsecret();
-
+	private function client($clientId, $clientSecret, $sandboxmode){
 		if($sandboxmode){
 			$environment = new SandboxEnvironment($clientId, $clientSecret);
 		}else{
