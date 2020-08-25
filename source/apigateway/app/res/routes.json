@@ -326,12 +326,42 @@
     {
       "id" : "r76",
       "method" : "GET",
-      "path" : "http://microservice_catalog_nginx/rest/catalogs"
+      "path" : "http://microservice_catalog_nginx/rest/catalogs/getActiveCatalog"
     },
     {
       "id" : "r77",
       "method" : "GET",
-      "path" : "http://microservice_catalog_nginx/rest/catalogproducts"
+      "path" : "http://microservice_catalog_nginx/rest/catalogs/getDesactiveCatalog"
+    },
+    {
+      "id" : "r78",
+      "method" : "GET",
+      "path" : "http://microservice_catalog_nginx/rest/catalogs/getCatalogSize/{id}"
+    },
+    {
+      "id" : "r79",
+      "method" : "DELETE",
+      "path" : "http://microservice_catalog_nginx/rest/catalogs/ViderCatalog/{id}"
+    },
+    {
+      "id" : "r80",
+      "method" : "PATCH",
+      "path" : "http://microservice_catalog_nginx/rest/catalogs/ActiveAllCatalog"
+    },
+    {
+      "id" : "r82",
+      "method" : "PATCH",
+      "path" : "http://microservice_catalog_nginx/rest/catalogs/DesactiveAllCatalog"
+    },
+    {
+      "id" : "r82",
+      "method" : "PATCH",
+      "path" : "http://microservice_catalog_nginx/rest/catalogs/ActiveCatalog/{id}"
+    },
+    {
+      "id" : "r83",
+      "method" : "PATCH",
+      "path" : "http://microservice_catalog_nginx/rest/catalogs/DesactiveCatalog/{id}"
     }
   ]
 }

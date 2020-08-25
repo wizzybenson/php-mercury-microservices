@@ -8,19 +8,20 @@ class CategorySeeder extends AbstractSeed
     {
         $faker = Faker\Factory::create();
         $data = [];
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 30; $i++) {
             $data[] = [
                 
                 'libelle' => $faker->lexify('libelle ???'),
                 'details' => $faker->lexify('details ???'),
                 'image'   => $faker->lexify('image ???'),
-                'datec'   => $faker->date($format = 'Y-m-d', $max = 'now'), 
+                'etat'    => $faker->boolean($chanceOfGettingTrue = 65),
+                'datec'   => $faker->date($format = 'Y-m-d', $max = 'now'),
             ];
         }
  	
         $this->table('Catalog')->insert($data)->saveData();
 	$data2 = [];
-	for ($i = 0; $i < 100; $i++) {
+	for ($i = 0; $i < 30; $i++) {
             $data2[] = [
                 
                 'lib' => $faker->lexify('lib ???'),
@@ -35,7 +36,7 @@ class CategorySeeder extends AbstractSeed
             $data3[] = [
                 
                 'catalog' => $faker->randomDigitNotNull,
-		'product' => $faker->randomDigitNotNull,
+		        'product' => $faker->randomDigitNotNull,
             ];
         }
  

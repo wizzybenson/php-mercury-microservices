@@ -2,16 +2,16 @@
 namespace models;
 use Ubiquity\orm\DAO;
 use Ubiquity\utils\http\URequest;
-class CatalogProduct extends \Ubiquity\controllers\rest\RestController{
+class CatalogProduct{
 	/**
 	 * @id
-	 * @column("name"=>"id","nullable"=>false,"dbType"=>"int(11)")
+	 * @column("name"=>"id","nullable"=>false,"dbType"=>"int")
 	 * @validator("id","constraints"=>array("autoinc"=>true))
 	**/
 	private $id;
 
 	/**
-	 * @column("name"=>"catalog","nullable"=>false,"dbType"=>"int(11)")
+	 * @column("name"=>"catalog","nullable"=>false,"dbType"=>"int")
 	 * @validator("notNull")
 	 * @manyToOne
 	 * @joinColumn("className"=>"models\\Catalog","name"=>"catalog","nullable"=>false)
@@ -19,7 +19,7 @@ class CatalogProduct extends \Ubiquity\controllers\rest\RestController{
 	private $catalog;
 
 	/**
-	 * @column("name"=>"product","nullable"=>false,"dbType"=>"int(11)")
+	 * @column("name"=>"product","nullable"=>false,"dbType"=>"int")
 	 * @validator("notNull")
 	 * @manyToOne
 	 * @joinColumn("className"=>"models\\Product","name"=>"product","nullable"=>false)
@@ -68,9 +68,10 @@ class CatalogProduct extends \Ubiquity\controllers\rest\RestController{
 		return ($this->datecp??'no value').'';
 	}
 
+
     public function add($cat){
 
-	     $cp = new CatalogProduct();
+        $cp = new CatalogProduct();
         $cp->setId(100);
         $cp->setCatalog(1);
         $cp->setProduct(2);

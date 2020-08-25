@@ -10,6 +10,7 @@ return array(
   'RestBaseController' => 'Ubiquity\\controllers\\rest\\RestBaseController',
   'DAO' => 'Ubiquity\\orm\\DAO',
   'URequest' => 'Ubiquity\\utils\\http\\URequest',
+  'lessThanOrEqual' => 'PHPUnit\\Framework\\lessThanOrEqual',
 ),
   '#traitMethodOverrides' => array (
   'controllers\\CatalogController' => 
@@ -26,17 +27,41 @@ return array(
   'controllers\\CatalogController::getById' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/getById/{id}","methods"=>["get"])
   ),
+  'controllers\\CatalogController::getActiveCatalog' => array(
+    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/getActiveCatalog","methods"=>["get"])
+  ),
+  'controllers\\CatalogController::getDesactiveCatalog' => array(
+    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/getDesactiveCatalog","methods"=>["get"])
+  ),
+  'controllers\\CatalogController::getCatalogSize' => array(
+    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/getCatalogSize/{id}","methods"=>["get"])
+  ),
   'controllers\\CatalogController::addCatalog' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/addCatalog","methods"=>["post"])
   ),
   'controllers\\CatalogController::deleteCatalog' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/deleteCatalog/{id}","methods"=>["delete"])
   ),
+  'controllers\\CatalogController::ViderCatalog' => array(
+    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/ViderCatalog/{id}","methods"=>["delete"])
+  ),
   'controllers\\CatalogController::AddProductToCatalog' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/ajouterProdToCatalog/","methods"=>["post"])
   ),
   'controllers\\CatalogController::updateCatalog' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/updateCatalog","methods"=>["patch"])
+  ),
+  'controllers\\CatalogController::ActiveAllCatalog' => array(
+    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/ActiveAllCatalog","methods"=>["patch"])
+  ),
+  'controllers\\CatalogController::DesactiveAllCatalog' => array(
+    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/DesactiveAllCatalog","methods"=>["patch"])
+  ),
+  'controllers\\CatalogController::ActiveCatalog' => array(
+    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/ActiveCatalog/{id}","methods"=>["patch"])
+  ),
+  'controllers\\CatalogController::DesactiveCatalog' => array(
+    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/DesactiveCatalog/{id}","methods"=>["patch"])
   ),
   'controllers\\CatalogController::getbyguzzle' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/getbyguzzle31","methods"=>["get"])

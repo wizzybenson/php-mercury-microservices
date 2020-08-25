@@ -3,9 +3,6 @@
 return array(
   '#namespace' => 'models',
   '#uses' => array (
-  'Client' => 'GuzzleHttp\\Client',
-  'DAO' => 'Ubiquity\\orm\\DAO',
-  'URequest' => 'Ubiquity\\utils\\http\\URequest',
 ),
   '#traitMethodOverrides' => array (
   'models\\Catalog' => 
@@ -14,7 +11,7 @@ return array(
 ),
   'models\\Catalog::$id' => array(
     array('#name' => 'id', '#type' => 'Ubiquity\\annotations\\IdAnnotation'),
-    array('#name' => 'column', '#type' => 'Ubiquity\\annotations\\ColumnAnnotation', "name"=>"id","nullable"=>false,"dbType"=>"int(11)"),
+    array('#name' => 'column', '#type' => 'Ubiquity\\annotations\\ColumnAnnotation', "name"=>"id","nullable"=>false,"dbType"=>"int"),
     array('#name' => 'validator', '#type' => 'Ubiquity\\annotations\\ValidatorAnnotation', "id","constraints"=>array("autoinc"=>true))
   ),
   'models\\Catalog::$libelle' => array(
@@ -28,6 +25,10 @@ return array(
   'models\\Catalog::$image' => array(
     array('#name' => 'column', '#type' => 'Ubiquity\\annotations\\ColumnAnnotation', "name"=>"image","nullable"=>false,"dbType"=>"varchar(20)"),
     array('#name' => 'validator', '#type' => 'Ubiquity\\annotations\\ValidatorAnnotation', "length","constraints"=>array("max"=>20,"notNull"=>true))
+  ),
+  'models\\Catalog::$etat' => array(
+    array('#name' => 'column', '#type' => 'Ubiquity\\annotations\\ColumnAnnotation', "name"=>"etat","nullable"=>false,"dbType"=>"tinyint(1)"),
+    array('#name' => 'validator', '#type' => 'Ubiquity\\annotations\\ValidatorAnnotation', "isBool","constraints"=>array("notNull"=>true))
   ),
   'models\\Catalog::$datec' => array(
     array('#name' => 'column', '#type' => 'Ubiquity\\annotations\\ColumnAnnotation', "name"=>"datec","nullable"=>false,"dbType"=>"datetime"),
