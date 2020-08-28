@@ -27,8 +27,8 @@ return array(
   'controllers\\AuthorizationController::getCountNotCaptured' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/getCountNotCaptured", "methods"=>["get"])
   ),
-  'controllers\\AuthorizationController::capturePaypalAuth' => array(
-    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/capturePaypalAuth", "methods"=>["post"])
+  'controllers\\AuthorizationController::captureAuth' => array(
+    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/captureAuth", "methods"=>["post"])
   ),
 );
 

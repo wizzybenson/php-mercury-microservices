@@ -133,15 +133,19 @@ class CostumorPaymentController extends \Ubiquity\controllers\rest\RestControlle
 			try{
 				DAO::beginTransaction();
 				// 1 - adding paypal Payer informations
-				$paypalPayer = $this->addPaypalPayer($paypalPayerBody);
+				$paypalPayer = new \models\PayerPaypal();
+				$this->_setValuesToObject($paypalPayer, $paypalPayerBody);
+				$paypalPayer = \models\PayerPaypal::addPaypalPayer($paypalPayer);
 
 				// 2 - adding paypal Transaction
 				$paypalTransactionBody['payer'] = $paypalPayer;
 				$paypalTransactionBody['paypal_account'] = $activatedPaypalAccount;
-				$paypalTransaction = $this->addPaypalTransaction($paypalTransactionBody);
+				$paypalTransaction = new \models\PaypalTransaction();
+				$this->_setValuesToObject($paypalTransaction, $paypalTransactionBody);
+				$paypalTransaction = \models\PaypalTransaction::addPaypalTransaction($paypalTransaction);
 
 				// 3 - adding shipping informations
-				$shipping = $this->addShipping($shipping_amount, $shippingBody);
+				$shipping = \models\Shipping::addShippingWithBody($shipping_amount, $shippingBody);
 
 				// 4 - adding costumor payment
 				$datas['paymenttransaction'] = $paypalTransaction->getPaypaltransactionid();
@@ -150,7 +154,9 @@ class CostumorPaymentController extends \Ubiquity\controllers\rest\RestControlle
 				// 5 - adding authorization (if we have AUTHORIZE type)
 				if($transactionmethod == 0){
 					$authorizationBody['payment_transaction'] = $costumorPayment;
-					$this->addAuthorization($authorizationBody);
+					$authorization = new \models\Authorization();
+					$this->_setValuesToObject($authorization, $authorizationBody);
+					\models\Authorization::addAuthorization($authorization);
 				}
 				DAO::commit();
 			}catch(\Exception $e){
@@ -287,67 +293,57 @@ class CostumorPaymentController extends \Ubiquity\controllers\rest\RestControlle
 		}
 		// Manage Gift Card Payment
 		if($paymentMethod == 2){
-			//------ Begin Transaction ------
-			try{
-				DAO::beginTransaction();
-				// add gift Card Transaction
-				$paymenttransaction = $this->addGiftCardTransaction($datas['code'], $formatter);
-				if($paymenttransaction == null){
+			$getGiftCard = DAO::getOne(\models\GiftCardAdmin::class, ['code'=>($datas['code'] ?? "")]);
+			if($getGiftCard == null){
+				echo $formatter->format(["status" => "gift_card_error","title" => "this gift card code not exists"]);
+				return;
+			}else{
+				$giftCardtimesUsed = $getGiftCard->getUsed();
+				if(!$getGiftCard->getStatus()){
+					echo $formatter->format(["status" => "gift_card_error","title" => "this gift card is disabled"]);
 					return;
 				}
-				$datas['currencycode'] = $currency_code;
-				$datas['tax_total'] = $tax_total;
-				$datas['paymenttransaction'] = $paymenttransaction;
-				// add Shipping
-				$shippingObject = $this->addShipping($shipping_amount, $shippingBody);
-				// add Costumor Payment Transaction
-				$datas['payment'] = $payment;
-				$datas['shipping'] = $shippingObject;
-				$this->addCostumorPayment($datas);
-				DAO::commit();
-			}catch(\Exception $e){
-				DAO::rollBack();
-			}
-			//------ End Transaction ------
-		}
-	}
-	private function addGiftCardTransaction($code, $formatter){
-		$getGiftCard = DAO::getOne(\models\GiftCardAdmin::class, ['code'=>($code ?? "")]);
-		if($getGiftCard == null){
-			echo $formatter->format(["status" => "gift_card_error","title" => "this gift card code not exists"]);
-			return null;
-		}else{
-			$giftCardUsed = $getGiftCard->getUsed();
-			if(!$getGiftCard->getStatus()){
-				echo $formatter->format(["status" => "gift_card_error","title" => "this gift card is disabled"]);
-				return null;
-			}
-			if($getGiftCard->getExpiration_date() < date("Y-m-d H:i:s")){
-				echo $formatter->format(["status" => "gift_card_error","title" => "this gift card was expired"]);
-				return null;
-			}
-			if($getGiftCard->getMax_use() != -1 && $getGiftCard->getMax_use() <= $giftCardUsed){
-				echo $formatter->format(["status" => "gift_card_error","title" => "this gift card is fully used"]);
-				return null;
-			}
-			// insert giftCardTransaction
-			$giftCardTransaction = new \models\GiftCardTransaction();
-			$giftCardTransaction->setGiftcard($getGiftCard);
-			$result = DAO::save($giftCardTransaction);
-			if($result){
-				// add +1 to used in gift Cards
-				$giftCardUsed++;
-				$getGiftCard->setUsed($giftCardUsed);
-				$result = DAO::save($getGiftCard);
-				if(!$result){
-					throw new \Exception("Unable to update the instance gift Card");
+				else if($getGiftCard->getExpiration_date() < date("Y-m-d H:i:s")){
+					echo $formatter->format(["status" => "gift_card_error","title" => "this gift card was expired"]);
+					return;
 				}
-			}else{
-				throw new \Exception("Unable to insert the instance giftCardTransaction");
+				else if($getGiftCard->getMax_use() != -1 && $getGiftCard->getMax_use() <= $giftCardtimesUsed){
+					echo $formatter->format(["status" => "gift_card_error","title" => "this gift card is fully used"]);
+					return;
+				}
+				else{
+					//------------------------ Begin Transaction ------------------------
+					try{
+						DAO::beginTransaction();
+						// add gift Card Transaction
+						$giftCardTransaction = new \models\GiftCardTransaction();
+						$giftCardTransaction->setGiftcard($getGiftCard);
+						$giftCardTransaction = \models\GiftCardTransaction::addGiftCardTransaction($giftCardTransaction);
+
+						$paymenttransaction = $giftCardTransaction->getGiftcardtransactionid();
+
+						$datas['currencycode'] = $currency_code;
+						$datas['tax_total'] = $tax_total;
+						$datas['paymenttransaction'] = $paymenttransaction;
+						// add Shipping
+						$shipping = \models\Shipping::addShippingWithBody($shipping_amount, $shippingBody);
+						// add Costumor Payment Transaction
+						$datas['payment'] = $payment;
+						$datas['shipping'] = $shipping;
+						$datas['payment_status'] = "COMPLETED";
+						$this->addCostumorPayment($datas);
+						DAO::commit();
+					}catch(\Exception $e){
+						DAO::rollBack();
+						echo $formatter->format(["status" => "not_inserted"]);
+						return;
+					}
+					//------------------------- End Transaction ------------------------
+				}
 			}
-			return $giftCardTransaction->getGiftcardtransactionid();
 		}
 	}
+
 	private function addCostumorPayment($datas, $displayMsg=true){
 		
 		$model = $this->model;
@@ -379,58 +375,6 @@ class CostumorPaymentController extends \Ubiquity\controllers\rest\RestControlle
 			// show violation errors
 			$this->displayErrors();
 		}
-	}
-	private function addShipping($amount, $shippingBody){
-
-		$shipping = new \models\Shipping();
-		$shipping->setAmount($amount);
-		$shipping->setMethod($shippingBody['method']);
-		$shipping->setFull_name($shippingBody['name']['full_name']);
-		$shipping->setAddress_line_1($shippingBody['address']['address_line_1']);
-		$shipping->setAddress_line_2($shippingBody['address']['address_line_2']);
-		$shipping->setAdmin_area_2($shippingBody['address']['admin_area_2']);
-		$shipping->setAdmin_area_1($shippingBody['address']['admin_area_1']);
-		$shipping->setPostal_code($shippingBody['address']['postal_code']);
-		$shipping->setCountry_code($shippingBody['address']['country_code']);
-
-		$result = DAO::save($shipping);
-
-		// very important to check sql transaction
-		if(!$result){
-			throw new \Exception("Unable to insert shipping");
-		}
-		return $shipping;
-
-	}
-	private function addPaypalTransaction($paypalTransactionBody){
-		$paypalTransaction = new \models\PaypalTransaction();
-		$this->_setValuesToObject($paypalTransaction, $paypalTransactionBody);
-		$result = DAO::insert($paypalTransaction);
-		// very important to check sql transaction
-		if(!$result){
-			throw new \Exception("Unable to insert paypal transaction");
-		}
-		return $paypalTransaction;
-	}
-	private function addPaypalPayer($paypalPayerBody){
-		$paypalPayer = new \models\PayerPaypal();
-		$this->_setValuesToObject($paypalPayer, $paypalPayerBody);
-		$result = DAO::insert($paypalPayer);
-		// very important to check sql transaction
-		if(!$result){
-			throw new \Exception("Unable to insert paypal payer");
-		}
-		return $paypalPayer;
-	}
-	private function addAuthorization($authorizationBody){
-		$authorization = new \models\Authorization();
-		$this->_setValuesToObject($authorization, $authorizationBody);
-		$result = DAO::insert($authorization);
-		// very important to check sql transaction
-		if(!$result){
-			throw new \Exception("Unable to insert authorization");
-		}
-		return $authorization;
 	}
 	private function requestBody($method, $origin, $amountBody, $costumorid, $shippingBody){
 		return [

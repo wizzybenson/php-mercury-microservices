@@ -1,5 +1,8 @@
 <?php
 namespace models;
+
+use Ubiquity\orm\DAO;
+
 /**
  * @table("name"=>"refunds")
  **/
@@ -68,4 +71,13 @@ class Refund{
 
     public function getPayment_transaction(){ return $this->payment_transaction; }
     public function setPayment_transaction($payment_transaction){ $this->payment_transaction = $payment_transaction; }
+
+	public static function addRefund($refund){
+        $result = DAO::insert($refund);
+		// very important to check sql transaction
+		if(!$result){
+			throw new \Exception("Unable to insert refund");
+		}
+		return $refund;
+	}
 }

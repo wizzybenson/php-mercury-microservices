@@ -148,58 +148,59 @@ export default {
 
             this.$root.$emit('bv::toggle::collapse', authorization.authorization_id);
             if(authorization.status == 0){
-                if(authorization.payment.paymentid == 1){ // paypal authorization
-                    const params = new URLSearchParams();
-                    params.append('authorizationid', authorization.authorization_id);
+                const params = new URLSearchParams();
+                params.append('authorizationid', authorization.authorization_id);
+                params.append('payment', authorization.payment.paymentid);
+                if(authorization.payment.paymentid == 1){ // Paypal authorize
                     params.append('paypal_transaction', authorization.payment_transaction.paymenttransaction);
-                    axios.post(this.paymentService + "payments/authorizations/capturePaypalAuth",params)
-                    .then(response => {
-                        var result = response.data;
-                        if(result.status == "captured"){ // success
-                            this.reload();
-                        }
-                        else if(result.status == 500){
-                            this.captureError = true;
-                            if(result.title){
-                                if(result.source.pointer.search("paypal") > -1){
-                                    var errorObjResponse = JSON.parse(result.title);
-                                    if(errorObjResponse.error){
-                                        this.authorizationErrorObj.title = "Paypal : " + errorObjResponse.error;
-                                        this.authorizationErrorObj.detail = errorObjResponse.error_description;
-                                    }else{
-                                        this.authorizationErrorObj.title = "Paypal : " + errorObjResponse.name;
-                                        var diplayLinks = '';
-                                        var diplayDetails = '';
-                                        errorObjResponse.details.forEach(function(item){
-                                            diplayDetails += '<li><b>'+item.issue+' :</b>' + item.description + '</li>';
-                                        });
-                                        errorObjResponse.links.forEach(function(item){
-                                            diplayLinks += '<li><a href="'+item.href+'" class="text-primary" target="_blank">'+item.rel+'</a></li>';
-                                        });
-                                        this.authorizationErrorObj.detail = errorObjResponse.message + '<ul>'+diplayDetails+'</ul> Links : <ul>'+diplayLinks+'</ul>';
-                                    }
+                }
+                axios.post(this.paymentService + "payments/authorizations/captureAuth",params)
+                .then(response => {
+                    var result = response.data;
+                    if(result.status == "captured"){ // success
+                        this.reload();
+                    }
+                    else if(result.status == 500){
+                        this.captureError = true;
+                        if(result.title){
+                            if(result.source.pointer.search("paypal") > -1){
+                                var errorObjResponse = JSON.parse(result.title);
+                                if(errorObjResponse.error){
+                                    this.authorizationErrorObj.title = "Paypal : " + errorObjResponse.error;
+                                    this.authorizationErrorObj.detail = errorObjResponse.error_description;
                                 }else{
-                                    this.authorizationErrorObj.title = result.title;
+                                    this.authorizationErrorObj.title = "Paypal : " + errorObjResponse.name;
+                                    var diplayLinks = '';
+                                    var diplayDetails = '';
+                                    errorObjResponse.details.forEach(function(item){
+                                        diplayDetails += '<li><b>'+item.issue+' :</b>' + item.description + '</li>';
+                                    });
+                                    errorObjResponse.links.forEach(function(item){
+                                        diplayLinks += '<li><a href="'+item.href+'" class="text-primary" target="_blank">'+item.rel+'</a></li>';
+                                    });
+                                    this.authorizationErrorObj.detail = errorObjResponse.message + '<ul>'+diplayDetails+'</ul> Links : <ul>'+diplayLinks+'</ul>';
                                 }
                             }else{
-                                this.authorizationErrorObj.title = "unkonwn error";
-                                this.authorizationErrorObj.detail = "";
+                                this.authorizationErrorObj.title = result.title;
                             }
-                        }
-                    })
-                    .catch(error => {
-                        this.captureError = true;
-                        if(error.response){
-                            this.authorizationErrorObj = error.response.data;
                         }else{
-                            this.authorizationErrorObj.title = error;
-                            this.authorizationErrorObj.detail = '';
+                            this.authorizationErrorObj.title = "unkonwn error";
+                            this.authorizationErrorObj.detail = "";
                         }
-                    })
-                    .finally(() => {
-                        this.captureLoading = false;
-                    });
-                }
+                    }
+                })
+                .catch(error => {
+                    this.captureError = true;
+                    if(error.response){
+                        this.authorizationErrorObj = error.response.data;
+                    }else{
+                        this.authorizationErrorObj.title = error;
+                        this.authorizationErrorObj.detail = '';
+                    }
+                })
+                .finally(() => {
+                    this.captureLoading = false;
+                });
             }
         }
     }

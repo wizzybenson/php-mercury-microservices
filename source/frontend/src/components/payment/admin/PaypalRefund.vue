@@ -73,7 +73,8 @@ export default {
     props:{
         transactionId: Number,
         paymentTransaction: Number,
-        totalRefund: Number
+        totalRefund: Number,
+        transactionmethod: Number
     },
     data() {
         return{
@@ -137,12 +138,14 @@ export default {
             this.refundErrorObj.title = '';
             this.refundErrorObj.detail = '';
             const params = new URLSearchParams();
+            params.append('transactionmethod', this.transactionmethod);
             params.append('type', this.refund.refundMethod);
             params.append('amount', (this.refund.refundMethod == 1 ? this.refund.amount : this.paypalTransaction.amountvalue));
             params.append('currencycode', this.refund.currencycode);
             params.append('transactionid', this.transactionId);
             params.append('paymentcaptureid', this.paypalTransaction.paymentcaptureid);
-            axios.post(this.paymentService + "payments/refunds/addPaypalRefund",params)
+            params.append('payment', 1); // payment method with id=1 is paypal
+            axios.post(this.paymentService + "payments/refunds/addPaymentRefund",params)
             .then(response => {
                 var result = response.data;
                 if(result.status == 201){

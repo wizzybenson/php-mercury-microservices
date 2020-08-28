@@ -27,6 +27,7 @@
                     <div class="alert alert-info text-left">
                         <b-icon icon="exclamation-circle-fill" variant="info" font-scale="1.5" style="vertical-align: middle" /> <b>Payment methods :</b> Manage differente payment methods.
                     </div>
+					<b-overlay :show="activateLoading" rounded="lg">
                     <table class="table text-center table-striped">
                         <thead>
                             <tr>
@@ -88,6 +89,7 @@
                             </template>
                         </tbody>
                     </table>
+					</b-overlay>
                 </div>
             </div>
         </div>
@@ -106,6 +108,7 @@ export default {
   data() {
     return {
       loading: true,
+	  activateLoading: false,
       errored: false,
       error: {},
       datas: {}
@@ -137,6 +140,7 @@ export default {
       this.$nextTick(() => this.$router.replace(location));
     },
     activatePayment: function(status, id, index){
+		this.activateLoading = true;
         var msg = "";
         if(status == 0){
             msg = "Are you sure to activate this payment method ?";
@@ -161,7 +165,9 @@ export default {
                     alert(e);
                 }
             })
-            .finally(()=>{});
+            .finally(()=>{
+				this.activateLoading = false;
+			});
         }
     }
   }

@@ -1,5 +1,8 @@
 <?php
 namespace models;
+
+use Ubiquity\orm\DAO;
+
 /**
  * @table("name"=>"authorizations")
  **/
@@ -67,4 +70,13 @@ class Authorization{
 
     public function getStatus(){ return $this->status; }
     public function setStatus($status){ $this->status = $status; }
+
+	public static function addAuthorization($authorization){
+		$result = DAO::insert($authorization);
+		// very important to check sql transaction
+		if(!$result){
+			throw new \Exception("Unable to insert authorization");
+		}
+		return $authorization;
+	}
 }

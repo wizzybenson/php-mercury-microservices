@@ -1,5 +1,8 @@
 <?php
 namespace models;
+
+use Ubiquity\orm\DAO;
+
 /**
  * @table("name"=>"paypal_authorizations")
  **/
@@ -30,5 +33,14 @@ class PaypalAuthorization{
     
     public function getPaypal_account(){ return $this->paypal_account; }
     public function setPaypal_account($paypal_account){ $this->paypal_account = $paypal_account; }
+
+	public static function addPaypalAuthorization($paypalAuthorization){
+		$result = DAO::insert($paypalAuthorization);
+		// very important to check sql transaction
+		if(!$result){
+			throw new \Exception("Unable to insert paypal Authorization");
+		}
+		return $paypalAuthorization;
+	}
 }
 

@@ -1,5 +1,8 @@
 <?php
 namespace models;
+
+use Ubiquity\orm\DAO;
+
 /**
  * @table("name"=>"paypal_transactions")
  **/
@@ -80,5 +83,14 @@ class PaypalTransaction{
     public function getPayer(){ return $this->payer; }
     public function setPayer($payer){ $this->payer = $payer; }
 
+	public static function addPaypalTransaction($paypalTransaction){
+		//$this->_setValuesToObject($paypalTransaction, $paypalTransactionBody);
+		$result = DAO::insert($paypalTransaction);
+		// very important to check sql transaction
+		if(!$result){
+			throw new \Exception("Unable to insert paypal transaction");
+		}
+		return $paypalTransaction;
+	}
 }
 ?>

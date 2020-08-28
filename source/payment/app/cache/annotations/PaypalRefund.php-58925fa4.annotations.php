@@ -3,6 +3,7 @@
 return array(
   '#namespace' => 'models',
   '#uses' => array (
+  'DAO' => 'Ubiquity\\orm\\DAO',
 ),
   '#traitMethodOverrides' => array (
   'models\\PaypalRefund' => 

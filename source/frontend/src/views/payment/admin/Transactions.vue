@@ -108,7 +108,7 @@
                                     <td colspan="11" class="p-0 m-0">
                                       <b-collapse :id="transaction.transactionid" accordion="my-accordion" role="tabpanel">
                                         <b-card-body v-if="refundComponentSelected == transaction.transactionid">
-                                          <component :is="refundComponents[transaction.payment.paymentid]" :transactionId="Number(transaction.transactionid)" :totalRefund="Number(refunds.amounts[index])" :paymentTransaction="Number(transaction.paymenttransaction)"></component> 
+                                          <component :is="refundComponents[transaction.payment.paymentid]" :transactionId="Number(transaction.transactionid)" :totalRefund="Number(refunds.amounts[index])" :paymentTransaction="Number(transaction.paymenttransaction)" :transactionmethod="Number(transaction.transactionmethod)"></component> 
                                         </b-card-body>
                                       </b-collapse>
                                     </td>

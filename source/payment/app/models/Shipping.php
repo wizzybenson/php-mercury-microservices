@@ -1,5 +1,8 @@
 <?php
 namespace models;
+
+use Ubiquity\orm\DAO;
+
 /**
  * @table("name"=>"shipping")
  **/
@@ -78,4 +81,30 @@ class Shipping{
 
     public function getCountry_code(){ return $this->country_code; }
     public function setCountry_code($country_code){ $this->country_code = $country_code; }
+
+    public static function addShipping($shipping){
+        $result = DAO::insert($shipping);
+ 		// very important to check sql transaction
+         if(!$result){
+			throw new \Exception("Unable to insert shipping");
+		}
+		return $shipping;
+    }
+	public static function addShippingWithBody($amount, $shippingBody){
+		$shipping = new \models\Shipping();
+		$shipping->setAmount($amount);
+		$shipping->setMethod($shippingBody['method']);
+		$shipping->setFull_name($shippingBody['name']['full_name']);
+		$shipping->setAddress_line_1($shippingBody['address']['address_line_1']);
+		$shipping->setAddress_line_2($shippingBody['address']['address_line_2']);
+		$shipping->setAdmin_area_2($shippingBody['address']['admin_area_2']);
+		$shipping->setAdmin_area_1($shippingBody['address']['admin_area_1']);
+		$shipping->setPostal_code($shippingBody['address']['postal_code']);
+		$shipping->setCountry_code($shippingBody['address']['country_code']);
+
+        $shipping = self::addShipping($shipping);
+        
+        return $shipping;
+    }
+    
 }

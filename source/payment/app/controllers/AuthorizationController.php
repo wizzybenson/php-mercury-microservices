@@ -30,45 +30,56 @@ class AuthorizationController extends \Ubiquity\controllers\rest\RestController 
 		echo $formatter->format(["CountNotCaptured" => $count]);
 	}
 	/**
-     * @route("/capturePaypalAuth", "methods"=>["post"])
+     * @route("/captureAuth", "methods"=>["post"])
      */
-	public function capturePaypalAuth(){
+	public function captureAuth(){
 
 		$formatter = $this->_getResponseFormatter();
 
 		// get posts
 		$datas = $this->getDatas();
+		$payment_method = \intval($datas['payment'] ?? 0);
 
-		// ---------- connect to the activated paypal account ---------------
-		$activatedPaypal = DAO::getById(\models\ActivatedPaypal::class, 1);
-		$activatedPaypalAccount = $activatedPaypal->getActivePaypal();
+		if($payment_method == 1){ // paypal Refund
+			// ---------- connect to the activated paypal account ---------------
+			$activatedPaypal = DAO::getById(\models\ActivatedPaypal::class, 1);
+			$activatedPaypalAccount = $activatedPaypal->getActivePaypal();
 
-		$clientId = $activatedPaypalAccount->getClientid();
-		$clientSecret = $activatedPaypalAccount->getClientsecret();
-		$sandboxmode = $activatedPaypalAccount->getSandboxmode();
+			$clientId = $activatedPaypalAccount->getClientid();
+			$clientSecret = $activatedPaypalAccount->getClientsecret();
+			$sandboxmode = $activatedPaypalAccount->getSandboxmode();
 
-		$client = $this->client($clientId, $clientSecret, $sandboxmode);
-		// ------------------------------------------------------------------
+			$client = $this->client($clientId, $clientSecret, $sandboxmode);
+			// ------------------------------------------------------------------
 
-		$paypalTransaction = DAO::getById(\models\PaypalTransaction::class, $datas['paypal_transaction']);
+			$paypalTransaction = DAO::getById(\models\PaypalTransaction::class, $datas['paypal_transaction']);
 
-		$request = new AuthorizationsCaptureRequest($paypalTransaction->getPaymentcaptureid());
-		$request->body = "{}";
-		$response = $client->execute($request);
-		if($response->statusCode == 201){
-			$paypalAuthorizationBody = [
-				'authorized_paypal_id' => $response->result->id
-			];
+			$request = new AuthorizationsCaptureRequest($paypalTransaction->getPaymentcaptureid());
+			$request->body = "{}";
+			$response = $client->execute($request);
+			$statusCode = $response->statusCode;
+			$success = ($statusCode == 201);
+		}
+		if($success){
+
 			//--------------------------- Begin Transaction ----------------------------
 			try{
 				DAO::beginTransaction();
-				// 1 - adding paypal authorization
-				$paypalAuthorizationBody['paypal_account'] = $activatedPaypalAccount;
-				$paypalAuthorization = $this->addPaypalAuthorization($paypalAuthorizationBody);
+				if($payment_method == 1){ // Paypal Refund
+					$paypalAuthorizationBody = [
+						'authorized_paypal_id' => $response->result->id
+					];
+					// 1 - adding paypal authorization
+					$paypalAuthorizationBody['paypal_account'] = $activatedPaypalAccount;
+					$paypalAuthorization = new \models\PaypalAuthorization();
+					$this->_setValuesToObject($paypalAuthorization, $paypalAuthorizationBody);
+					$paypalAuthorization = \models\PaypalAuthorization::addPaypalAuthorization($paypalAuthorization);
+					$authorization_transaction = $paypalAuthorization->getAuthorizationid();
+				}
 				// 2 - set Authorization
 				$authorization = DAO::getById(\models\Authorization::class, $datas['authorizationid']);
 				$authorization->setCapture_date(date("Y-m-d H:i:s"));
-				$authorization->setAuthorization_transaction($paypalAuthorization->getAuthorizationid());
+				$authorization->setAuthorization_transaction($authorization_transaction);
 				$authorization->setStatus(1);
 				$result = DAO::update($authorization);
 				if(!$result){
@@ -92,16 +103,6 @@ class AuthorizationController extends \Ubiquity\controllers\rest\RestController 
 			//--------------------------- End Transaction ------------------------------
 			echo $formatter->format(["status" => "captured"]);
 		}
-	}
-	private function addPaypalAuthorization($paypalAuthorizationBody){
-		$paypalAuthorization = new \models\PaypalAuthorization();
-		$this->_setValuesToObject($paypalAuthorization, $paypalAuthorizationBody);
-		$result = DAO::insert($paypalAuthorization);
-		// very important to check sql transaction
-		if(!$result){
-			throw new \Exception("Unable to insert paypal Authorization");
-		}
-		return $paypalAuthorization;
 	}
 	private function client($clientId, $clientSecret, $sandboxmode){
 		if($sandboxmode){

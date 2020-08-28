@@ -24,8 +24,8 @@ return array(
   'controllers\\RefundController::getAll' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/getAll", "methods"=>["get"])
   ),
-  'controllers\\RefundController::paypalRefund' => array(
-    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/addPaypalRefund", "methods"=>["post"])
+  'controllers\\RefundController::addPaymentRefund' => array(
+    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/addPaymentRefund", "methods"=>["post"])
   ),
 );
 

@@ -1,5 +1,8 @@
 <?php
 namespace models;
+
+use Ubiquity\orm\DAO;
+
 /**
  * @table("name"=>"paypal_refunds")
  **/
@@ -30,5 +33,14 @@ class PaypalRefund{
     
     public function getPaypal_account(){ return $this->paypal_account; }
     public function setPaypal_account($paypal_account){ $this->paypal_account = $paypal_account; }
+
+	public static function addPaypalRefund($paypalRefund){
+		$result = DAO::insert($paypalRefund);
+		// very important to check sql transaction
+		if(!$result){
+			throw new \Exception("Unable to insert paypal refund");
+		}
+		return $paypalRefund;
+	}
 }
 
