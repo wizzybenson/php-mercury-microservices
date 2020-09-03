@@ -20,6 +20,6 @@ class ApigatewayController extends \Ubiquity\controllers\rest\RestController{
      */
     public function send($uri)
     {
-        $this->sender->send($uri, json_encode(URequest::getDatas()));
+        $this->sender->send($uri,json_encode(URequest::getDatas()));
     }
 }

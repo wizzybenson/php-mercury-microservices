@@ -3,7 +3,9 @@
 return array(
   '#namespace' => 'controllers',
   '#uses' => array (
+  'Catalog' => 'models\\Catalog',
   'CatalogProduct' => 'models\\CatalogProduct',
+  'DAO' => 'Ubiquity\\orm\\DAO',
   'URequest' => 'Ubiquity\\utils\\http\\URequest',
 ),
   '#traitMethodOverrides' => array (
@@ -17,6 +19,9 @@ return array(
   ),
   'controllers\\CatalogProductController::AddProductToCatalog' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/ajouterProdToCatalog/","methods"=>["post"])
+  ),
+  'controllers\\CatalogProductController::addProdCat' => array(
+    array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/addProdCat","methods"=>["post"])
   ),
 );
 

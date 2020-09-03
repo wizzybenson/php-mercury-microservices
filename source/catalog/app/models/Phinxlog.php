@@ -6,7 +6,7 @@ namespace models;
 class Phinxlog{
 	/**
 	 * @id
-	 * @column("name"=>"version","nullable"=>false,"dbType"=>"bigint(20)")
+	 * @column("name"=>"version","nullable"=>false,"dbType"=>"bigint")
 	 * @validator("id","constraints"=>array("autoinc"=>true))
 	**/
 	private $version;

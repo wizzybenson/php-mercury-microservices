@@ -1,13 +1,15 @@
 <?php
 namespace models;
+use controllers\CatalogController;
 use GuzzleHttp\Client;
+use phpDocumentor\Reflection\Types\Integer;
 use Ubiquity\orm\DAO;
 use Ubiquity\utils\http\URequest;
-
+use Ubiquity\utils\http\UResponse;
 class Catalog{
 	/**
 	 * @id
-	 * @column("name"=>"id","nullable"=>false,"dbType"=>"int(11)")
+	 * @column("name"=>"id","nullable"=>false,"dbType"=>"int")
 	 * @validator("id","constraints"=>array("autoinc"=>true))
 	**/
 	private $id;
@@ -29,6 +31,12 @@ class Catalog{
 	 * @validator("length","constraints"=>array("max"=>20,"notNull"=>true))
 	**/
 	private $image;
+
+	/**
+	 * @column("name"=>"etat","nullable"=>false,"dbType"=>"tinyint(1)")
+	 * @validator("isBool","constraints"=>array("notNull"=>true))
+	**/
+	private $etat;
 
 	/**
 	 * @column("name"=>"datec","nullable"=>false,"dbType"=>"datetime")
@@ -73,6 +81,14 @@ class Catalog{
 		$this->image=$image;
 	}
 
+	 public function getEtat(){
+		return $this->etat;
+	}
+
+	 public function setEtat($etat){
+		$this->etat=$etat;
+	}
+
 	 public function getDatec(){
 		return $this->datec;
 	}
@@ -89,18 +105,16 @@ class Catalog{
 		$this->catalogProducts=$catalogProducts;
 	}
 
-
-
-    public static function fromString(Catalog $libelle): self
-    {
+	 public function __toString(){
+	//	return ($this->id??'no value').'';
+		return $this->id;
+	}
+    /* public function __toString(){
+            return ('{"data": [{"id":"'.$this->getId().'","libelle":"'.$this->getLibelle().'","details":"'.$this->getDetails().'","image":"'.$this->getDetails().'","datec":"'.$this->getDatec().'"}]}'??'no value').'';
+        }*/
+    public function validate($libelle){
         return ($libelle);
     }
-    /* public function __toString(){
-         return ('{"data": [{"id":"'.$this->getId().'","libelle":"'.$this->getLibelle().'","details":"'.$this->getDetails().'","image":"'.$this->getDetails().'","datec":"'.$this->getDatec().'"}]}'??'no value').'';
-     }*/
-  public function validate($libelle){
-      return ($libelle);
-        }
     public function getAllCat(){
 
         $cs=DAO::getAll(Catalog::class);
@@ -112,19 +126,37 @@ class Catalog{
         $cs=DAO::getById(Catalog::class,$id);
         return json_encode($cs);
     }
+
+    public function getActiveCat(){
+
+        $cs=DAO::getAll(Catalog::class,'etat=1',false);
+        return $cs;
+    }
+
+    public function getDesactiveCat(){
+
+        $cs=DAO::getAll(Catalog::class,'etat=0',false);
+        return $cs;
+    }
+
+    public function ChangeetatAllCat($id,$et){
+
+        $cat = DAO::getOne(Catalog::class,'id='.$id);
+        $cat->setEtat($et);
+        return DAO::update($cat);
+    }
+
+    public function CatalogSize($id){
+
+        $cs=DAO::getAll(CatalogProduct::class,'catalog='.$id,false);
+        return sizeof($cs);
+    }
+
     public function addCatalog(){
-        $cat= new Catalog;
-        /* $cat->setLibelle("KHALKI Add");
-         $cat->setDetails("KHALKI Details Add");
-         $cat->setImage("KHALKI im");
-         $cat->setDatec("2020-03-04 00:00:00");*/
-        URequest::setPostValuesToObject($cat);
-        if(DAO::insert($cat)) {
-            echo true;
-        }else
-        {
-            echo false;
-        }
+        if(DAO::insert($this))
+            return true;
+        else
+            return false;
     }
     public function addCatalog2(Catalog $cat){
         DAO::save($cat);
@@ -133,12 +165,16 @@ class Catalog{
     public function deleteCatalog($id){
         $cat= new Catalog;
         $cat=DAO::getOne(Catalog::class,$id,false);
-        if(DAO::remove($cat)) {
+        if(DAO::remove($cat))
             echo true;
-        }else
-        {
+        else
             echo false;
-        }
+    }
+
+    public function deletebyCatalog($id)
+    {
+        $cs=DAO::deleteAll(CatalogProduct::class,'catalog ='.$id,false);
+        return $cs;
     }
 
     public static function sendRequest($token,$method='GET', $endpoint, $filterBy='', $body=''){
@@ -153,18 +189,16 @@ class Catalog{
     }
     public function updateCatalog(){
         $cat= new Catalog;
-        $cat->setId( URequest::get("id"));
-        $cat->setLibelle( URequest::get("libelle"));
-        $cat->setDetails( URequest::get("details"));
-        $cat->setImage(URequest::get("image") );
-        $cat->setDatec(URequest::get("datec"));
-        URequest::setPostValuesToObject($cat);
-
+        $cat->setId(URequest::getDatas()["id"]);
+        $cat->setLibelle(URequest::getDatas()["libelle"]);
+        $cat->setDetails(URequest::getDatas()["details"]);
+        $cat->setImage(URequest::getDatas()["image"]);
+        $cat->setDatec(URequest::getDatas()["datec"]);
         if(DAO::update($cat)) {
-            echo true;
+            return true;
         }else
         {
-            echo false;
+            return false;
         }
     }
 

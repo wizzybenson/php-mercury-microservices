@@ -35,6 +35,7 @@ class MyFirstMigration extends AbstractMigration
          $table1->addColumn('libelle', 'string',['limit' => 200])
                ->addColumn('details', 'string',['limit' => 150])
                ->addColumn('image', 'string',['limit' => 20])
+               ->addColumn('etat', 'boolean',['default' => false])
                ->addColumn('datec', 'datetime')
                ->create();
 
@@ -49,14 +50,16 @@ class MyFirstMigration extends AbstractMigration
 		->addForeignKey('catalog', 'Catalog', 'id')
 		->addForeignKey('product', 'Product', 'id')
  		->create(); 
-	
+
     }
     public function up()
     {
         // fetch a Catalog
         $row = $this->fetchRow('SELECT * FROM Catalog');
-	// fetch a Product
+        // fetch a Product
         $row = $this->fetchRow('SELECT * FROM Product');
+        // fetch a CatalogProduct
+        $row = $this->fetchRow('SELECT * FROM CatalogProduct');
 
     }
 

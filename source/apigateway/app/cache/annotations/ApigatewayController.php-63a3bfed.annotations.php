@@ -3,10 +3,8 @@
 return array(
   '#namespace' => 'controllers',
   '#uses' => array (
-  'Response' => 'http\\Client\\Response',
   'URequest' => 'Ubiquity\\utils\\http\\URequest',
   'SenderClass' => 'res\\SenderClass',
-  'UResponse' => 'Ubiquity\\utils\\http\\UResponse',
 ),
   '#traitMethodOverrides' => array (
   'controllers\\ApigatewayController' => 

@@ -21,7 +21,6 @@ return array(
   ),
   'controllers\\RestCartController::get' => array(
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "methods"=>["post"]),
-    array('#name' => 'authorization', '#type' => 'Ubiquity\\annotations\\rest\\AuthorizationAnnotation'),
     array('#name' => 'route', '#type' => 'Ubiquity\\annotations\\router\\RouteAnnotation', "/getAll","methods"=>["get"])
   ),
   'controllers\\RestCartController::getCartByDate' => array(
