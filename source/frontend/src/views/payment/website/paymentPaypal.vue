@@ -48,6 +48,22 @@
                                   {{ theData.createtime }}
                               </div>
                           </div>
+                          <div class="row mb-2">
+                              <div class="col-6 text-right">
+                                  Transaction method : 
+                              </div>
+                              <div class="col-6 text-left">
+                                  {{ theData.transaction_method }}
+                              </div>
+                          </div>
+                          <div class="row mb-2">
+                              <div class="col-6 text-right">
+                                  Payment status : 
+                              </div>
+                              <div class="col-6 text-left">
+                                  {{ theData.payment_status }}
+                              </div>
+                          </div>
                           <hr class="mb-0" />
                           <div class="row">
                               <div class="col my-2 text-center font-weight-bold">
@@ -141,6 +157,7 @@ export default {
     axios.get(this.paymentService + 'payments/costumorpayments/getPaypalPayment/' + this.$route.query.token)
       .then(response => {
         this.theData = response.data;
+        console.log(this.theData);
           if(this.theData.status == "inserted"){
             this.inserted = true;
           }
@@ -149,16 +166,21 @@ export default {
             if(this.theData.title){
               if(this.theData.source.pointer.search("paypal") > -1){
                 var errorObjResponse = JSON.parse(this.theData.title);
-                this.errorObj.title = errorObjResponse.name;
-                var diplayLinks = '';
-                var diplayDetails = '';
-                errorObjResponse.details.forEach(function(item){
-                  diplayDetails += '<li><b>'+item.issue+' :</b>' + item.description + '</li>';
-                });
-                errorObjResponse.links.forEach(function(item){
-                  diplayLinks += '<li><a href="'+item.href+'" class="text-primary" target="_blank">'+item.rel+'</a></li>';
-                });
-                this.errorObj.detail = errorObjResponse.message + '<ul>'+diplayDetails+'</ul> Links : <ul>'+diplayLinks+'</ul>';
+                if(errorObjResponse.error){
+                  this.errorObj.title = "Paypal : " + errorObjResponse.error;
+                  this.errorObj.detail = errorObjResponse.error_description;
+                }else{
+                  this.errorObj.title = "Paypal : " + errorObjResponse.name;
+                  var diplayLinks = '';
+                  var diplayDetails = '';
+                  errorObjResponse.details.forEach(function(item){
+                    diplayDetails += '<li><b>'+item.issue+' :</b>' + item.description + '</li>';
+                  });
+                  errorObjResponse.links.forEach(function(item){
+                    diplayLinks += '<li><a href="'+item.href+'" class="text-primary" target="_blank">'+item.rel+'</a></li>';
+                  });
+                  this.errorObj.detail = errorObjResponse.message + '<ul>'+diplayDetails+'</ul> Links : <ul>'+diplayLinks+'</ul>';
+                }
               }else{
                 this.errorObj.title = this.theData.title;
               }

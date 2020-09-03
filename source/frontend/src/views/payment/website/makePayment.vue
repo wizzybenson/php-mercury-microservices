@@ -445,16 +445,21 @@ export default {
             if(result.title){
               if(result.source.pointer.search("paypal") > -1){
                 var errorObjResponse = JSON.parse(result.title);
-                this.errorObj.title = errorObjResponse.name;
-                var diplayLinks = '';
-                var diplayDetails = '';
-                errorObjResponse.details.forEach(function(item){
-                  diplayDetails += '<li><b>'+item.issue+' :</b>' + item.description + '</li>';
-                });
-                errorObjResponse.links.forEach(function(item){
-                  diplayLinks += '<li><a href="'+item.href+'" class="text-primary" target="_blank">'+item.rel+'</a></li>';
-                });
-                this.errorObj.detail = errorObjResponse.message + '<ul>'+diplayDetails+'</ul> Links : <ul>'+diplayLinks+'</ul>';
+                if(errorObjResponse.error){
+                  this.errorObj.title = "Paypal : " + errorObjResponse.error;
+                  this.errorObj.detail = errorObjResponse.error_description;
+                }else{
+                  this.errorObj.title = errorObjResponse.name;
+                  var diplayLinks = '';
+                  var diplayDetails = '';
+                  errorObjResponse.details.forEach(function(item){
+                    diplayDetails += '<li><b>'+item.issue+' :</b>' + item.description + '</li>';
+                  });
+                  errorObjResponse.links.forEach(function(item){
+                    diplayLinks += '<li><a href="'+item.href+'" class="text-primary" target="_blank">'+item.rel+'</a></li>';
+                  });
+                  this.errorObj.detail = errorObjResponse.message + '<ul>'+diplayDetails+'</ul> Links : <ul>'+diplayLinks+'</ul>';
+                }
               }else{
                 this.errorObj.title = result.title;
               }

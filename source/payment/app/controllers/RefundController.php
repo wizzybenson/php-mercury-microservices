@@ -24,88 +24,93 @@ class RefundController extends \Ubiquity\controllers\rest\RestController {
 		parent::get("1=1", true);
 	}
     /**
-     * @route("/addRefund", "methods"=>["post"])
+     * @route("/addPaymentRefund", "methods"=>["post"])
      */
-	public function paypalRefund(){
+	public function addPaymentRefund(){
 
 		$formatter = $this->_getResponseFormatter();
 		
 		// get posts
 		$datas = $this->getDatas();
+		$payment_method = \intval($datas['payment'] ?? 0);
+		$payment_transaction = DAO::getById(\models\CostumorPayment::class, $datas['transactionid']);
+		if($payment_method == 1){ // paypal Refund
+			// ---------- connect to the activated paypal account ---------------
+			$activatedPaypal = DAO::getById(\models\ActivatedPaypal::class, 1);
+			$activatedPaypalAccount = $activatedPaypal->getActivePaypal();
 
-		// connect to the activated paypal account
-		$client = $this->client();
-		$request = new CapturesRefundRequest($datas['paymentcaptureid']);
-		if($datas['type'] == 0){
-			$request->body = "{}";
-		}else{
-			$request->body = [
-				'amount' => [
-					'value' => \round($datas['amount'], 2),
-					'currency_code' => $datas['currencycode']
-				]
-			];
+			$clientId = $activatedPaypalAccount->getClientid();
+			$clientSecret = $activatedPaypalAccount->getClientsecret();
+			$sandboxmode = $activatedPaypalAccount->getSandboxmode();
+
+			$client = $this->client($clientId, $clientSecret, $sandboxmode);
+			// ------------------------------------------------------------------
+			if($datas['transactionmethod'] == 1){ // capture
+				$paypalRefundId = $datas['paymentcaptureid'];
+			}else{ // AUTHORIZE
+				$authorization = DAO::uGetOne(\models\Authorization::class, "payment_transaction.transactionid= ?", true, [$datas['transactionid']]);
+				$paypalAuthorization = DAO::getById(\models\PaypalAuthorization::class, $authorization->getAuthorization_transaction());
+
+				$paypalRefundId = $paypalAuthorization->getAuthorized_paypal_id();
+			}
+			$request = new CapturesRefundRequest($paypalRefundId);
+
+			if($datas['type'] == 0){
+				$request->body = "{}";
+			}else{
+				$request->body = [
+					'amount' => [
+						'value' => \round($datas['amount'], 2),
+						'currency_code' => $datas['currencycode']
+					]
+				];
+			}
+			$response = $client->execute($request);
+			$statusCode = $response->statusCode;
+			$success = ($statusCode == 201);
 		}
-		$response = $client->execute($request);
-		if($response->statusCode == 201){
-			$paypalRefundBody = [
-				'capturedpaypalrefundid' => $response->result->id
-			];
+		if($success){
 			$refundBody = [
 				'amount' => $datas['amount'],
 				'currencycode' => $datas['currencycode'],
 				'type' => $datas['type'],
-				'payment_transaction_id' => $datas['transactionid']
+				'payment_transaction' => $payment_transaction,
+				'payment' => DAO::getById(\models\Payment::class, $payment_method)
 			];
 			//--------------------------- Begin Transaction ----------------------------
 			try{
 				DAO::beginTransaction();
-				// 1- add Paypal Refund
-				$paypalRefund = $this->addPaypalRefund($paypalRefundBody);
-				$refundBody['refund_transaction'] = $paypalRefund->getPaypalrefundid();
+				if($payment_method == 1){ // Paypal Refund
+					$paypalRefundBody = [
+						'capturedpaypalrefundid' => $response->result->id
+					];
+					// 1- add Paypal Refund
+					$paypalRefundBody['paypal_account'] = $activatedPaypalAccount;
+					$paypalRefund = new \models\PaypalRefund();
+					$this->_setValuesToObject($paypalRefund, $paypalRefundBody);
+					$paypalRefund = \models\PaypalRefund::addPaypalRefund($paypalRefund);
+
+					$refund_transaction = $paypalRefund->getPaypalrefundid();
+				}
 				// 2- add Refund
-				$refund = $this->addRefund($refundBody);
+				$refundBody['refund_transaction'] = $refund_transaction;
+				$refund = new \models\Refund();
+				$this->_setValuesToObject($refund, $refundBody);
+				$refund = \models\Refund::addRefund($refund);
+
 				$refundBody['refundid'] = $refund->getRefundid();
 				DAO::commit();
 			}catch(\Exception $e){
 				DAO::rollBack();
+				echo $formatter->format(["status" => "not_refunded"]);
+				return;
 			}
 			//--------------------------- End Transaction ------------------------------
 			$refundBody['status'] = $response->statusCode;
 			echo $formatter->format($refundBody);
 		}
 	}
-	private function addRefund($refundBody){
-
-		$model = $this->model;
-		$refund = new $model();
-
-		$this->_setValuesToObject($refund, $refundBody);
-		$result = DAO::insert($refund);
-		// very important to check sql transaction
-		if(!$result){
-			throw new \Exception("Unable to insert refund");
-		}
-		return $refund;
-	}
-	private function addPaypalRefund($paypalRefundBody){
-		$paypalRefund = new \models\PaypalRefund();
-		$this->_setValuesToObject($paypalRefund, $paypalRefundBody);
-		$result = DAO::insert($paypalRefund);
-		// very important to check sql transaction
-		if(!$result){
-			throw new \Exception("Unable to insert paypal refund");
-		}
-		return $paypalRefund;
-	}
-	private function client(){
-		// get the activated paypal business account
-		$activatedPaypal = DAO::getById(\models\ActivatedPaypal::class, 1);
-
-		$sandboxmode = $activatedPaypal->getActivePaypal()->getSandboxmode();
-		$clientId = $activatedPaypal->getActivePaypal()->getClientid();
-		$clientSecret = $activatedPaypal->getActivePaypal()->getClientsecret();
-
+	private function client($clientId, $clientSecret, $sandboxmode){
 		if($sandboxmode){
 			$environment = new SandboxEnvironment($clientId, $clientSecret);
 		}else{

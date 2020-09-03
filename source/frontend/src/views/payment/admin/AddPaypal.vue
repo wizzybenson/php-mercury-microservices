@@ -6,21 +6,47 @@
                 <AdminSideBar />
                 <!-- Content -->
                 <div id="content">
+                    <div class="bg-light mb-3">
+                        <div class="container">
+                            <div class="row">
+                            <div class="col p-2">
+                                <router-link :to="{name: 'Home'}">
+                                    <i class="fas fa-home"></i> home
+                                </router-link>&nbsp;
+                                <i class="fas fa-chevron-right" style="font-size: 12px"></i> &nbsp;
+                                <router-link :to="{name: 'Admin'}">
+                                    Administration
+                                </router-link> &nbsp;
+                                <i class="fas fa-chevron-right" style="font-size: 12px"></i> &nbsp;
+                                <router-link :to="{name: 'Payments'}">
+                                    Payments
+                                </router-link> &nbsp;
+                                <i class="fas fa-chevron-right" style="font-size: 12px"></i> &nbsp;
+                                <router-link :to="{name: 'Paypal'}">
+                                    Paypal
+                                </router-link> &nbsp;
+                                <i class="fas fa-chevron-right" style="font-size: 12px"></i> &nbsp;
+                                <div class="d-inline txt">Add Paypal</div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card">
                         <div class="card-header text-center">
                             <h3>Add Paypal Account</h3>
                         </div>
                         <div class="card-body text-left">
-                            <form @submit="formSubmit">
-                                <PaypalForm :paypalAcc="paypalAccount" :violations="anerror.violations" />
-                                <div v-if="loading" class="py-2">Sending....</div>
-                            </form>
-                            <div class="alert alert-danger text-left my-2" v-if="anerror.isError">
-                                <i class="fas fa-exclamation-triangle"></i> <b>{{ anerror.title }}</b>
-                                <div class="text-muted">
-                                    {{ anerror.detail }}
+                            <b-overlay :show="loading" rounded="lg">
+                                <form @submit="formSubmit">
+                                    <PaypalForm :paypalAcc="paypalAccount" :violations="anerror.violations" />
+                                </form>
+                                <div class="alert alert-danger text-left my-2" v-if="anerror.isError">
+                                    <i class="fas fa-exclamation-triangle"></i> <b>{{ anerror.title }}</b>
+                                    <div class="text-muted">
+                                        {{ anerror.detail }}
+                                    </div>
                                 </div>
-                            </div>
+                            </b-overlay>
                         </div>
                     </div>
                 </div>
@@ -79,8 +105,8 @@ export default {
             Object.assign(this.anerror, this.initialErrors);
             const params = new URLSearchParams();
             params.append('email', this.paypalAccount.email);
-            params.append('clientid', this.paypalAccount.email);
-            params.append('clientsecret', this.paypalAccount.email);
+            params.append('clientid', this.paypalAccount.clientid);
+            params.append('clientsecret', this.paypalAccount.clientsecret);
             params.append('sandboxmode', this.paypalAccount.sandboxmode);
             params.append('transactionmethod', this.paypalAccount.transactionmethod);
             axios.post(this.paymentService + 'payments/paypalAdmin/addPaypal', params)

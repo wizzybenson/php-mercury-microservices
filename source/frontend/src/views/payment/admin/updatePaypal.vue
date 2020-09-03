@@ -6,12 +6,34 @@
                 <AdminSideBar />
                 <!-- Content -->
                 <div id="content">
+                    <div class="bg-light mb-3">
+                        <div class="container">
+                            <div class="row">
+                            <div class="col p-2">
+                                <router-link :to="{name: 'Home'}">
+                                    <i class="fas fa-home"></i> home
+                                </router-link>&nbsp;
+                                <i class="fas fa-chevron-right" style="font-size: 12px"></i> &nbsp;
+                                <router-link :to="{name: 'Admin'}">
+                                    Administration
+                                </router-link> &nbsp;
+                                <i class="fas fa-chevron-right" style="font-size: 12px"></i> &nbsp;
+                                <router-link :to="{name: 'Payments'}">
+                                    Payments
+                                </router-link> &nbsp;
+                                <i class="fas fa-chevron-right" style="font-size: 12px"></i> &nbsp;
+                                <router-link :to="{name: 'Paypal'}">
+                                    Paypal
+                                </router-link> &nbsp;
+                                <i class="fas fa-chevron-right" style="font-size: 12px"></i> &nbsp;
+                                <div class="d-inline txt">update Paypal</div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
                     <div v-if="pageLoading" class="p-4 text-center">
-                        <img
-                        src="../../../assets/images/5.gif"
-                        style="width: 16px; height: 16px"
-                        />
-                        Loading....
+                        <b-spinner variant="danger" style="width: 3rem; height: 3rem;" /><br />
+                        Loading
                     </div>
                     <template v-else>
                         <div class="alert alert-danger text-left my-2" v-if="errored">
@@ -25,16 +47,17 @@
                                 <h3>Update Paypal</h3>
                             </div>
                             <div class="card-body text-left">
-                                <form @submit="formSubmit">
-                                    <PaypalForm :paypalAcc="paypalAccount" :violations="anerror.violations" />
-                                    <div v-if="loading" class="py-2">Sending....</div>
-                                </form>
-                                <div class="alert alert-danger text-left my-2" v-if="anerror.isError">
-                                    <i class="fas fa-exclamation-triangle"></i> <b>{{ anerror.title }}</b>
-                                    <div class="text-muted">
-                                        {{ anerror.detail }}
+                                <b-overlay :show="loading" rounded="lg">
+                                    <form @submit="formSubmit">
+                                        <PaypalForm :paypalAcc="paypalAccount" :violations="anerror.violations" />
+                                    </form>
+                                    <div class="alert alert-danger text-left my-2" v-if="anerror.isError">
+                                        <i class="fas fa-exclamation-triangle"></i> <b>{{ anerror.title }}</b>
+                                        <div class="text-muted">
+                                            {{ anerror.detail }}
+                                        </div>
                                     </div>
-                                </div>
+                                </b-overlay>
                             </div>
                         </div>
                     </template>

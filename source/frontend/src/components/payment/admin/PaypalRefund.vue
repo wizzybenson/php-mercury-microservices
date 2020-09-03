@@ -73,7 +73,8 @@ export default {
     props:{
         transactionId: Number,
         paymentTransaction: Number,
-        totalRefund: Number
+        totalRefund: Number,
+        transactionmethod: Number
     },
     data() {
         return{
@@ -134,13 +135,17 @@ export default {
             e.preventDefault();
             this.refundErrored = false;
             this.loading = true;
+            this.refundErrorObj.title = '';
+            this.refundErrorObj.detail = '';
             const params = new URLSearchParams();
+            params.append('transactionmethod', this.transactionmethod);
             params.append('type', this.refund.refundMethod);
             params.append('amount', (this.refund.refundMethod == 1 ? this.refund.amount : this.paypalTransaction.amountvalue));
             params.append('currencycode', this.refund.currencycode);
             params.append('transactionid', this.transactionId);
             params.append('paymentcaptureid', this.paypalTransaction.paymentcaptureid);
-            axios.post(this.paymentService + "payments/refunds/addRefund",params)
+            params.append('payment', 1); // payment method with id=1 is paypal
+            axios.post(this.paymentService + "payments/refunds/addPaymentRefund",params)
             .then(response => {
                 var result = response.data;
                 if(result.status == 201){
@@ -152,16 +157,21 @@ export default {
                     if(result.title){
                         if(result.source.pointer.search("paypal") > -1){
                             var errorObjResponse = JSON.parse(result.title);
-                            this.refundErrorObj.title = errorObjResponse.name;
+                            if(errorObjResponse.error){
+                            this.refundErrorObj.title = "Paypal : " + errorObjResponse.error;
+                            this.refundErrorObj.detail = errorObjResponse.error_description;
+                            }else{
+                            this.refundErrorObj.title = "Paypal : " + errorObjResponse.name;
                             var diplayLinks = '';
                             var diplayDetails = '';
                             errorObjResponse.details.forEach(function(item){
-                            diplayDetails += '<li><b>'+item.issue+' : </b>' + item.description + '</li>';
+                                diplayDetails += '<li><b>'+item.issue+' :</b>' + item.description + '</li>';
                             });
                             errorObjResponse.links.forEach(function(item){
-                            diplayLinks += '<li><a href="'+item.href+'" class="text-primary" target="_blank">'+item.rel+'</a></li>';
+                                diplayLinks += '<li><a href="'+item.href+'" class="text-primary" target="_blank">'+item.rel+'</a></li>';
                             });
                             this.refundErrorObj.detail = errorObjResponse.message + '<ul>'+diplayDetails+'</ul> Links : <ul>'+diplayLinks+'</ul>';
+                            }
                         }else{
                             this.refundErrorObj.title = result.title;
                         }

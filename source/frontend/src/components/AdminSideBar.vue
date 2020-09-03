@@ -12,6 +12,11 @@
                                     <router-link to="/admin/payments/transactions">Transactions</router-link>
                                 </li>
                                 <li>
+                                    <router-link to="/admin/payments/authorizations">Authorizations
+                                        <b-badge variant="danger" v-if="countNotCaptured > 0">{{ countNotCaptured }}</b-badge>
+                                    </router-link>
+                                </li>
+                                <li>
                                     <router-link to="/admin/payments/refunds">Refunds</router-link>
                                 </li>
                             </ul>
@@ -29,8 +34,28 @@
                 </nav>
 </template>
 <script>
+import axios from "axios";
 export default {
-  name: "AdminSideBar"
+  name: "AdminSideBar",
+  data() {
+    return {
+      countNotCaptured: 0
+    };
+  },
+  mounted(){
+      axios.get(this.paymentService + 'payments/authorizations/getCountNotCaptured')
+      .then(response =>{
+          var result = response.data;
+          if(result.CountNotCaptured){
+              this.countNotCaptured = result.CountNotCaptured;
+          }
+      })
+      .catch(e => {
+        console.log(e);
+      })
+      .finally(() => {
+      });
+  },
 };
 </script>
 <style>

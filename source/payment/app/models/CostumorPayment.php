@@ -1,6 +1,5 @@
 <?php
 namespace models;
-
 /**
  * @table("name"=>"costumors_payments")
  **/
@@ -11,6 +10,10 @@ class CostumorPayment{
      * @validator("id","constraints"=>array("autoinc"=>true))
      **/
     private $transactionid;
+    /**
+     * column("name" => "transactionmethod", "nullable" => false, "dbType" => "int(2)")
+     **/
+    private $transactionmethod;
     /**
      * column("name" => "costumorid", "nullable" => false, "dbType" => "int(11)")
      **/
@@ -58,12 +61,24 @@ class CostumorPayment{
     * @oneToMany("mappedBy"=>"payment_transaction","className"=>"models\\Refund")
     **/
     private $refunds;
+    /**
+     * column("name" => "payment_status", "nullable" => false, "dbType" => "varchar(40)")
+     **/
+    private $payment_status;
+    /**
+     * column("name" => "status", "nullable" => false, "dbType" => "int(2)")
+     * @validator("isBool")
+     **/
+    private $status;
 
     public function __construct(){}
 
     public function getTransactionid(){ return $this->transactionid; }
     public function setTransactionid($transactionid){ $this->transactionid = $transactionid; }
     
+    public function getTransactionmethod(){ return $this->transactionmethod; }
+    public function setTransactionmethod($transactionmethod){ $this->transactionmethod = $transactionmethod; }
+
     public function getCostumorid(){ return $this->costumorid; }
     public function setCostumorid($costumorid){ $this->costumorid = $costumorid; }
 
@@ -93,5 +108,11 @@ class CostumorPayment{
 
     public function getRefunds(){ return $this->refunds; }
     public function setRefunds($refunds){ $this->refunds = $refunds; }
+
+    public function getPayment_status(){ return $this->payment_status; }
+    public function setPayment_status($payment_status){ $this->payment_status = $payment_status; }
+
+    public function getStatus(){ return $this->status; }
+    public function setStatus($status){ $this->status = $status; }
 }
 ?>

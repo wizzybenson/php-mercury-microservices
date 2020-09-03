@@ -29,8 +29,8 @@
                         <tbody>
                             <tr v-if="loading">
                                 <td colspan="8">
-                                    <img src="../../../assets/images/5.gif" style="width: 16px; height: 16px" />
-                                    Loading...
+                                    <b-spinner variant="danger" style="width: 3rem; height: 3rem;" /><br />
+                                    Loading
                                 </td>
                             </tr>
                             <template v-else>

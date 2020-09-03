@@ -1,6 +1,5 @@
 <?php
 namespace models;
-
 /**
  * @table("name"=>"activated_paypal")
  **/

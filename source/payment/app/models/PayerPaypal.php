@@ -1,5 +1,8 @@
 <?php
 namespace models;
+
+use Ubiquity\orm\DAO;
+
 /**
  * @table("name"=>"paypal_payers")
  **/
@@ -51,4 +54,12 @@ class PayerPaypal{
     public function getCountry_code(){ return $this->country_code; }
     public function setCountry_code($country_code){ $this->country_code = $country_code; }
 
+    public static function addPaypalPayer($paypalPayer){
+		$result = DAO::insert($paypalPayer);
+		// very important to check sql transaction
+		if(!$result){
+			throw new \Exception("Unable to insert paypal payer");
+		}
+		return $paypalPayer;
+	}
 }

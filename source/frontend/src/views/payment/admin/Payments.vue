@@ -7,9 +7,27 @@
                 <!-- Content -->
                 <div id="content">
                     <h1><img alt="commerce" src="../../../assets/images/payment.png" /> Payments</h1>
+                    <div class="bg-light mb-3">
+                        <div class="container">
+                            <div class="row">
+                            <div class="col p-2">
+                                <router-link :to="{name: 'Home'}">
+                                    <i class="fas fa-home"></i> home
+                                </router-link>&nbsp;
+                                <i class="fas fa-chevron-right" style="font-size: 12px"></i> &nbsp;
+                                <router-link :to="{name: 'Admin'}">
+                                    Administration
+                                </router-link> &nbsp;
+                                <i class="fas fa-chevron-right" style="font-size: 12px"></i> &nbsp;
+                                <div class="d-inline txt">Payments</div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="alert alert-info text-left">
                         <b-icon icon="exclamation-circle-fill" variant="info" font-scale="1.5" style="vertical-align: middle" /> <b>Payment methods :</b> Manage differente payment methods.
                     </div>
+					<b-overlay :show="activateLoading" rounded="lg">
                     <table class="table text-center table-striped">
                         <thead>
                             <tr>
@@ -23,8 +41,8 @@
                         <tbody>
                             <tr v-if="loading">
                                 <td colspan="5">
-                                    <img src="../../../assets/images/5.gif" style="width: 16px; height: 16px" />
-                                    Loading...
+                                    <b-spinner variant="danger" style="width: 3rem; height: 3rem;" /><br />
+                                    Loading
                                 </td>
                             </tr>
                             <template v-else>
@@ -71,6 +89,7 @@
                             </template>
                         </tbody>
                     </table>
+					</b-overlay>
                 </div>
             </div>
         </div>
@@ -89,6 +108,7 @@ export default {
   data() {
     return {
       loading: true,
+	  activateLoading: false,
       errored: false,
       error: {},
       datas: {}
@@ -120,6 +140,7 @@ export default {
       this.$nextTick(() => this.$router.replace(location));
     },
     activatePayment: function(status, id, index){
+		this.activateLoading = true;
         var msg = "";
         if(status == 0){
             msg = "Are you sure to activate this payment method ?";
@@ -144,7 +165,9 @@ export default {
                     alert(e);
                 }
             })
-            .finally(()=>{});
+            .finally(()=>{
+				this.activateLoading = false;
+			});
         }
     }
   }

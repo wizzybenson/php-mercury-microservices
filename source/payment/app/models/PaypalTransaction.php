@@ -1,5 +1,8 @@
 <?php
 namespace models;
+
+use Ubiquity\orm\DAO;
+
 /**
  * @table("name"=>"paypal_transactions")
  **/
@@ -42,6 +45,12 @@ class PaypalTransaction{
 
     /**
      * @manyToOne
+     * @joinColumn("className"=>"models\\PaypalAdmin","name"=>"paypal_id","nullable"=>false)
+     **/
+    private $paypal_account;
+
+    /**
+     * @manyToOne
      * @joinColumn("className"=>"models\\PayerPaypal","name"=>"payerid","nullable"=>false)
      **/
     private $payer;
@@ -68,8 +77,20 @@ class PaypalTransaction{
     public function getCreatetime(){ return $this->createtime; }
     public function setCreatetime($createtime){ $this->createtime = $createtime; }
 
+    public function getPaypal_account(){ return $this->paypal_account; }
+    public function setPaypal_account($paypal_account){ $this->paypal_account = $paypal_account; }
+
     public function getPayer(){ return $this->payer; }
     public function setPayer($payer){ $this->payer = $payer; }
 
+	public static function addPaypalTransaction($paypalTransaction){
+		//$this->_setValuesToObject($paypalTransaction, $paypalTransactionBody);
+		$result = DAO::insert($paypalTransaction);
+		// very important to check sql transaction
+		if(!$result){
+			throw new \Exception("Unable to insert paypal transaction");
+		}
+		return $paypalTransaction;
+	}
 }
 ?>
